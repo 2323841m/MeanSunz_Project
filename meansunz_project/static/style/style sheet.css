@@ -89,6 +89,14 @@ img
 	height: 100%;
 }
 
+.navButton a
+{
+	margin: auto;
+	color: rgb(170, 170, 170);
+	text-decoration: none;
+}
+
+
 .navButton:hover
 {
     background-color: rgb(100, 100, 100)
@@ -109,13 +117,11 @@ img
 .login
 {
     display: flex;
-    min-width: 119px;
-    min-height: 50px;
+    min-width: 70px;
     text-align: center;
     font-size: 18px;
     font-family: "Arial";
     padding: 12px 12px 12px 12px;
-
 }
 
 .login a
@@ -125,6 +131,8 @@ img
 	padding: 12px 12px 12px 12px;
 	text-decoration: none;
 	color: black;
+	width: 150px;
+	margin: auto;
 }
 
 .login a:hover
@@ -135,8 +143,7 @@ img
 .register
 {
     display: flex;
-    min-width: 119px;
-    min-height: 50px;
+    min-width: 100px;
     text-align: center;
     font-size: 18px;
     font-family: "Arial";
@@ -151,6 +158,8 @@ img
 	padding: 12px 12px 12px 12px;
 	text-decoration: none;
 	color: black;
+	width: 150px;
+	margin: auto;
 }
 
 .register a:hover
@@ -165,12 +174,6 @@ img
 	height: 100%;
 }
 
-.centred
-{
-	margin: auto;
-	color: rgb(170, 170, 170);
-	/*TODO need to restructure HTML so that "centred" is not the div surrounding the actual text*/
-}
 
 .filterButton
 {

@@ -18,11 +18,22 @@
     <div class = "header">
 
         <div class = "topBar">
-            <div class = "logo"><img src="{% static "images\meansunz_logo.jpg" %}" alt="meansunz logo"> </div>
+            <div class = "logo"><img src = "{% static "images\meansunz_logo.jpg" %}" alt="meansunz logo"> </div>
             <div class = "header_title"><a href = "{% url 'index' %}">MeanSunz</a></div>
             <div class = "maxFlex"></div>
-            <div class = "login"><a href = " {% url 'login' %}">Login</a></div>
-            <div class = "register"><a href = "{% url 'register' %}">Register</a></div>
+
+            <!--{% if user.is_authenticated %}
+                    <div class = "userProfile">
+                        <img src = "{{ user.profilePicture }}" alt = "user profile picture">
+                        {{ user.username }}
+                        <div class = "signOut"><a href = " {% url 'signOut' %} ">Sign Out</a></div>
+                        <div class = "myPosts"><a href = " {% url 'myPosts' %} ">My Posts</a></div>
+                    </div>
+                {% else %}
+            -->
+                <div class = "login"><a href = " {% url 'login' %}">Login</a></div>
+                <div class = "register"><a href = "{% url 'register' %}">Register</a></div>
+            <!--{% endif %} -->
         </div>
 
         <div class = "separator"></div>

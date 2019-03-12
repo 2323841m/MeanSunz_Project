@@ -3,35 +3,47 @@
 
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="{% static 'style\style sheet.css' %}">
     <meta charset="UTF-8" />
     <title>
         Meansunz
+
+        {% block title_block %}
+        {% endblock %}
+
     </title>
 </head>
 <body>
+
+    <div class = "header">
+
+        <div class = "topBar">
+            <div class = "logo"><img src="{% static "images\meansunz_logo.jpg" %}" alt="meansunz logo"> </div>
+            <div class = "header_title"><a href = "{% url 'index' %}">MeanSunz</a></div>
+            <div class = "maxFlex"></div>
+            <div class = "login"><a href = " {% url 'login' %}">Login</a></div>
+            <div class = "register"><a href = "{% url 'register' %}">Register</a></div>
+        </div>
+
+        <div class = "separator"></div>
+
+        <div class = "bottomBar">
+            <div class = "navBar">
+                <div class = "navButton"><div class = "centred">About</div></div>
+                <div class = "navButton"><div class = "centred">Leaderboards</div></div>
+            </div>
+            <div class = "filterBar">
+                <div style = "font-size: 18px; font-family: Arial; color: rgb(170, 170, 170);">Sort:</div>
+                <div class = "filterButton">*LIST*</div>
+            </div>
+        </div>
+
+    </div>
+
     <div>
     {% block body_block %}
     {% endblock %}
     </div>
     <hr />
-    <div>
-        <ul>
-        {% if user.is_authenticated %}
-            <li><a href="{% url 'logout' %}">Logout</a></li>
-            <li><a href="{% url 'add_category' %}">Add a New Category</a></li>
-            <li><a href="{% url 'restricted' %}">Restricted Page</a></li>
-        {% else %}
-            <li><a href="{% url 'login' %}">Sign In</a></li>
-            <li><a href="{% url 'register' %}">Sign Up</a></li>
-        {% endif %}
-            <li><a href="{% url 'about' %}">About</a></li>
-            <li><a href="{% url 'index' %}">Index</a></li>
-        </ul>
-    </div>
-
-    <div>
-        {% block sidebar_block %}
-        {% endblock %}
-    </div>
 </body>
 </html>

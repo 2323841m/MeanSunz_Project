@@ -1,0 +1,186 @@
+body
+{
+	padding: 0;
+	margin: 0;
+	background-color: rgb(80, 90, 109);
+}
+
+.header
+{
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	background-color: black;
+}
+
+img
+{
+    max-width: 100%;
+    max-height: auto;
+    height: 60px;
+    width: 60px;
+}
+
+.logo
+{
+    margin: 3px;
+    padding: 3px;
+}
+
+.header_title
+{
+    margin: auto;
+}
+
+.header_title a{
+  font-size: 27.778px;
+  font-family: "Arial";
+  color: rgb(234, 234, 234);
+  text-align: left;
+  text-decoration: none;
+}
+
+.header_title a:hover
+{
+    color: rgb(65, 145, 255);
+}
+
+.topBar
+{
+	display: flex;
+	width: 100%;
+	min-height: 50px;
+	background-color: rgb(70, 70, 70);
+}
+
+.separator
+{
+    display: flex;
+    width: 100%;
+    height: 2px;
+    background-color: rgb(150, 150, 150);
+}
+
+.bottomBar
+{
+	display: flex;
+	width: 100%;
+	height: 25px;
+	background-color: rgb(70, 70, 70);
+}
+
+.navBar
+{
+	display: flex;
+	height: 100%;
+	width: 100%;
+	background-color: rgb(70, 70, 70);
+}
+
+.navButton
+{
+	display: flex;
+	padding-left: 7px;
+	padding-right: 7px;
+	background-color: rgb(70, 70, 70);
+	font-size: 14px;
+    font-family: "Arial";
+    color: rgb(170, 170, 170)
+	height: 100%;
+}
+
+.navButton:hover
+{
+    background-color: rgb(100, 100, 100)
+}
+
+.maxFlex
+{
+	display: flex;
+	width: 100%;
+	height: 100%;
+}	
+
+.logo
+{
+	width: 100px;
+}
+
+.login
+{
+    display: flex;
+    min-width: 119px;
+    min-height: 50px;
+    text-align: center;
+    font-size: 18px;
+    font-family: "Arial";
+    padding: 12px 12px 12px 12px;
+
+}
+
+.login a
+{
+	background-color: rgb(120, 120, 120);
+	border-radius: 10px;
+	padding: 12px 12px 12px 12px;
+	text-decoration: none;
+	color: black;
+}
+
+.login a:hover
+{
+    background-color: rgb(65, 145, 255)
+}
+
+.register
+{
+    display: flex;
+    min-width: 119px;
+    min-height: 50px;
+    text-align: center;
+    font-size: 18px;
+    font-family: "Arial";
+    color: black;
+    padding: 12px 12px 12px 12px;
+}
+
+.register a
+{
+	background-color: rgb(182, 182, 182);
+	border-radius: 10px;
+	padding: 12px 12px 12px 12px;
+	text-decoration: none;
+	color: black;
+}
+
+.register a:hover
+{
+    background-color: rgb(65, 145, 255)
+}
+
+
+.filterBar
+{
+	display: flex;
+	height: 100%;
+}
+
+.centred
+{
+	margin: auto;
+	color: rgb(170, 170, 170);
+	/*TODO need to restructure HTML so that "centred" is not the div surrounding the actual text*/
+}
+
+.filterButton
+{
+    font-size: 18px;
+    font-family: "Arial";
+    color: rgb(170, 170, 170);
+    padding-left: 7px;
+}
+
+.filterButton:hover
+{
+    background-color: rgb(100, 100, 100);
+}

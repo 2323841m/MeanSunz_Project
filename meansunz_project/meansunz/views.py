@@ -9,9 +9,29 @@ from datetime import datetime
 
 def index(request):
 
-    category_list = Category.objects.order_by('title')[:5]
-    page_list = Post.objects.order_by('-views')[:5]
-    context_dict = {'categories': category_list, 'pages': page_list, }
-
+    #category_list = Category.objects.order_by('title')[:5]
+    #page_list = Post.objects.order_by('-views')[:5]
+    #context_dict = {'categories': category_list, 'pages': page_list, }
+    context_dict = {}
     response = render(request, 'meansunz/index.html', context_dict)
     return response
+
+def about(request):
+
+    context_dict = {}
+    response = render(request, 'meansunz/about.html', context_dict)
+
+def leaderboards(request):
+
+    context_dict = {}
+    response = render(request, 'meansunz/leaderboards.html', context_dict)
+
+def login(request):
+
+    context_dict = {}
+    response = render(request, 'meansunz/login.html', context_dict)
+
+def register(request):
+
+    context_dict = {}
+    response = render(request, 'meansunz/register.html', context_dict)

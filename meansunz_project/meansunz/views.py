@@ -13,6 +13,7 @@ def index(request):
     #page_list = Post.objects.order_by('-views')[:5]
     #context_dict = {'categories': category_list, 'pages': page_list, }
     context_dict = {}
+
     response = render(request, 'meansunz/index.html', context_dict)
     return response
 

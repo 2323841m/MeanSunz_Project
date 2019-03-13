@@ -84,8 +84,8 @@ img
 	padding-right: 7px;
 	background-color: rgb(70, 70, 70);
 	font-size: 14px;
-    font-family: "Arial";
-    color: rgb(170, 170, 170)
+  font-family: "Arial";
+  color: rgb(170, 170, 170)
 	height: 100%;
 }
 
@@ -95,7 +95,6 @@ img
 	color: rgb(170, 170, 170);
 	text-decoration: none;
 }
-
 
 .navButton:hover
 {
@@ -166,7 +165,6 @@ img
 {
     background-color: rgb(65, 145, 255)
 }
-
 
 .filterBar
 {

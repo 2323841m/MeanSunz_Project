@@ -7,6 +7,10 @@
     <meta charset="UTF-8" />
     <title>
         Meansunz
+
+        {% block title_block %}
+        {% endblock %}
+
     </title>
 </head>
 <body>
@@ -14,23 +18,34 @@
     <div class = "header">
 
         <div class = "topBar">
-            <div class = "logo"><img src="{% static "images\meansunz_logo.jpg" %}" alt="meansunz logo"> </div>
-            <h1>MeanSunz</h1>
+            <div class = "logo"><img src = "{% static "images\meansunz_logo.jpg" %}" alt="meansunz logo"> </div>
+            <div class = "header_title"><a href = "{% url 'index' %}">MeanSunz</a></div>
             <div class = "maxFlex"></div>
-            <ul>
-                <li><div class = "login">Login</div></li>
-                <li><div class = "register">Register</div></li>
-            </ul>
+
+            <!--{% if user.is_authenticated %}
+                    <div class = "userProfile">
+                        <img src = "{{ user.profilePicture }}" alt = "user profile picture">
+                        {{ user.username }}
+                        <div class = "signOut"><a href = " {% url 'signOut' %} ">Sign Out</a></div>
+                        <div class = "myPosts"><a href = " {% url 'myPosts' %} ">My Posts</a></div>
+                    </div>
+                {% else %}
+            -->
+                <div class = "login"><a href = " {% url 'login' %}">Login</a></div>
+                <div class = "register"><a href = "{% url 'register' %}">Register</a></div>
+            <!--{% endif %} -->
         </div>
+
+        <div class = "separator"></div>
 
         <div class = "bottomBar">
             <div class = "navBar">
-                <div class = "navButton"><div class = "centred">About</div></div>
-                <div class = "navButton"><div class = "centred">Leaderboards</div></div>
+                <div class = "navButton"><a href = "{% url 'about' %}">About</a></div>
+                <div class = "navButton"><a href = "{% url 'leaderboards' %}">Leaderboards</a></div>
             </div>
             <div class = "filterBar">
-                <div>Sort:</div>
-                <div class = "filterButton">*DROPDOWN LIST*</div>
+                <div style = "font-size: 18px; font-family: Arial; color: rgb(170, 170, 170);">Sort:</div>
+                <div class = "filterButton">*LIST*</div>
             </div>
         </div>
 

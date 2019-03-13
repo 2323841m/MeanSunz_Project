@@ -16,3 +16,27 @@ def index(request):
 
     response = render(request, 'meansunz/index.html', context_dict)
     return response
+
+def about(request):
+
+    context_dict = {}
+    response = render(request, 'meansunz/about.html', context_dict)
+    return response
+
+def leaderboards(request):
+
+    context_dict = {}
+    response = render(request, 'meansunz/leaderboards.html', context_dict)
+    return response
+
+def login(request):
+
+    context_dict = {}
+    response = render(request, 'meansunz/login.html', context_dict)
+    return response
+
+def register(request):
+
+    context_dict = {}
+    response = render(request, 'meansunz/register.html', context_dict)
+    return response

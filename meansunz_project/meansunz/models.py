@@ -5,9 +5,8 @@ from django.contrib.auth.models import User
 
 class UserProfile(models.Model):
     # This line is required. Link UserProfile to a User model instance.
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, related_name='profile')
 
-    website = models.URLField(blank=True)
     picture = models.ImageField(upload_to='profile_image', blank=True)
 
     def __ste__(self):

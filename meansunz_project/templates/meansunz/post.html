@@ -17,7 +17,8 @@
     {% if post %}
         <h2>{{ post.title }}</h2>
         {% if post.picture %}
-            <p><img src="{{ MEDIA_URL }}{{ post.picture }}" alt=""></p>
+            <p><object width="355" height="200" data="{{ MEDIA_URL }}{{ post.picture }}"></object></p>
+
         {% endif %}
         <p>{{ post.description }}</p>
 
@@ -40,29 +41,31 @@
 
         <div class="separator"></div>
 
-        <!-- Comment Form -->
-        <p>Comment as {{ user.username }}</p>
+        {% if user.is_authenticated %}
+            <!-- Comment Form -->
+            <p>Comment as {{ user.username }}</p>
 
-        <form id="comment_form" method="post"
-              action="/category/{{ category.slug }}/{{ post.id }}/{{ post.slug }}/"
-              enctype="multipart/form-data">
+            <form id="comment_form" method="post"
+                  action="/category/{{ category.slug }}/{{ post.id }}/{{ post.slug }}/"
+                  enctype="multipart/form-data">
 
-            {% csrf_token %}
-            {% for hidden in form.hidden_fields %}
-                {{ hidden }}
-            {% endfor %}
-            {% for field in form.visible_fields %}
-                {{ field.errors }}
-                {{ field.help_text }}
-                {{ field }}
-                <br/>
-            {% endfor %}
-            <input type="submit" name="submit" value="Comment"/>
-        </form>
+                {% csrf_token %}
+                {% for hidden in form.hidden_fields %}
+                    {{ hidden }}
+                {% endfor %}
+                {% for field in form.visible_fields %}
+                    {{ field.errors }}
+                    {{ field.help_text }}
+                    {{ field }}
+                    <br/>
+                {% endfor %}
+                <input type="submit" name="submit" value="Comment"/>
+            </form>
+            <p></p>
 
-        <p></p>
+            <div class="separator"></div>
+        {% endif %}
 
-        <div class="separator"></div>
 
         <!-- Render Comments -->
         {% if comments %}
@@ -85,7 +88,7 @@
                 </p>
                 <p>{{ comment.content }}</p>
                 {% if comment.picture %}
-                    <p><img src="{{ MEDIA_URL }}{{ comment.picture }}"></p>
+                    <p><object width="355" height="200" data="{{ MEDIA_URL }}{{ comment.picture }}"></object></p>
                 {% endif %}
             {% endfor %}
         {% endif %}

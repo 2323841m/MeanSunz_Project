@@ -16,22 +16,79 @@
 {% block body_block %}
     {% if post %}
         <h2>{{ post.title }}</h2>
-        <p><img src="{{ MEDIA_URL }}{{ post.picture }}" alt=""></p>
+        {% if post.picture %}
+            <p><img src="{{ MEDIA_URL }}{{ post.picture }}" alt=""></p>
+        {% endif %}
         <p>{{ post.description }}</p>
 
-        <form action="{% url 'upvote' category.slug post.id post.slug %}" method="post">
+        <!-- Post Voting -->
+        <form action="{% url 'vote' category.slug post.id post.slug %}" method="post">
             {% csrf_token %}
-            <button type="submit" name="submit" value="upvote" class="btn-link">+</button>
+            <button type="submit" name="upvote_post" value="upvote_post">+</button>
             <input type="hidden" name="next" value="{{ request.path }}">
         </form>
         {{ post.likes }}
-        <form action="{% url 'downvote' category.slug post.id post.slug %}" method="post">
+        <form action="{% url 'vote' category.slug post.id post.slug %}" method="post">
             {% csrf_token %}
-            <button type="submit" name="submit" value="downvote" class="btn-link">-</button>
+            <button type="submit" name="downvote_post" value="downvote_post">-</button>
             <input type="hidden" name="next" value="{{ request.path }}">
         </form>
 
+        <p></p>
+
+        <div class="separator"></div>
+
+        <!-- Comment Form -->
+        <p>Comment as {{ user.username }}</p>
+
+        <form id="comment_form" method="post"
+              action="/category/{{ category.slug }}/{{ post.id }}/{{ post.slug }}/"
+              enctype="multipart/form-data">
+
+            {% csrf_token %}
+            {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+            {% for field in form.visible_fields %}
+                {{ field.errors }}
+                {{ field.help_text }}
+                {{ field }}
+                <br/>
+            {% endfor %}
+            <input type="submit" name="submit" value="Comment"/>
+        </form>
+
+        <p></p>
+
+        <div class="separator"></div>
+
+        <!-- Render Comments -->
+        {% if comments %}
+            {% for comment in comments %}
+                <!-- Comment Voting -->
+                <p>
+                <form action="{% url 'vote_comment' category.slug post.id post.slug %}" method="post">
+                    &lt;{{ comment.user }}&gt;
+                    {% csrf_token %}
+                    <button type="submit" name="upvote_comment" value="upvote_comment">+</button>
+                    <input type="hidden" name="id" value="{{ comment.id }}">
+                </form>
+                {{ comment.likes }}
+                <form action="{% url 'vote_comment' category.slug post.id post.slug %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" name="downvote_comment" value="downvote_comment">-</button>
+                    <input type="hidden" name="id" value="{{ comment.id }}">
+                </form>
+                </p>
+                <p>{{ comment.content }}</p>
+                {% if comment.picture %}
+                    <p><img src="{{ MEDIA_URL }}{{ comment.picture }}"></p>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
     {% else %}
-        Post does not exit
+        Post does not exist
     {% endif %}
+
+
 {% endblock %}

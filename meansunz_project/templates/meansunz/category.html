@@ -39,15 +39,15 @@
                             <p><img src="{{ MEDIA_URL }}{{ post.picture }}"></p>
                         {% endif %}
 
-                        <form action="{% url 'upvote' category.slug post.id post.slug %}" method="post">
+                        <form action="{% url 'vote' category.slug post.id post.slug %}" method="post">
                             {% csrf_token %}
-                            <button type="submit" name="submit" value="upvote" class="btn-link">+</button>
+                            <button type="submit" name="upvote_post" value="upvote_post">+</button>
                             <input type="hidden" name="next" value="{{ request.path }}">
                         </form>
                         {{ post.likes }}
-                        <form action="{% url 'downvote' category.slug post.id post.slug %}" method="post">
+                        <form action="{% url 'vote' category.slug post.id post.slug %}" method="post">
                             {% csrf_token %}
-                            <button type="submit" name="submit" value="downvote" class="btn-link">-</button>
+                            <button type="submit" name="downvote_post" value="downvote_post">-</button>
                             <input type="hidden" name="next" value="{{ request.path }}">
                         </form>
 

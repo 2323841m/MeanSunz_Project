@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from meansunz.models import Category, Post, UserProfile, User
-from meansunz.forms import CategoryForm, PostForm, UserForm, UserProfileForm
+from meansunz.models import Category, Post, UserProfile, User, Comment
+from meansunz.forms import CategoryForm, PostForm, UserForm, UserProfileForm, CommentForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse
@@ -92,7 +92,7 @@ def create_post(request, category_name_slug):
                 post.user = user
                 post.views = 0
                 post.save()
-                return show_category(request, category_name_slug)
+                return redirect(show_category, category_name_slug)
         else:
             print(form.errors)
 
@@ -105,38 +105,72 @@ def show_post(request, category_name_slug, post_id, post_title_slug):
     try:
         post = Post.objects.get(id=post_id)
         category = Category.objects.get(slug=category_name_slug)
-        context_dict['category'] = category
-        context_dict['post'] = post
+        comments = Comment.objects.filter(post=post).order_by('-likes')
+
     except Post.DoesNotExist:
-        context_dict['post'] = None
+        post = None
+        category = None
+        comments = None
     except Category.DoesNotExist:
-        context_dict['category'] = None
+        post = None
+        category = None
+
+    context_dict['comments'] = comments
+    context_dict['category'] = category
+    context_dict['post'] = post
+
+    # read comment form input
+    form = CommentForm()
+    if request.method == 'POST':
+        form = CommentForm(data=request.POST)
+
+        if form.is_valid():
+            if post:
+                comment = form.save(commit=False)
+                if 'picture' in request.FILES:
+                    comment.picture = request.FILES['picture']
+                comment.user = request.user
+                comment.post = post
+                comment.save()
+                return redirect(show_post, category_name_slug, post_id, post_title_slug)
+        else:
+            print(form.errors)
+    context_dict['form'] = form
+
     return render(request, 'meansunz/post.html', context_dict)
+
+
+@login_required
+def vote_comment(request, category_name_slug, post_id, post_title_slug):
+    if request.method == 'POST':
+        if 'upvote_comment' in request.POST:
+            comment = Comment.objects.get(id=request.POST.get('id', None))
+            comment.likes += 1
+            comment.save()
+
+        elif 'downvote_comment' in request.POST:
+            comment = Comment.objects.get(id=request.POST.get('id', None))
+            comment.likes -= 1
+            comment.save()
+
+        return redirect(show_post, category_name_slug, post_id, post_title_slug)
 
 
 # TODO: implement voting system using script
 @login_required
-def upvote(request, category_name_slug, post_id, post_title_slug):
+def vote(request, category_name_slug, post_id, post_title_slug):
     if request.method == 'POST':
-        post = Post.objects.get(id=post_id)
-        post.likes += 1
+        if 'upvote_post' in request.POST:
+            post = Post.objects.get(id=post_id)
+            post.likes += 1
+            post.save()
 
-        post.save()
+        elif 'downvote_post' in request.POST:
+            post = Post.objects.get(id=post_id)
+            post.likes -= 1
+            post.save()
 
-    next_view = request.POST.get('next', '/')
-    return redirect(next_view, category_name_slug)
-
-
-@login_required
-def downvote(request, category_name_slug, post_id, post_title_slug):
-    if request.method == 'POST':
-        post = Post.objects.get(id=post_id)
-        post.likes -= 1
-
-        post.save()
-
-    next_view = request.POST.get('next', '/')
-    return redirect(next_view, category_name_slug)
+        return redirect(request.POST.get('next', '/'), category_name_slug, post_id, post_title_slug)
 
 
 def about(request):

@@ -45,3 +45,14 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post)
+    user = models.ForeignKey(User)
+    content = models.CharField(max_length=1026, blank=False)
+    picture = models.ImageField(upload_to='comment_image', blank=True)
+    likes = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.content

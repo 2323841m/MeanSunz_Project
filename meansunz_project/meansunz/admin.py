@@ -1,5 +1,5 @@
 from django.contrib import admin
-from meansunz.models import Category, Post, UserProfile
+from meansunz.models import Category, Post, UserProfile, Comment
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -11,6 +11,11 @@ class PostAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
 
 
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('content', 'post', 'user')
+
+
 admin.site.register(UserProfile)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Post, PostAdmin)
+admin.site.register(Comment, CommentAdmin)

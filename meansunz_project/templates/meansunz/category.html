@@ -27,7 +27,6 @@
 
     <div>
         {% if posts %}
-            <h3>Trending</h3>
 
             <ul>
                 {% for post in posts %}
@@ -42,12 +41,14 @@
                         <form action="{% url 'vote' category.slug post.id post.slug %}" method="post">
                             {% csrf_token %}
                             <button type="submit" name="upvote_post" value="upvote_post">+</button>
+                            <!-- next points to site to be redirected back to after vote -->
                             <input type="hidden" name="next" value="{{ request.path }}">
                         </form>
                         {{ post.likes }}
                         <form action="{% url 'vote' category.slug post.id post.slug %}" method="post">
                             {% csrf_token %}
                             <button type="submit" name="downvote_post" value="downvote_post">-</button>
+                            <!-- next points to site to be redirected back to after vote -->
                             <input type="hidden" name="next" value="{{ request.path }}">
                         </form>
 

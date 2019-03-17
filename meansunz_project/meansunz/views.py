@@ -9,9 +9,8 @@ from django.shortcuts import redirect
 
 
 def index(request):
-    category_list = Category.objects.order_by('name')[:5]
-    post_list = Post.objects.order_by('-views')[:5]
-    context_dict = {'categories': category_list, 'posts': post_list, }
+    post_list = Post.objects.order_by('-views')[:25]
+    context_dict = {'posts': post_list, }
 
     response = render(request, 'meansunz/index.html', context_dict)
     return response
@@ -21,31 +20,17 @@ def show_category(request, category_name_slug):
     context_dict = {}
 
     try:
-        # Can we find a category name slug with the given name?
-        # If we can't, the .get() method raises a DoesNotExist exception.
-        # So the .get() method returns one model instance or raises an exception.
         category = Category.objects.get(slug=category_name_slug)
 
-        # Retrieve all of the associated posts.
-        # Note that filter() will return a list of post objects or an empty list
         posts = Post.objects.filter(category=category).order_by('-likes')
 
-        # Add our results list to the template context under name posts
         context_dict['posts'] = posts
-        # We also add the category object from
-        # the database to the context dictionary.
-        # We'll use this in the template to verify that the category exists
         context_dict['category'] = category
+
     except Category.DoesNotExist:
-        # We get here if we didn't find the specified category.
-        # Don't do anything
-        # the template will display the "no category" message for us.
         context_dict['category'] = None
         context_dict['posts'] = None
 
-    # get_categories(context_dict)
-
-    # Go render the response and return it to the client.
     return render(request, 'meansunz/category.html', context_dict)
 
 

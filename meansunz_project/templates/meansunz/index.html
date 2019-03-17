@@ -5,19 +5,57 @@
     Index
 {% endblock %}
 
+{% block head_block %}
+    <style>
+        p {
+            color: white;
+        }
+
+        form {
+            display: inline-block;
+        }
+    </style>
+{% endblock %}
+
 {% block body_block %}
 
     <div>
-    {% if pages %}
-        <h3>Trending</h3>
-        <ul>
-         {% for post in posts %}
-            <li><a href="{{ post.url }}">{{ post.title }}</a></li>
-         {% endfor %}
-        </ul>
-    {% else %}
-        <strong>There are no posts present.</strong>
-    {% endif %}
+        {% if posts %}
+            <h3>All Trending</h3>
+            <ul>
+                <ul>
+                    {% for post in posts %}
+                        <li>
+
+                            <p><a href="{% url 'show_post' post.category.slug post.id post.slug %}">{{ post.title }}</a>
+                            </p>
+
+                            {% if post.picture %}
+                                <p><img src="{{ MEDIA_URL }}{{ post.picture }}" alt=""></p>
+                            {% endif %}
+
+                            <form action="{% url 'vote' post.category.slug post.id post.slug %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" name="upvote_post" value="upvote_post">+</button>
+                                <!-- next points to site to be redirected back to after vote -->
+                                <input type="hidden" name="next" value="{{ request.path }}">
+                            </form>
+                            {{ post.likes }}
+                            <form action="{% url 'vote' post.category.slug post.id post.slug %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" name="downvote_post" value="downvote_post">-</button>
+                                <!-- next points to site to be redirected back to after vote -->
+                                <input type="hidden" name="next" value="{{ request.path }}">
+                            </form>
+
+                        </li>
+                        <br/>
+                    {% endfor %}
+                </ul>
+            </ul>
+        {% else %}
+            <strong>There are no posts present.</strong>
+        {% endif %}
     </div>
 
 {% endblock %}

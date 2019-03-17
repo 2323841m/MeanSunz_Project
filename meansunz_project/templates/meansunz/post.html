@@ -25,12 +25,14 @@
         <form action="{% url 'vote' category.slug post.id post.slug %}" method="post">
             {% csrf_token %}
             <button type="submit" name="upvote_post" value="upvote_post">+</button>
+            <!-- next points to site to be redirected back to after vote -->
             <input type="hidden" name="next" value="{{ request.path }}">
         </form>
         {{ post.likes }}
         <form action="{% url 'vote' category.slug post.id post.slug %}" method="post">
             {% csrf_token %}
             <button type="submit" name="downvote_post" value="downvote_post">-</button>
+            <!-- next points to site to be redirected back to after vote -->
             <input type="hidden" name="next" value="{{ request.path }}">
         </form>
 
@@ -71,6 +73,7 @@
                     &lt;{{ comment.user }}&gt;
                     {% csrf_token %}
                     <button type="submit" name="upvote_comment" value="upvote_comment">+</button>
+                    <!-- Store comment id to later identify upvoted comment -->
                     <input type="hidden" name="id" value="{{ comment.id }}">
                 </form>
                 {{ comment.likes }}

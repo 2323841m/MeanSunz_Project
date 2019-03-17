@@ -73,14 +73,20 @@ def create_post(request, category_name_slug):
     except Category.DoesNotExist:
         category = None
 
+    user = request.user.profile
     form = PostForm()
     if request.method == 'POST':
-        form = PostForm(request.POST)
+        form = PostForm(data=request.POST)
 
         if form.is_valid():
             if category:
                 post = form.save(commit=False)
+                print("PRE YEEET")
+                if 'picture' in request.FILES:
+                    print("YYEEETTT")
+                    post.picture = request.FILES['picture']
                 post.category = category
+                post.user = user
                 post.views = 0
                 post.save()
                 return show_category(request, category_name_slug)
@@ -193,6 +199,7 @@ def user_logout(request):
 
 @login_required
 def user_posts(request):
-    context_dict = {}
+    posts = Post.objects.filter(user=request.user.profile)
+    context_dict = {'posts': posts}
     response = render(request, 'meansunz/user_posts.html', context_dict)
     return response

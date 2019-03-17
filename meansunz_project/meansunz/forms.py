@@ -37,7 +37,7 @@ class PostForm(forms.ModelForm):
     slug = forms.CharField(widget=forms.HiddenInput(), required=False)
 
     class Meta:
-        # Provide an association between the ModelForm and a mode
+        # Provide an association between the ModelForm and a model
         model = Post
 
-        exclude = ('category',)
+        exclude = ('category', 'user')

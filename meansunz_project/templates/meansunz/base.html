@@ -5,6 +5,10 @@
 <head>
     <link rel="stylesheet" href="{% static 'style\style sheet.css' %}">
     <meta charset="UTF-8"/>
+
+    {% block headblock %}
+    {% endblock %}
+
     <title>
         Meansunz
 
@@ -25,10 +29,10 @@
         <!-- If logged in show user profile else show login/register buttons -->
         {% if user.is_authenticated %}
             <div class="userProfile">
-                <img src="{{  MEDIA_URL }}{{ user.profile.picture }}" alt="profile picture">
+                <img src="{{ MEDIA_URL }}{{ user.profile.picture }}" alt="profile picture">
                 {{ user.username }}
                 <div class="signout"><a href=" {% url 'signout' %} ">Sign Out</a></div>
-                <div class="myposts"><a href=" {% url 'myposts' %} ">My Posts</a></div>
+                <div class="myposts"><a href=" {% url 'user_posts' %} ">My Posts</a></div>
             </div>
         {% else %}
             <div class="login"><a href=" {% url 'login' %}">Login</a></div>
@@ -48,6 +52,11 @@
                     <div class="navButton"><a href="{% url 'show_category' category.slug %}">{{ category.name }}</a>
                     </div>
                 {% endfor %}
+                <!-- render create cat option if user is superuser -->
+                {% if user.is_superuser %}
+                    <div class="navButton"><a href="{% url 'add_category' %}">Add Category</a>
+                    </div>
+                {% endif %}
             {% endif %}
         </div>
         <div class="filterBar">

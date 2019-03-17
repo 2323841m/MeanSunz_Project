@@ -8,6 +8,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 class PostAdmin(admin.ModelAdmin):
     list_display = ('title', 'category', 'description', 'likes')
+    prepopulated_fields = {'slug': ('title',)}
 
 
 admin.site.register(UserProfile)

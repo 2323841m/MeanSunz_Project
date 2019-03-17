@@ -14,7 +14,7 @@ class UserForm(forms.ModelForm):
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ('picture', )
+        fields = ('picture',)
 
 
 class CategoryForm(forms.ModelForm):
@@ -29,10 +29,12 @@ class CategoryForm(forms.ModelForm):
 
 
 class PostForm(forms.ModelForm):
-    title = forms.CharField(max_length=128, help_text="Please enter the title of the page.")
-    url = forms.URLField(max_length=200, help_text="Please enter the URL of the page.")
+    title = forms.CharField(max_length=64, help_text="Title")
+    description = forms.CharField(max_length=256, required=False, help_text="Text(Optional)")
+    picture = forms.ImageField(required=False, help_text="Image(Optional)")
     views = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
     likes = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
+    slug = forms.CharField(widget=forms.HiddenInput(), required=False)
 
     class Meta:
         # Provide an association between the ModelForm and a mode

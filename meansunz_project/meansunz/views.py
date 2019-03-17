@@ -100,10 +100,10 @@ def create_post(request, category_name_slug):
     return render(request, 'meansunz/create_post.html', context_dict)
 
 
-def show_post(request, category_name_slug, post_title_slug):
+def show_post(request, category_name_slug, post_id, post_title_slug):
     context_dict = {}
     try:
-        post = Post.objects.get(slug=post_title_slug)
+        post = Post.objects.get(id=post_id)
         category = Category.objects.get(slug=category_name_slug)
         context_dict['category'] = category
         context_dict['post'] = post
@@ -116,9 +116,9 @@ def show_post(request, category_name_slug, post_title_slug):
 
 # TODO: implement voting system using script
 @login_required
-def upvote(request, category_name_slug, post_title_slug):
+def upvote(request, category_name_slug, post_id, post_title_slug):
     if request.method == 'POST':
-        post = Post.objects.get(slug=post_title_slug)
+        post = Post.objects.get(id=post_id)
         post.likes += 1
 
         post.save()
@@ -128,9 +128,9 @@ def upvote(request, category_name_slug, post_title_slug):
 
 
 @login_required
-def downvote(request, category_name_slug, post_title_slug):
+def downvote(request, category_name_slug, post_id, post_title_slug):
     if request.method == 'POST':
-        post = Post.objects.get(slug=post_title_slug)
+        post = Post.objects.get(id=post_id)
         post.likes -= 1
 
         post.save()

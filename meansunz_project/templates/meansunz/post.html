@@ -19,13 +19,13 @@
         <p><img src="{{ MEDIA_URL }}{{ post.picture }}" alt=""></p>
         <p>{{ post.description }}</p>
 
-        <form action="{% url 'upvote' category.slug post.slug %}" method="post">
+        <form action="{% url 'upvote' category.slug post.id post.slug %}" method="post">
             {% csrf_token %}
             <button type="submit" name="submit" value="upvote" class="btn-link">+</button>
             <input type="hidden" name="next" value="{{ request.path }}">
         </form>
         {{ post.likes }}
-        <form action="{% url 'downvote' category.slug post.slug %}" method="post">
+        <form action="{% url 'downvote' category.slug post.id post.slug %}" method="post">
             {% csrf_token %}
             <button type="submit" name="submit" value="downvote" class="btn-link">-</button>
             <input type="hidden" name="next" value="{{ request.path }}">

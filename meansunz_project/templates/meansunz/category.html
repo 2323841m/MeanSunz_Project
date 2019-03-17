@@ -33,19 +33,19 @@
                 {% for post in posts %}
                     <li>
 
-                        <p><a href="{% url 'show_post' category.slug post.slug %}">{{ post.title }}</a></p>
+                        <p><a href="{% url 'show_post' category.slug post.id post.slug %}">{{ post.title }}</a></p>
 
                         {% if post.picture %}
                             <p><img src="{{ MEDIA_URL }}{{ post.picture }}"></p>
                         {% endif %}
 
-                        <form action="{% url 'upvote' category.slug post.slug %}" method="post">
+                        <form action="{% url 'upvote' category.slug post.id post.slug %}" method="post">
                             {% csrf_token %}
                             <button type="submit" name="submit" value="upvote" class="btn-link">+</button>
                             <input type="hidden" name="next" value="{{ request.path }}">
                         </form>
                         {{ post.likes }}
-                        <form action="{% url 'downvote' category.slug post.slug %}" method="post">
+                        <form action="{% url 'downvote' category.slug post.id post.slug %}" method="post">
                             {% csrf_token %}
                             <button type="submit" name="submit" value="downvote" class="btn-link">-</button>
                             <input type="hidden" name="next" value="{{ request.path }}">

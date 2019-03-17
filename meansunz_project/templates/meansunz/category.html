@@ -35,7 +35,7 @@
                         <p><a href="{% url 'show_post' category.slug post.id post.slug %}">{{ post.title }}</a></p>
 
                         {% if post.picture %}
-                            <p><img src="{{ MEDIA_URL }}{{ post.picture }}"></p>
+                            <p><object width="355" height="200" data="{{ MEDIA_URL }}{{ post.picture }}"></object></p>
                         {% endif %}
 
                         <form action="{% url 'vote' category.slug post.id post.slug %}" method="post">

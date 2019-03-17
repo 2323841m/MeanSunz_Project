@@ -52,6 +52,11 @@
                     <div class="navButton"><a href="{% url 'show_category' category.slug %}">{{ category.name }}</a>
                     </div>
                 {% endfor %}
+                <!-- render create cat option if user is superuser -->
+                {% if user.is_superuser %}
+                    <div class="navButton"><a href="{% url 'add_category' %}">Add Category</a>
+                    </div>
+                {% endif %}
             {% endif %}
         </div>
         <div class="filterBar">

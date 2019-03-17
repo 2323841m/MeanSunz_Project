@@ -5,6 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
 
 
 def index(request):
@@ -49,6 +50,23 @@ def show_category(request, category_name_slug):
 
 
 @login_required
+def add_category(request):
+    form = CategoryForm()
+
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+
+        if form.is_valid():
+            form.save(commit=True)
+
+            return index(request)
+        else:
+            print(form.errors)
+
+    return render(request, 'meansunz/add_category.html', {'form': form})
+
+
+@login_required
 def create_post(request, category_name_slug):
     try:
         category = Category.objects.get(slug=category_name_slug)
@@ -81,7 +99,7 @@ def upvote(request, category_name_slug, post_title_slug):
 
         post.save()
 
-    return show_category(request, category_name_slug)
+    return redirect(show_category, category_name_slug)
 
 
 def downvote(request, category_name_slug, post_title_slug):
@@ -91,8 +109,7 @@ def downvote(request, category_name_slug, post_title_slug):
 
         post.save()
 
-    return show_category(request, category_name_slug)
-
+    return redirect(show_category, category_name_slug)
 
 
 def about(request):

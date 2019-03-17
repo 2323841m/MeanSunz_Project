@@ -5,10 +5,14 @@
     Index
 {% endblock %}
 
-{% block headblock %}
+{% block head_block %}
     <style>
         p {
             color: white;
+        }
+
+        form {
+            display: inline-block;
         }
     </style>
 {% endblock %}
@@ -29,20 +33,22 @@
                 {% for post in posts %}
                     <li>
 
-                        <p>{{ post.title }}</p>
+                        <p><a href="{% url 'show_post' category.slug post.slug %}">{{ post.title }}</a></p>
 
                         {% if post.picture %}
                             <p><img src="{{ MEDIA_URL }}{{ post.picture }}"></p>
                         {% endif %}
 
-                        {{ post.likes }}
                         <form action="{% url 'upvote' category.slug post.slug %}" method="post">
                             {% csrf_token %}
                             <button type="submit" name="submit" value="upvote" class="btn-link">+</button>
+                            <input type="hidden" name="next" value="{{ request.path }}">
                         </form>
+                        {{ post.likes }}
                         <form action="{% url 'downvote' category.slug post.slug %}" method="post">
                             {% csrf_token %}
                             <button type="submit" name="submit" value="downvote" class="btn-link">-</button>
+                            <input type="hidden" name="next" value="{{ request.path }}">
                         </form>
 
                     </li>

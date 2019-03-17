@@ -73,7 +73,12 @@ def create_post(request, category_name_slug):
     except Category.DoesNotExist:
         category = None
 
-    user = request.user.profile
+    try:
+        user = request.user.profile
+    except UserProfile.DoesNotExist:
+        return HttpResponse(
+            "User has no profile")  # TODO: Force creation of UserProfile whenever a new user object is created
+
     form = PostForm()
     if request.method == 'POST':
         form = PostForm(data=request.POST)
@@ -81,9 +86,7 @@ def create_post(request, category_name_slug):
         if form.is_valid():
             if category:
                 post = form.save(commit=False)
-                print("PRE YEEET")
                 if 'picture' in request.FILES:
-                    print("YYEEETTT")
                     post.picture = request.FILES['picture']
                 post.category = category
                 post.user = user
@@ -97,7 +100,22 @@ def create_post(request, category_name_slug):
     return render(request, 'meansunz/create_post.html', context_dict)
 
 
+def show_post(request, category_name_slug, post_title_slug):
+    context_dict = {}
+    try:
+        post = Post.objects.get(slug=post_title_slug)
+        category = Category.objects.get(slug=category_name_slug)
+        context_dict['category'] = category
+        context_dict['post'] = post
+    except Post.DoesNotExist:
+        context_dict['post'] = None
+    except Category.DoesNotExist:
+        context_dict['category'] = None
+    return render(request, 'meansunz/post.html', context_dict)
+
+
 # TODO: implement voting system using script
+@login_required
 def upvote(request, category_name_slug, post_title_slug):
     if request.method == 'POST':
         post = Post.objects.get(slug=post_title_slug)
@@ -105,9 +123,11 @@ def upvote(request, category_name_slug, post_title_slug):
 
         post.save()
 
-    return redirect(show_category, category_name_slug)
+    next_view = request.POST.get('next', '/')
+    return redirect(next_view, category_name_slug)
 
 
+@login_required
 def downvote(request, category_name_slug, post_title_slug):
     if request.method == 'POST':
         post = Post.objects.get(slug=post_title_slug)
@@ -115,7 +135,8 @@ def downvote(request, category_name_slug, post_title_slug):
 
         post.save()
 
-    return redirect(show_category, category_name_slug)
+    next_view = request.POST.get('next', '/')
+    return redirect(next_view, category_name_slug)
 
 
 def about(request):

@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^category/(?P<category_name_slug>[\w\-]+)/$', views.show_category, name='show_category'),
     url(r'^add_category/', views.add_category, name='add_category'),
     url(r'^category/(?P<category_name_slug>[\w\-]+)/create_post/$', views.create_post, name="create_post"),
+    url(r'^category/(?P<category_name_slug>[\w\-]+)/(?P<post_title_slug>[\w\-]+)/$', views.show_post, name="show_post"),
     url(r'^category/(?P<category_name_slug>[\w\-]+)/(?P<post_title_slug>[\w\-]+)/upvote$', views.upvote, name="upvote"),
     url(r'^category/(?P<category_name_slug>[\w\-]+)/(?P<post_title_slug>[\w\-]+)/downvote$', views.downvote,
         name="downvote"),

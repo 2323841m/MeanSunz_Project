@@ -6,5 +6,20 @@
 {% endblock %}
 
 {% block body_block %}
+    <ul>
+        {% for post in posts %}
+            <li>
 
+                <p>{{ post.title }}</p>
+
+                {% if post.picture %}
+                    <p><img src="{{ MEDIA_URL }}{{ post.picture }}"></p>
+                {% endif %}
+
+                {{ post.likes }}
+
+            </li>
+            <br/>
+        {% endfor %}
+    </ul>
 {% endblock %}

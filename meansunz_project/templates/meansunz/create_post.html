@@ -9,7 +9,7 @@
     <h1>Create Post</h1>
     <div>
         {% if category %}
-        <form id="page_form" method="post" action="/category/{{ category.slug }}/create_post/">
+        <form id="page_form" method="post" action="/category/{{ category.slug }}/create_post/" enctype="multipart/form-data">
             {% csrf_token %}
             {% for hidden in form.hidden_fields %}
                 {{ hidden }}
@@ -25,10 +25,5 @@
             A category by this name does not exist
         {% endif %}
         </form>
-    </div>
-    <div>
-        {% if category %}
-            <br /><a href="{% url 'show_category' category.slug %}">{{ category }}</a>
-        {% endif %}
     </div>
 {% endblock %}

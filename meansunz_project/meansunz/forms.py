@@ -1,5 +1,5 @@
 from django import forms
-from meansunz.models import Post, Category, UserProfile
+from meansunz.models import Post, Category, UserProfile, Comment
 from django.contrib.auth.models import User
 
 
@@ -41,3 +41,13 @@ class PostForm(forms.ModelForm):
         model = Post
 
         exclude = ('category', 'user')
+
+
+class CommentForm(forms.ModelForm):
+    content = forms.CharField(max_length=1026, help_text="Text")
+    picture = forms.ImageField(required=False, help_text="Image(Optional)")
+    likes = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
+
+    class Meta:
+        model = Comment
+        fields = ('content', 'picture')

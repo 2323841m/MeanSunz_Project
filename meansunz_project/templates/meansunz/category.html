@@ -5,19 +5,53 @@
     Index
 {% endblock %}
 
+{% block headblock %}
+    <style>
+        p {
+            color: white;
+        }
+    </style>
+{% endblock %}
+
 {% block body_block %}
 
     <div>
-    {% if pages %}
-        <h3>Trending</h3>
-        <ul>
-         {% for post in posts %}
-            <li><a href="{{ post.url }}">{{ post.title }}</a></li>
-         {% endfor %}
-        </ul>
-    {% else %}
-        <strong>There are no posts present.</strong>
-    {% endif %}
+        {% if user.is_authenticated %}
+            <a href="{% url 'create_post' category.slug %}">Create Post</a>
+        {% endif %}
+    </div>
+
+    <div>
+        {% if posts %}
+            <h3>Trending</h3>
+
+            <ul>
+                {% for post in posts %}
+                    <li>
+
+                        <p>{{ post.title }}</p>
+
+                        {% if post.picture %}
+                            <p><img src="{{ MEDIA_URL }}{{ post.picture }}"></p>
+                        {% endif %}
+
+                        {{ post.likes }}
+                        <form action="{% url 'upvote' category.slug post.slug %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" name="submit" value="upvote" class="btn-link">+</button>
+                        </form>
+                        <form action="{% url 'downvote' category.slug post.slug %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" name="submit" value="downvote" class="btn-link">-</button>
+                        </form>
+
+                    </li>
+                    <br/>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <strong>There are no posts present.</strong>
+        {% endif %}
     </div>
 
 {% endblock %}

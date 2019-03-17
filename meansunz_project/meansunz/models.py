@@ -32,9 +32,15 @@ class Category(models.Model):
 class Post(models.Model):
     category = models.ForeignKey(Category)
     title = models.CharField(max_length=64)
-    description = models.CharField(max_length=256)
+    description = models.CharField(max_length=256, blank=True)
+    picture = models.ImageField(upload_to='post_image', blank=True)
     views = models.IntegerField(default=0)
     likes = models.IntegerField(default=0)
+    slug = models.SlugField()
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Post, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.title

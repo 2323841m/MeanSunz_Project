@@ -25,12 +25,12 @@ def show_category(request, category_name_slug):
         # So the .get() method returns one model instance or raises an exception.
         category = Category.objects.get(slug=category_name_slug)
 
-        # Retrieve all of the associated pages.
-        # Note that filter() will return a list of page objects or an empty list
-        pages = Post.objects.filter(category=category)
+        # Retrieve all of the associated posts.
+        # Note that filter() will return a list of post objects or an empty list
+        posts = Post.objects.filter(category=category).order_by('-likes')
 
-        # Add our results list to the template context under name pages
-        context_dict['pages'] = pages
+        # Add our results list to the template context under name posts
+        context_dict['posts'] = posts
         # We also add the category object from
         # the database to the context dictionary.
         # We'll use this in the template to verify that the category exists
@@ -40,12 +40,59 @@ def show_category(request, category_name_slug):
         # Don't do anything
         # the template will display the "no category" message for us.
         context_dict['category'] = None
-        context_dict['pages'] = None
+        context_dict['posts'] = None
 
     # get_categories(context_dict)
 
     # Go render the response and return it to the client.
     return render(request, 'meansunz/category.html', context_dict)
+
+
+@login_required
+def create_post(request, category_name_slug):
+    try:
+        category = Category.objects.get(slug=category_name_slug)
+    except Category.DoesNotExist:
+        category = None
+
+    form = PostForm()
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+
+        if form.is_valid():
+            if category:
+                post = form.save(commit=False)
+                post.category = category
+                post.views = 0
+                post.save()
+                return show_category(request, category_name_slug)
+        else:
+            print(form.errors)
+
+    context_dict = {'form': form, 'category': category}
+    return render(request, 'meansunz/create_post.html', context_dict)
+
+
+# TODO: implement voting system using script
+def upvote(request, category_name_slug, post_title_slug):
+    if request.method == 'POST':
+        post = Post.objects.get(slug=post_title_slug)
+        post.likes += 1
+
+        post.save()
+
+    return show_category(request, category_name_slug)
+
+
+def downvote(request, category_name_slug, post_title_slug):
+    if request.method == 'POST':
+        post = Post.objects.get(slug=post_title_slug)
+        post.likes -= 1
+
+        post.save()
+
+    return show_category(request, category_name_slug)
+
 
 
 def about(request):
@@ -127,7 +174,8 @@ def user_logout(request):
     return HttpResponseRedirect(reverse('index'))
 
 
-def myposts(request):
+@login_required
+def user_posts(request):
     context_dict = {}
-    response = render(request, 'meansunz/myposts.html', context_dict)
+    response = render(request, 'meansunz/user_posts.html', context_dict)
     return response

@@ -19,42 +19,59 @@
 
 {% block body_block %}
 
-    <div>
-        {% if posts %}
-            <h3>All Trending</h3>
-            <ul>
-                <ul>
-                    {% for post in posts %}
-                        <li>
-
-                            <p><a href="{% url 'show_post' post.category.slug post.id post.slug %}">{{ post.title }}</a>
-                            </p>
-
-                            {% if post.picture %}
-                                <p><img src="{{ MEDIA_URL }}{{ post.picture }}" alt=""></p>
-                            {% endif %}
-
-                            <form action="{% url 'vote' post.category.slug post.id post.slug %}" method="post">
-                                {% csrf_token %}
-                                <button type="submit" name="upvote_post" value="upvote_post">+</button>
-                                <!-- next points to site to be redirected back to after vote -->
-                                <input type="hidden" name="next" value="{{ request.path }}">
-                            </form>
-                            {{ post.likes }}
+    <div class="postBody">
+	{% if posts %}
+	
+		{% for post in posts %}
+		<div class="post">
+			<div class="voteBar">
+				<div class="upVote">
+					<form action="{% url 'vote' post.category.slug post.id post.slug %}" method="post">
+						{% csrf_token %}
+						<button type="submit" name="upvote_post" value="upvote_post">+</button>
+                         <!-- next points to site to be redirected back to after vote -->
+                        <input type="hidden" name="next" value="{{ request.path }}">
+					</form>
+				</div>
+				<div class="downVote">
                             <form action="{% url 'vote' post.category.slug post.id post.slug %}" method="post">
                                 {% csrf_token %}
                                 <button type="submit" name="downvote_post" value="downvote_post">-</button>
                                 <!-- next points to site to be redirected back to after vote -->
                                 <input type="hidden" name="next" value="{{ request.path }}">
                             </form>
-
-                        </li>
-                        <br/>
-                    {% endfor %}
-                </ul>
-            </ul>
-        {% else %}
-            <strong>There are no posts present.</strong>
+				</div>
+				<div>
+					<h6>{{ post.likes }}</h6>
+				</div>
+			</div>
+			<div class="postContent">
+				<div>
+					<h4><a href="{% url 'show_post' post.category.slug post.id post.slug %}">{{ post.title }}</a></h4>
+				</div>
+				
+				<div>
+				<h5>{{ post.author }}</h4>
+				</div>
+				
+				<div class="commentsBar">
+					<div>
+						<h6>1233 Comments</h6>
+					</div>
+					<div>
+						<h6>Report</h6>
+					</div>
+				</div>
+			</div>
+			<div class="postMedia">
+				{% if post.picture %}
+					<p><img src="{{ MEDIA_URL }}{{ post.picture }}" alt=""></p>
+                {% endif %}
+			</div>
+		</div>
+		{% endfor %}
+		{% else %}
+            <h5><strong>There are no posts present.</strong></h5>
         {% endif %}
     </div>
 

@@ -50,14 +50,14 @@ img
 	display: flex;
 	width: 100%;
 	min-height: 50px;
-	background-color: rgb(70, 70, 70);
+	background-image: linear-gradient(to bottom, #6c6c6cff, #72727aff);
 }
 
 .separator
 {
     display: flex;
     width: 100%;
-    height: 2px;
+    height: 1px;
     background-color: rgb(150, 150, 150);
 }
 
@@ -65,8 +65,8 @@ img
 {
 	display: flex;
 	width: 100%;
-	height: 25px;
-	background-color: rgb(70, 70, 70);
+	height: 28px;
+	background-color: rgb(70, 70 70);
 }
 
 .navBar
@@ -74,7 +74,7 @@ img
 	display: flex;
 	height: 100%;
 	width: 100%;
-	background-color: rgb(70, 70, 70);
+	background-color: #222125ff;
 }
 
 .navButton
@@ -82,11 +82,13 @@ img
 	display: flex;
 	padding-left: 7px;
 	padding-right: 7px;
-	background-color: rgb(70, 70, 70);
-	font-size: 14px;
-  font-family: "Arial";
-  color: rgb(170, 170, 170)
+	margin-top: auto;
+	margin-bottom: auto;
+	font-size: 15px;
+	font-family: "Lato";
+	color: rgb(170, 170, 170);
 	height: 100%;
+	text-transform: uppercase;
 }
 
 .navButton a
@@ -98,7 +100,7 @@ img
 
 .navButton:hover
 {
-    background-color: rgb(100, 100, 100)
+    background-color: #56535eff;
 }
 
 .maxFlex
@@ -113,57 +115,31 @@ img
 	width: 100px;
 }
 
-.login
+.buttonBig
 {
     display: flex;
     min-width: 70px;
     text-align: center;
-    font-size: 18px;
-    font-family: "Arial";
+    font-size: 14px;
+    font-family: "Lato";
+	text-transform: uppercase;
     padding: 12px 12px 12px 12px;
 }
 
-.login a
+.buttonBig a
 {
-	background-color: rgb(120, 120, 120);
-	border-radius: 10px;
+	background-color: #222125ff;
+	border-radius: 5px;
 	padding: 12px 12px 12px 12px;
 	text-decoration: none;
-	color: black;
+	color: rgb(170, 170, 170);
 	width: 150px;
 	margin: auto;
 }
 
-.login a:hover
+.buttonBig a:hover
 {
-    background-color: rgb(65, 145, 255)
-}
-
-.register
-{
-    display: flex;
-    min-width: 100px;
-    text-align: center;
-    font-size: 18px;
-    font-family: "Arial";
-    color: black;
-    padding: 12px 12px 12px 12px;
-}
-
-.register a
-{
-	background-color: rgb(182, 182, 182);
-	border-radius: 10px;
-	padding: 12px 12px 12px 12px;
-	text-decoration: none;
-	color: black;
-	width: 150px;
-	margin: auto;
-}
-
-.register a:hover
-{
-    background-color: rgb(65, 145, 255)
+	background-image: linear-gradient(to bottom right, #2aa0c4ff, #4e7a85ff);
 }
 
 .filterBar
@@ -184,4 +160,76 @@ img
 .filterButton:hover
 {
     background-color: rgb(100, 100, 100);
+}
+
+.postBody
+{
+	display: flex;
+	width: 1000px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.post
+{
+	display: flex;
+	background-color: white;
+	width: 100%;
+	height: 115px;
+}
+
+.voteBar
+{
+	display: flex;
+	flex-direction: column;
+	width: 60px;
+}
+
+.upVote
+{
+	display: flex;
+	background-color: green;
+	height: 100%;
+	width: 100%;
+}
+
+.downVote
+{
+	display: flex;
+	background-color: red;
+	height: 100%;
+	width: 100%;
+}
+
+h1
+{
+	font-size: 50px;
+	margin: auto;
+	font-family: "Oswald";
+	font-weight: 500;
+	color: #222125ff;
+}
+
+h4
+{
+	font-size: 30px;
+	margin: 10px;
+}
+
+h5
+{
+	font-size: 20px;
+	margin: 10px;
+}
+
+h6
+{
+	font-size: 15px;
+	margin: auto;
+	margin-left: 10px;
+}
+
+.commentsBar {
+	display: flex;
+	flex-direction: row;
 }

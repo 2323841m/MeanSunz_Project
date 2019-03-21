@@ -67,15 +67,17 @@
                 </div>
             {% endif %}
         </div>
-        <div class="filterBar">
-            <div style="font-size: 18px; font-family: Arial; color: rgb(170, 170, 170); margin:auto;">SORT:</div>
-            <div class="dropDownList">
-                <select>
-                    <option value="New">New</option>
-                    <option value="Liked">Most Liked</option>
-                </select>
+        {% if posts %}
+            <div class="filterBar">
+                <div style="font-size: 18px; font-family: Arial; color: rgb(170, 170, 170); margin:auto;">SORT:</div>
+                <div class="dropDownList">
+                    <select>
+                        <option value="New">New</option>
+                        <option value="Liked">Most Liked</option>
+                    </select>
+                </div>
             </div>
-        </div>
+        {% endif %}
     </div>
 
 </div>

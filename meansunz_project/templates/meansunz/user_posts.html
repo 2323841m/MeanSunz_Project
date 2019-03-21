@@ -10,7 +10,7 @@
         {% for post in posts %}
             <li>
 
-                <p>{{ post.title }}</p>
+                 <a href="{% url 'show_post' post.category.slug post.id post.slug %}">{{ post.title|truncatechars:100 }}</a>
 
                 {% if post.picture %}
                     <p><img src="{{ MEDIA_URL }}{{ post.picture }}"></p>

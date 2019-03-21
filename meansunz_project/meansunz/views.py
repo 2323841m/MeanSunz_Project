@@ -101,6 +101,7 @@ def show_post(request, category_name_slug, post_id, post_title_slug):
         comments = None
     except Category.DoesNotExist:
         post = None
+        comments = None
         category = None
 
     context_dict['comments'] = comments
@@ -244,7 +245,7 @@ def user_logout(request):
 
 @login_required
 def user_posts(request):
-    posts = Post.objects.filter(user=request.user.profile)
+    posts = Post.objects.filter(user=request.user)
     context_dict = {'posts': posts}
     response = render(request, 'meansunz/user_posts.html', context_dict)
     return response

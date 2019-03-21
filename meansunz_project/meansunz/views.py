@@ -6,32 +6,35 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.views.generic.list import ListView
 
 
 def index(request):
-    post_list = Post.objects.order_by('-views')[:25]
+    post_list = Post.objects.order_by('-likes')[:25]
     context_dict = {'posts': post_list, }
 
     response = render(request, 'meansunz/index.html', context_dict)
     return response
 
 
-def show_category(request, category_name_slug):
-    context_dict = {}
+class show_category(ListView):
 
-    try:
-        category = Category.objects.get(slug=category_name_slug)
+    model = Post
+    # Amount of posts to render at a time
+    paginate_by = 10
+    context_object_name = 'posts'
+    template_name = 'meansunz/category.html'
 
-        posts = Post.objects.filter(category=category).order_by('-likes')
+    # Query database
+    def get_queryset(self, **kwargs):
+        category = Category.objects.filter(slug=self.kwargs['category_name_slug'])
+        return Post.objects.filter(category=category).order_by('-likes')
 
-        context_dict['posts'] = posts
-        context_dict['category'] = category
-
-    except Category.DoesNotExist:
-        context_dict['category'] = None
-        context_dict['posts'] = None
-
-    return render(request, 'meansunz/category.html', context_dict)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['category'] = self.kwargs['category_name_slug']
+        return context
 
 
 @login_required

@@ -6,13 +6,15 @@
 {% endblock %}
 
 {% block body_block %}
-    <h1>Login to Meansunz</h1>
-    <form id="login_form" method="post" action="{% url 'login' %}">
-        {% csrf_token %}
-        Username: <input type="text" name="username" value="" size="50"/>
-        <br/>
-        Password: <input type="password" name="password" value="" size="50"/>
-        <br/>
-        <input type="submit" value="submit"/>
-    </form>
+	<div class="contentBody">
+		<div><h2>Login to Meansunz</h2></div>
+		<div><form id="login_form" method="post" action="{% url 'login' %}">
+			{% csrf_token %}
+			<input class="textForm" type="text" name="username" placeholder="USERNAME" size="50"/>
+			<br/>
+			<input class="textForm" type="password" name="password" placeholder="PASSWORD" size="50"/>
+			<br/>
+			<input class="buttonForm" type="submit" value="LOGIN"/>
+		</form></div>
+	</div>
 {% endblock %}

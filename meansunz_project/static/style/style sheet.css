@@ -15,8 +15,6 @@ body
 
 img
 {
-    max-width: 100%;
-    max-height: auto;
     height: 60px;
     width: 60px;
 }
@@ -25,6 +23,8 @@ img
 {
     margin: 3px;
     padding: 3px;
+    min-width: 60px;
+    min-height: 60px;
 }
 
 .header_title
@@ -142,10 +142,39 @@ img
 	background-image: linear-gradient(to bottom right, #2aa0c4ff, #4e7a85ff);
 }
 
+/* User Profile styling */
+.userProfile
+{
+    display: flex;
+    flex-direction: row;
+}
+
+.userProfile img
+{
+    display: flex;
+    max-width: 100%;
+    max-height: auto;
+    height: 60px;
+    width: 60px;
+    margin: auto;
+    padding-right: 5px;
+    border-radius: 50%;
+}
+
+#userProfileName
+{
+    font-family: Lato;
+    margin: auto;
+    padding-right: 15px;
+}
+
+/* End of User Profile styling */
+
 .filterBar
 {
 	display: flex;
 	height: 100%;
+	background-color: #222125ff;
 }
 
 
@@ -160,6 +189,21 @@ img
 .filterButton:hover
 {
     background-color: rgb(100, 100, 100);
+}
+
+.dropDownList
+{
+    margin: auto;
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+.dropDownList select
+{
+    background: transparent;
+    font-size: 18px;
+    border: none;
+    color: rgb(170, 170, 170);
 }
 
 .postBody
@@ -231,4 +275,33 @@ h6
 .commentsBar {
 	display: flex;
 	flex-direction: row;
+}
+
+/* Leaderboards styling */
+
+#switchBoard
+{
+    background-color:#222125ff;
+}
+
+#leaderBoardTable table, th, tr
+{
+    font-family: Arial;
+    color: #222125ff;
+    border-collapse: collapse;
+}
+
+#leaderBoardTable table
+{
+    width: 70%;
+    border: 1px solid black;
+
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#leaderBoardTable th
+{
+    height: 20px;
+    text-align: center;
 }

@@ -38,9 +38,9 @@
                 {% else %}
                     <img src="{% static "images\blank_profile.png" %}" alt=" profile picture">
                 {% endif %}
-                {{ user.username }}
-                <div class="signout"><a href=" {% url 'signout' %} ">Sign Out</a></div>
-                <div class="myposts"><a href=" {% url 'user_posts' %} ">My Posts</a></div>
+                <div id="userProfileName">{{ user.username }}</div>
+                <div class="buttonBig"><a href=" {% url 'signout' %} ">Sign Out</a></div>
+                <div class="buttonBig"><a href=" {% url 'user_posts' %} ">My Posts</a></div>
             </div>
         {% else %}
             <div class="buttonBig"><a href=" {% url 'login' %}">Login</a></div>
@@ -68,8 +68,13 @@
             {% endif %}
         </div>
         <div class="filterBar">
-            <div style="font-size: 18px; font-family: Arial; color: rgb(170, 170, 170);">Sort:</div>
-            <div class="filterButton">*LIST*</div>
+            <div style="font-size: 18px; font-family: Arial; color: rgb(170, 170, 170); margin:auto;">SORT:</div>
+            <div class="dropDownList">
+                <select>
+                    <option value="New">New</option>
+                    <option value="Liked">Most Liked</option>
+                </select>
+            </div>
         </div>
     </div>
 

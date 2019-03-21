@@ -168,6 +168,8 @@ def about(request):
 
 
 def leaderboards(request):
+
+
     context_dict = {}
     response = render(request, 'meansunz/leaderboards.html', context_dict)
     return response

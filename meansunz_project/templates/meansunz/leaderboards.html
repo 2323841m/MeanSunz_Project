@@ -9,4 +9,21 @@
     <h1>
         Leaderboards
     </h1>
+
+    <button id="switchBoard" type="switchBoard">View the most Liked/Hated</button>
+
+    <div id="leaderBoardTable">
+        <table>
+            <tr>
+                <th>Username</th>
+                <th>Popularity score</th>
+            </tr>
+            {% for user in users %}
+            <tr>
+                <td> {{ user.username }} </td>
+                <td> {{ user.popularity }} </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
 {% endblock %}

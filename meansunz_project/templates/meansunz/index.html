@@ -19,7 +19,7 @@
 
 {% block body_block %}
 
-    <div class="postBody">
+    <div class="contentBody">
         {% if posts %}
 
             {% for post in posts %}
@@ -73,7 +73,7 @@
                 </div>
             {% endfor %}
         {% else %}
-            <h5><strong>There are no posts present.</strong></h5>
+            <h2 style="font-size: 30px"><strong>There are no posts present.</strong></h2>
         {% endif %}
     </div>
 

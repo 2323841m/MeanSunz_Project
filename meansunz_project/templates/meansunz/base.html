@@ -33,12 +33,12 @@
         <!-- If logged in show user profile else show login/register buttons -->
         {% if user.is_authenticated %}
             <div class="userProfile">
-                {% if user.profile.picture %}
+                <div id="userProfileName">{{ user.username }}</div>
+				{% if user.profile.picture %}
                     <img src="{{ MEDIA_URL }}{{ user.profile.picture }}" alt="profile picture">
                 {% else %}
                     <img src="{% static "images\blank_profile.png" %}" alt=" profile picture">
                 {% endif %}
-                <div id="userProfileName">{{ user.username }}</div>
                 <div class="buttonBig"><a href=" {% url 'signout' %} ">Sign Out</a></div>
                 <div class="buttonBig"><a href=" {% url 'user_posts' %} ">My Posts</a></div>
             </div>
@@ -79,6 +79,8 @@
             </div>
         {% endif %}
     </div>
+	
+	<div class="separator"></div>
 
 </div>
 
@@ -86,6 +88,5 @@
     {% block body_block %}
     {% endblock %}
 </div>
-<hr/>
 </body>
 </html>

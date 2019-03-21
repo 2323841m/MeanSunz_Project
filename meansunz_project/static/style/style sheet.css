@@ -2,7 +2,7 @@ body
 {
 	padding: 0;
 	margin: 0;
-	background-color: rgb(84, 84, 84);
+	background-color: rgb(40, 40, 40);
 }
 
 .header
@@ -58,7 +58,7 @@ img
     display: flex;
     width: 100%;
     height: 1px;
-    background-color: rgb(150, 150, 150);
+    background-color: rgb(180, 180, 180);
 }
 
 .bottomBar
@@ -77,6 +77,16 @@ img
 	background-color: #222125ff;
 }
 
+.sortForm
+{
+	font-size: 15px; 
+	font-family: "Lato";
+	text-transform: uppercase;
+	color: rgb(180, 180, 180);
+	margin-top: auto;
+	margin-bottom: auto;
+}
+
 .navButton
 {
 	display: flex;
@@ -86,7 +96,7 @@ img
 	margin-bottom: auto;
 	font-size: 15px;
 	font-family: "Lato";
-	color: rgb(170, 170, 170);
+	color: rgb(180, 180, 180);
 	height: 100%;
 	text-transform: uppercase;
 }
@@ -94,7 +104,7 @@ img
 .navButton a
 {
 	margin: auto;
-	color: rgb(170, 170, 170);
+	color: rgb(180, 180, 180);
 	text-decoration: none;
 }
 
@@ -201,9 +211,20 @@ img
 .dropDownList select
 {
     background: transparent;
-    font-size: 18px;
     border: none;
-    color: rgb(170, 170, 170);
+	font-size: 15px; 
+	font-family: "Lato";
+	text-transform: uppercase;
+	color: rgb(180, 180, 180);
+}
+
+.contentBody
+{
+	display: flex;
+	flex-direction: column;
+	width: 1000px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .postBody
@@ -253,6 +274,17 @@ h1
 	color: #222125ff;
 }
 
+h2
+{
+	font-size: 40px;
+	margin: 0;
+	font-family: "Oswald";
+	text-transform: lowercase;
+	font-weight: 500;
+	color: rgb(180, 180, 180);
+	padding-top: 25px;
+}
+
 h4
 {
 	font-size: 30px;
@@ -279,29 +311,104 @@ h6
 
 /* Leaderboards styling */
 
-#switchBoard
-{
-    background-color:#222125ff;
-}
-
 #leaderBoardTable table, th, tr
 {
-    font-family: Arial;
-    color: #222125ff;
+    font-size: 15px;
+	font-family: "Lato";
+	color: rgb(180, 180, 180);
+	text-transform: uppercase;
     border-collapse: collapse;
 }
 
 #leaderBoardTable table
 {
-    width: 70%;
-    border: 1px solid black;
-
+    width: 100%;
+    border: 1px solid rgb(180, 180, 180);
     margin-left: auto;
     margin-right: auto;
 }
 
 #leaderBoardTable th
 {
-    height: 20px;
+    height: 30px;
     text-align: center;
 }
+
+/* User Profile styling */
+.userProfile
+{
+    display: flex;
+    flex-direction: row;
+}
+
+.userProfile img
+{
+    display: flex;
+    max-width: 100%;
+    max-height: auto;
+    height: 60px;
+    width: 60px;
+    margin: auto;
+    padding-right: 5px;
+    border-radius: 50%;
+}
+
+#userProfileName
+{
+    font-family: Lato;
+    margin: auto;
+    padding-left: 15px;
+	font-size: 15px;
+	font-family: "Lato";
+	font-weight: 600;
+	color:#222125ff;
+}
+
+.textForm {
+  width: 350px;
+  padding: 12px 13px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+	width: 150px;
+	background-color: rgb(130, 130, 130);
+	color: white;
+	padding: 12px 13px;
+	margin: 8px 0;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 14px;
+	font-family: "Lato";
+	text-transform: uppercase;
+}
+
+input[type=submit]:hover {
+	background-image: linear-gradient(to bottom right, #2aa0c4ff, #4e7a85ff);
+}
+
+button[type=switchBoard] {
+	width: 150px;
+	background-color: rgb(130, 130, 130);
+	color: white;
+	padding: 10px 5px;
+	margin-top: 25px;
+	margin-left: 25px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 12px;
+	font-family: "Lato";
+	text-transform: uppercase;
+}
+
+button[type=switchBoard]:hover {
+	background-image: linear-gradient(to bottom right, #2aa0c4ff, #4e7a85ff);
+}
+/* End of User Profile styling */
+

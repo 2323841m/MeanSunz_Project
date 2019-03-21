@@ -1,5 +1,6 @@
 {% extends 'meansunz/base.html' %}
 {% load staticfiles %}
+{% load meansunz_template_tags %}
 
 {% block title_block %}
     Index
@@ -28,7 +29,7 @@
                         <div class="upVote">
                             <form action="{% url 'vote' post.category.slug post.id post.slug %}" method="post">
                                 {% csrf_token %}
-                                <button type="submit" name="upvote_post" value="upvote_post">+</button>
+                                <button type="submit" name="vote" value="1">+</button>
                                 <!-- next points to site to be redirected back to after vote -->
                                 <input type="hidden" name="next" value="{{ request.path }}">
                             </form>
@@ -36,13 +37,13 @@
                         <div class="downVote">
                             <form action="{% url 'vote' post.category.slug post.id post.slug %}" method="post">
                                 {% csrf_token %}
-                                <button type="submit" name="downvote_post" value="downvote_post">-</button>
+                                <button type="submit" name="vote" value="-1">-</button>
                                 <!-- next points to site to be redirected back to after vote -->
                                 <input type="hidden" name="next" value="{{ request.path }}">
                             </form>
                         </div>
                         <div>
-                            <h6>{{ post.likes }}</h6>
+                            <h6>{{ post.upvotes|sub:post.downvotes }}</h6>
                         </div>
                     </div>
                     <div class="postContent">

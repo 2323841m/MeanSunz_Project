@@ -1,5 +1,6 @@
 {% extends 'meansunz/base.html' %}
 {% load staticfiles %}
+{% load meansunz_template_tags %}
 
 {% block head_block %}
     <style>
@@ -17,7 +18,9 @@
     {% if post %}
         <h2>{{ post.title }}</h2>
         {% if post.picture %}
-            <p><object width="355" height="200" data="{{ MEDIA_URL }}{{ post.picture }}"></object></p>
+            <p>
+                <object width="355" height="200" data="{{ MEDIA_URL }}{{ post.picture }}"></object>
+            </p>
 
         {% endif %}
         <p>{{ post.description }}</p>
@@ -25,14 +28,14 @@
         <!-- Post Voting -->
         <form action="{% url 'vote' category.slug post.id post.slug %}" method="post">
             {% csrf_token %}
-            <button type="submit" name="upvote_post" value="upvote_post">+</button>
+            <button type="submit" name="vote" value="1">+</button>
             <!-- next points to site to be redirected back to after vote -->
             <input type="hidden" name="next" value="{{ request.path }}">
         </form>
-        {{ post.likes }}
+        {{ post.upvotes|sub:post.downvotes }}
         <form action="{% url 'vote' category.slug post.id post.slug %}" method="post">
             {% csrf_token %}
-            <button type="submit" name="downvote_post" value="downvote_post">-</button>
+            <button type="submit" name="vote" value="-1">-</button>
             <!-- next points to site to be redirected back to after vote -->
             <input type="hidden" name="next" value="{{ request.path }}">
         </form>
@@ -75,20 +78,22 @@
                 <form action="{% url 'vote_comment' category.slug post.id post.slug %}" method="post">
                     &lt;{{ comment.user }}&gt;
                     {% csrf_token %}
-                    <button type="submit" name="upvote_comment" value="upvote_comment">+</button>
+                    <button type="submit" name="vote_comment" value="1">+</button>
                     <!-- Store comment id to later identify upvoted comment -->
                     <input type="hidden" name="id" value="{{ comment.id }}">
                 </form>
-                {{ comment.likes }}
+                {{ comment.upvotes|sub:comment.downvotes }}
                 <form action="{% url 'vote_comment' category.slug post.id post.slug %}" method="post">
                     {% csrf_token %}
-                    <button type="submit" name="downvote_comment" value="downvote_comment">-</button>
+                    <button type="submit" name="vote_comment" value="-1">-</button>
                     <input type="hidden" name="id" value="{{ comment.id }}">
                 </form>
                 </p>
                 <p>{{ comment.content }}</p>
                 {% if comment.picture %}
-                    <p><object width="355" height="200" data="{{ MEDIA_URL }}{{ comment.picture }}"></object></p>
+                    <p>
+                        <object width="355" height="200" data="{{ MEDIA_URL }}{{ comment.picture }}"></object>
+                    </p>
                 {% endif %}
             {% endfor %}
         {% endif %}

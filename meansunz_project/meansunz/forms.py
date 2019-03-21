@@ -40,7 +40,10 @@ class PostForm(forms.ModelForm):
     picture = forms.ImageField(required=False, help_text="Image(Optional)")
     views = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
     likes = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
+    upvotes = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
+    downvotes = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
     slug = forms.CharField(widget=forms.HiddenInput(), required=False)
+    date = forms.DateTimeField(widget=forms.HiddenInput(), required=False)
 
     class Meta:
         # Provide an association between the ModelForm and a model
@@ -57,3 +60,4 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ('content', 'picture')
+

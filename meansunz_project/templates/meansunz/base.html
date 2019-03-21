@@ -34,7 +34,7 @@
         {% if user.is_authenticated %}
             <div class="userProfile">
                 <div id="userProfileName">{{ user.username }}</div>
-				{% if user.profile.picture %}
+                {% if user.profile.picture %}
                     <img src="{{ MEDIA_URL }}{{ user.profile.picture }}" alt="profile picture">
                 {% else %}
                     <img src="{% static "images\blank_profile.png" %}" alt=" profile picture">
@@ -71,16 +71,23 @@
             <div class="filterBar">
                 <div style="font-size: 18px; font-family: Arial; color: rgb(170, 170, 170); margin:auto;">SORT:</div>
                 <div class="dropDownList">
-                    <select>
-                        <option value="New">New</option>
-                        <option value="Liked">Most Liked</option>
-                    </select>
+                    <form action="{{ request.path }}" method="get">
+                        <select name="sort" onChange="form.submit();">
+                            {% if sort == "date" %}
+                                <option value="date" selected>New</option>
+                                <option value="votes">Most Liked</option>
+                            {% else %}
+                                <option value="date">New</option>
+                                <option value="votes" selected>Most Liked</option>
+                            {% endif %}
+                        </select>
+                    </form>
                 </div>
             </div>
         {% endif %}
     </div>
-	
-	<div class="separator"></div>
+
+    <div class="separator"></div>
 
 </div>
 

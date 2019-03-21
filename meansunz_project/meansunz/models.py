@@ -30,7 +30,7 @@ class Category(models.Model):
 
 
 class Post(models.Model):
-    user = models.ForeignKey(UserProfile)
+    user = models.ForeignKey(User)
     category = models.ForeignKey(Category)
     title = models.CharField(max_length=64)
     description = models.CharField(max_length=256, blank=True)

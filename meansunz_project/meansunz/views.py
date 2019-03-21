@@ -136,11 +136,15 @@ def vote_comment(request, category_name_slug, post_id, post_title_slug):
             comment = Comment.objects.get(id=request.POST.get('id', None))
             comment.likes += 1
             comment.save()
+            comment.user.profile.rating += 1
+            comment.user.profile.save()
 
         elif 'downvote_comment' in request.POST:
             comment = Comment.objects.get(id=request.POST.get('id', None))
             comment.likes -= 1
             comment.save()
+            comment.user.profile.rating -= 1
+            comment.user.profile.save()
 
         return redirect(show_post, category_name_slug, post_id, post_title_slug)
 
@@ -153,11 +157,15 @@ def vote(request, category_name_slug, post_id, post_title_slug):
             post = Post.objects.get(id=post_id)
             post.likes += 1
             post.save()
+            post.user.profile.rating += 1
+            post.user.profile.save()
 
         elif 'downvote_post' in request.POST:
             post = Post.objects.get(id=post_id)
             post.likes -= 1
             post.save()
+            post.user.rating -= 1
+            post.user.user.save()
 
         return redirect(request.POST.get('next', '/'), category_name_slug, post_id, post_title_slug)
 
@@ -170,8 +178,9 @@ def about(request):
 
 def leaderboards(request):
 
-
     context_dict = {}
+    user_ranking = UserProfile.objects.all().order_by('-rating')[:15]
+    context_dict['profiles'] = user_ranking
     response = render(request, 'meansunz/leaderboards.html', context_dict)
     return response
 

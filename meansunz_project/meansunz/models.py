@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 class UserProfile(models.Model):
     # This line is required. Link UserProfile to a User model instance.
     user = models.OneToOneField(User, related_name='profile')
+    rating = models.IntegerField(default=0)
 
     picture = models.ImageField(upload_to='profile_image', blank=True)
 

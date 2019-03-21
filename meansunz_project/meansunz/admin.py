@@ -15,7 +15,11 @@ class CommentAdmin(admin.ModelAdmin):
     list_display = ('content', 'post', 'user')
 
 
-admin.site.register(UserProfile)
+class UserProfileAdmin(admin.ModelAdmin):
+    list_display = ('user',)
+
+
+admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Post, PostAdmin)
 admin.site.register(Comment, CommentAdmin)

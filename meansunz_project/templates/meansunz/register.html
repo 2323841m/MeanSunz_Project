@@ -6,20 +6,23 @@
 {% endblock %}
 
 {% block body_block %}
-    {% if registered %}
-        Thank you for registering!
-        <a href="{% url 'login' %}">Please login.</a><br />
-    {% else %}
+	<div class="contentBody">
+		<h2>register</h2>
+		{% if registered %}
+			Thank you for registering!
+			<a href="{% url 'login' %}">Please login.</a><br />
+		{% else %}
 
-        <form id="user_form" method="post" action="{% url 'register' %}" enctype="multipart/form-data">
+			<form id="user_form" method="post" action="{% url 'register' %}" enctype="multipart/form-data">
 
-            {% csrf_token %}
+				{% csrf_token %}
 
-            <!-- Display each form -->
-            {{ user_form.as_p }}
-            {{ profile_form.as_p }}
+				<!-- Display each form -->
+				{{ user_form.as_p }}
+				{{ profile_form.as_p }}
 
-            <input type="submit" name="submit" value="Register" />
-        </form>
-    {% endif %}
+				<input type="submit" name="submit" value="Register" />
+			</form>
+		{% endif %}
+	</div>
 {% endblock %}

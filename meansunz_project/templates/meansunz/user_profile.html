@@ -1,0 +1,82 @@
+{% extends 'meansunz/base.html' %}
+{% load staticfiles %}
+{% load meansunz_template_tags %}
+
+{% block title_block %}
+    My Profile
+{% endblock %}
+
+{% block body_block %}
+    <div class="contentBody">
+        <h2>
+            Profile
+        </h2>
+
+        <div>
+            {% if user.profile.picture %}
+                <img src="{{ MEDIA_URL }}{{ user.profile.picture }}" alt="profile picture">
+            {% else %}
+                <img src="{% static "images\blank_profile.png" %}" alt=" profile picture">
+            {% endif %}
+        </div>
+
+        <div><h5>Recent Posts:</h5></div>
+
+        <div>
+            {% if posts %}
+
+                {% for post in posts %}
+                    <div class="post">
+                        <div>
+                            <h6>{% get_post_votes post %}</h6>
+                        </div>
+
+                        <div class="postContent">
+                            <div>
+                                <h4>
+                                    <a href="{% url 'show_post' post.category.slug post.id post.slug %}">{{ post.title }}</a>
+                                </h4>
+                            </div>
+
+                            <div>
+                                <h4>{{ post.user }}</h4>
+                            </div>
+
+                            <div class="commentsBar">
+                                <div>
+                                    <h6>1233 Comments</h6>
+                                </div>
+                                <div>
+                                    <h6>Report</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="postMedia">
+                            {% if post.picture %}
+                                <p><img src="{{ MEDIA_URL }}{{ post.picture }}" alt="" style="width:100%;height:100%;">
+                                </p>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <h2 style="font-size: 30px"><strong>You haven't made a post yet! Go on make one!</strong></h2>
+            {% endif %}
+        </div>
+    </div>
+
+    <a href="{% url 'user_posts' %}">More Posts</a>
+
+    <div class="separator"></div>
+
+    <form id="user_form" method="post" action="{% url 'user_profile' %}" enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+        <!-- Display each form -->
+        {{ user_form.as_p }}
+        {{ profile_form.as_p }}
+
+        <input type="submit" name="submit" value="Submit"/>
+    </form>
+{% endblock %}

@@ -1,8 +1,9 @@
 import datetime
 
+from django.forms import forms
 from django.shortcuts import render
 from meansunz.models import Category, Post, UserProfile, User, Comment, VotePost, VoteComment
-from meansunz.forms import CategoryForm, PostForm, UserForm, UserProfileForm, CommentForm
+from meansunz.forms import CategoryForm, PostForm, UserForm, UserProfileForm, CommentForm, UserUpdateForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse
@@ -14,7 +15,7 @@ from django.views.generic.list import ListView
 def index(request):
     if request.GET.get('sort'):
         sort = request.GET.get('sort')
-        post_list = Post.objects.extra(select={'votes': 'upvotes - downvotes'}, order_by=('-'+sort,))[:25]
+        post_list = Post.objects.extra(select={'votes': 'upvotes - downvotes'}, order_by=('-' + sort,))[:25]
     else:
         post_list = Post.objects.extra(select={'votes': 'upvotes - downvotes'}, order_by=('-votes',))[:25]
     context_dict = {'posts': post_list, 'sort': request.GET.get('sort')}
@@ -26,7 +27,7 @@ def index(request):
 class show_category(ListView):
     model = Post
     # Amount of posts to render at a time
-    paginate_by = 15
+    paginate_by = 1
     context_object_name = 'posts'
     template_name = 'meansunz/category.html'
 
@@ -35,9 +36,11 @@ class show_category(ListView):
         category = Category.objects.filter(slug=self.kwargs['category_name_slug'])
         if self.request.GET.get('sort'):
             sort = self.request.GET.get('sort')
-            posts = Post.objects.filter(category=category).extra(select={'votes': 'upvotes - downvotes'}, order_by=('-'+sort,))
+            posts = Post.objects.filter(category=category).extra(select={'votes': 'upvotes - downvotes'},
+                                                                 order_by=('-' + sort,))
         else:
-            posts = Post.objects.filter(category=category).extra(select={'votes': 'upvotes - downvotes'}, order_by=('-votes',))
+            posts = Post.objects.filter(category=category).extra(select={'votes': 'upvotes - downvotes'},
+                                                                 order_by=('-votes',))
         return posts
 
     def get_context_data(self, **kwargs):
@@ -79,13 +82,12 @@ def create_post(request, category_name_slug):
 
     form = PostForm()
     if request.method == 'POST':
-        form = PostForm(data=request.POST)
-
+        form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             if category:
                 post = form.save(commit=False)
                 if 'picture' in request.FILES:
-                    post.picture = request.FILES['picture']
+                    post.picture = form.cleaned_data['picture']
                 post.category = category
                 post.user = user
                 post.views = 0
@@ -191,7 +193,8 @@ def about(request):
 
 def leaderboards(request):
     context_dict = {}
-    user_ranking = UserProfile.objects.extra(select={'votes': 'rating_comment + rating_post'}, order_by=('-votes',))[:15]
+    user_ranking = UserProfile.objects.extra(select={'votes': 'rating_comment + rating_post'}, order_by=('-votes',))[
+                   :15]
     context_dict['profiles'] = user_ranking
     response = render(request, 'meansunz/leaderboards.html', context_dict)
     return response
@@ -270,3 +273,41 @@ def user_posts(request):
     context_dict = {'posts': posts}
     response = render(request, 'meansunz/user_posts.html', context_dict)
     return response
+
+
+@login_required
+def user_profile(request):
+    posts = Post.objects.filter(user=request.user).order_by('-date')[:3]
+
+    if request.method == 'POST':
+        user_form = UserUpdateForm(data=request.POST)
+        profile_form = UserProfileForm(data=request.POST)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user = User.objects.get(id=request.user.id)
+
+            # Hash password with set_password method
+            user.set_password(user_form.data.get('password'))
+            user.email = (user_form.data.get('email'))
+            user.save()
+
+            profile = UserProfile.objects.get(user=user)
+
+            # Did the user provide a profile picture?
+            if 'picture' in request.FILES:
+                profile.picture = request.FILES['picture']
+
+            profile.save()
+
+        else:
+            # Invalid form, mistakes, or something else
+            print(user_form.errors, profile_form.errors)
+    else:
+        # Not an HTTP POST, so render form using two ModelForm instances
+        # These forms will be blank, ready for user input
+        user_form = UserUpdateForm()
+        profile_form = UserProfileForm()
+
+    context_dict = {'user': request.user, 'posts': posts, 'form': profile_form, 'user_form': user_form,
+                    'profile_form': profile_form, }
+    return render(request, 'meansunz/user_profile.html', context_dict)

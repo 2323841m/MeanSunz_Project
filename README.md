@@ -12,13 +12,9 @@ Live version of web app hosted on PythonAnywhere : [Here](http://2323841m.python
 
 ### Prerequisites
 
-
 * Python 3.6
-
 * Django 1.11.17
-
 * Pillow
-
 
 ## Built With
 

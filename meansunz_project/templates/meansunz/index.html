@@ -7,15 +7,6 @@
 {% endblock %}
 
 {% block head_block %}
-    <style>
-        p {
-            color: white;
-        }
-
-        form {
-            display: inline-block;
-        }
-    </style>
 {% endblock %}
 
 {% block body_block %}
@@ -43,7 +34,7 @@
                             </form>
                         </div>
                         <div>
-                            <h6>{{ post.upvotes|sub:post.downvotes }}</h6>
+                            <h6>{% get_post_votes post %}</h6>
                         </div>
                     </div>
                     <div class="postContent">

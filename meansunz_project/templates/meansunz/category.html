@@ -7,16 +7,6 @@
 {% endblock %}
 
 {% block head_block %}
-    {# Make votes and vote buttons render in a line TODO: move to style sheet #}
-    <style>
-        p {
-            color: white;
-        }
-
-        form {
-            display: inline-block;
-        }
-    </style>
 {% endblock %}
 
 {% block body_block %}
@@ -31,7 +21,7 @@
         {% if posts %}
 
             {% for post in posts %}
-                {# DO NOT RENAME THIS CLASS add another div inside if you need to#}
+                {# DO NOT RENAME THIS CLASS add another div inside if you need to #}
                 <div class="infinite-item">
 
                     <div>
@@ -49,19 +39,12 @@
                     <form action="{% url 'vote' post.category.slug post.id post.slug %}" method="post">
                         {% csrf_token %}
                         <button type="submit" name="vote" value="1">+</button>
-                        {# next points to site to be redirected back to after vote #}
-                        <input type="hidden" name="next" value="{{ request.path }}">
-                    </form>
-                    {{ post.upvotes|sub:post.downvotes }}
-                    <form action="{% url 'vote' post.category.slug post.id post.slug %}" method="post">
-                        {% csrf_token %}
+                        {% get_post_votes post %}
                         <button type="submit" name="vote" value="-1">-</button>
                         {# next points to site to be redirected back to after vote #}
                         <input type="hidden" name="next" value="{{ request.path }}">
                     </form>
-
                 </div>
-                <br/>
             {% endfor %}
 
         {% else %}

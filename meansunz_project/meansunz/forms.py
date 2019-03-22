@@ -4,14 +4,22 @@ from django.contrib.auth.models import User
 
 
 class UserForm(forms.ModelForm):
+    # username = forms.CharField(label='')
     class Meta:
         model = User
         fields = ('username', 'email', 'password')
         widgets = {
-            'password': forms.PasswordInput(attrs={'class': 'textForm', 'placeholder': 'PASSWORD'}),
+            'password': forms.PasswordInput(attrs={'class': 'textForm', 'placeholder': 'PASSWORD'}, ),
             'username': forms.TextInput(attrs={'class': 'textForm', 'placeholder': 'USERNAME'}),
             'email': forms.EmailInput(attrs={'class': 'textForm', 'placeholder': 'EMAIL'}),
         }
+
+    # Hide Form Labels
+    def __init__(self, *args, **kwargs):
+        super(UserForm, self).__init__(*args, **kwargs)
+        self.fields['username'].label = ''
+        self.fields['password'].label = ''
+        self.fields['email'].label = ''
 
 
 class UserUpdateForm(forms.ModelForm):
@@ -31,6 +39,11 @@ class UserProfileForm(forms.ModelForm):
         widgets = {
             'picture': forms.FileInput(attrs={}),
         }
+
+    # Hide Form Labels
+    def __init__(self, *args, **kwargs):
+        super(UserProfileForm, self).__init__(*args, **kwargs)
+        self.fields['picture'].label = ''
 
 
 class CategoryForm(forms.ModelForm):

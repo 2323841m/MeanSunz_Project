@@ -94,7 +94,6 @@ def update_votes(sender, instance, created, **kwargs):
 
         # update user rating
         user = UserProfile.objects.get(user=instance.user)
-
         user_upvotes = Post.objects.filter(user=post.user).aggregate(Sum('upvotes'))['upvotes__sum']
         user_downvotes = Post.objects.filter(user=post.user).aggregate(Sum('downvotes'))['downvotes__sum']
         user.rating_post = user_upvotes - user_downvotes
@@ -110,8 +109,13 @@ def update_votes_comments(sender, instance, created, **kwargs):
         comment.upvotes = comment.votecomment_set.filter(value=1).count()
         comment.downvotes = comment.votecomment_set.filter(value=-1).count()
         comment.save()
-        # user = UserProfile.objects.get(pk=instance.user.profile)
-        # user.rating_comment = comment.upvotes - comment.downvotes
+
+        # update user rating
+        user = UserProfile.objects.get(user=instance.user)
+        user_upvotes = Comment.objects.filter(user=comment.user).aggregate(Sum('upvotes'))['upvotes__sum']
+        user_downvotes = Comment.objects.filter(user=comment.user).aggregate(Sum('downvotes'))['downvotes__sum']
+        user.rating_comment = user_upvotes - user_downvotes
+        user.save()
 
 
 post_save.connect(update_votes_comments, sender=VoteComment)

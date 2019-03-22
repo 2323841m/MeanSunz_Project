@@ -30,6 +30,12 @@ class UserUpdateForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={'class': 'textForm', 'placeholder': 'EMAIL'}),
         }
 
+    # Hide Form Labels
+    def __init__(self, *args, **kwargs):
+        super(UserUpdateForm, self).__init__(*args, **kwargs)
+        self.fields['password'].label = ''
+        self.fields['email'].label = ''
+
 
 class UserProfileForm(forms.ModelForm):
     class Meta:

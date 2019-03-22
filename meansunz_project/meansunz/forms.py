@@ -61,6 +61,16 @@ class PostForm(forms.ModelForm):
 
         exclude = ('category', 'user')
 
+    def clean_picture(self):
+        image_file = self.cleaned_data.get('picture')
+        accepted_files = ['png', 'gif', 'jpg', 'jpeg', 'bmp', 'wav', 'mp3']
+        if image_file:
+            if not image_file.name[-3:] in accepted_files:
+                raise forms.ValidationError("Only {} files".format(accepted_files))
+            if image_file.size > 4194304:
+                raise forms.ValidationError("Only files up to 4MB")
+        return image_file
+
 
 class CommentForm(forms.ModelForm):
     content = forms.CharField(max_length=1026, help_text="Text")

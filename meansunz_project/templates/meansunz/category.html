@@ -27,7 +27,6 @@
 
                         {% if post.picture %}
                             <div>
-                                {# used object tag to render video TODO: possibly use image and video tags #}
                                 <object width="355" height="200" data="{{ MEDIA_URL }}{{ post.picture }}"></object>
                             </div>
                         {% endif %}

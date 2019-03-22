@@ -1,5 +1,6 @@
 import datetime
 
+from django.forms import forms
 from django.shortcuts import render
 from meansunz.models import Category, Post, UserProfile, User, Comment, VotePost, VoteComment
 from meansunz.forms import CategoryForm, PostForm, UserForm, UserProfileForm, CommentForm, UserUpdateForm
@@ -81,13 +82,12 @@ def create_post(request, category_name_slug):
 
     form = PostForm()
     if request.method == 'POST':
-        form = PostForm(data=request.POST)
-
+        form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             if category:
                 post = form.save(commit=False)
                 if 'picture' in request.FILES:
-                    post.picture = request.FILES['picture']
+                    post.picture = form.cleaned_data['picture']
                 post.category = category
                 post.user = user
                 post.views = 0
@@ -308,5 +308,6 @@ def user_profile(request):
         user_form = UserUpdateForm()
         profile_form = UserProfileForm()
 
-    context_dict = {'user': request.user, 'posts': posts, 'form': profile_form, 'user_form': user_form, 'profile_form': profile_form, }
+    context_dict = {'user': request.user, 'posts': posts, 'form': profile_form, 'user_form': user_form,
+                    'profile_form': profile_form, }
     return render(request, 'meansunz/user_profile.html', context_dict)

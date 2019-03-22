@@ -228,6 +228,11 @@ img
 	padding-top: 25px;
 }
 
+#user_form
+{
+    padding-right: -2px;
+}
+
 .postBody
 {
 	width: 1000px;
@@ -372,8 +377,9 @@ p
     font-size: 15px;
 	font-family: "Lato";
 	color: rgb(180, 180, 180);
-	text-transform: uppercase;
     border-collapse: collapse;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 #leaderBoardTable table
@@ -388,7 +394,16 @@ p
 {
     height: 30px;
     text-align: center;
+    text-transform: uppercase;
+    text-decoration: underline;
 }
+
+#leaderBoardTable td
+{
+    text-align: center;
+}
+
+/* End of Leaderboards styling */
 
 /* User Profile styling */
 .userProfile
@@ -489,3 +504,4 @@ button[type=switchBoard]:hover {
 }
 /* End of User Profile styling */
 
+#category_form

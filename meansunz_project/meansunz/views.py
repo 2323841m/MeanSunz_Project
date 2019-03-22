@@ -76,7 +76,11 @@ def create_post(request, category_name_slug):
 
     try:
         user = request.user
+<<<<<<< HEAD
+    except UserProfile.DoesNotExist:
+=======
     except User.DoesNotExist:
+>>>>>>> 2a82318dc9725e5d50640a6306ebfb85d0e710e6
         return HttpResponse(
             "No user")  # TODO: Force creation of UserProfile whenever a new user object is created
 

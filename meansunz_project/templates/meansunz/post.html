@@ -14,87 +14,94 @@
 {% endblock %}
 
 {% block body_block %}
-    {% if post %}
-        <h2>{{ post.title }}</h2>
-        {% if post.picture %}
-            <p><object width="355" height="200" data="{{ MEDIA_URL }}{{ post.picture }}"></object></p>
+	<div class="contentBody">
+		{% if post %}
+			<h2>{{ post.title }}</h2>
+			<div style="display:flex ;flex-direction: row; margin-bottom:10px;" >
+			{% if post.picture %}
+				<div>
+					<p><object width="355" height="200" data="{{ MEDIA_URL }}{{ post.picture }}"></object></p>
+				</div>
+				{% endif %}
+				<div>
+					<form action="{% url 'vote' category.slug post.id post.slug %}" method="post">
+						{% csrf_token %}
+						<button type="submit" name="upvote_post" value="upvote_post">+</button>
+						<!-- next points to site to be redirected back to after vote -->
+						<input type="hidden" name="next" value="{{ request.path }}">
+					</form>
+					<p>{{ post.likes }}</p>
+					<form action="{% url 'vote' category.slug post.id post.slug %}" method="post">
+						{% csrf_token %}
+						<button type="submit" name="downvote_post" value="downvote_post">-</button>
+						<!-- next points to site to be redirected back to after vote -->
+						<input type="hidden" name="next" value="{{ request.path }}">
+					</form>
+				</div>
+				<div>
+					<p>{{ post.description }}</p>
+				</div>
+				<!-- Post Voting -->
+			</div>
 
-        {% endif %}
-        <p>{{ post.description }}</p>
+			<p></p>
 
-        <!-- Post Voting -->
-        <form action="{% url 'vote' category.slug post.id post.slug %}" method="post">
-            {% csrf_token %}
-            <button type="submit" name="upvote_post" value="upvote_post">+</button>
-            <!-- next points to site to be redirected back to after vote -->
-            <input type="hidden" name="next" value="{{ request.path }}">
-        </form>
-        {{ post.likes }}
-        <form action="{% url 'vote' category.slug post.id post.slug %}" method="post">
-            {% csrf_token %}
-            <button type="submit" name="downvote_post" value="downvote_post">-</button>
-            <!-- next points to site to be redirected back to after vote -->
-            <input type="hidden" name="next" value="{{ request.path }}">
-        </form>
+			<div class="separator"></div>
 
-        <p></p>
+			{% if user.is_authenticated %}
+				<!-- Comment Form -->
+				<p>Comment as {{ user.username }}</p>
 
-        <div class="separator"></div>
+				<form id="comment_form" method="post"
+					  action="/category/{{ category.slug }}/{{ post.id }}/{{ post.slug }}/"
+					  enctype="multipart/form-data">
 
-        {% if user.is_authenticated %}
-            <!-- Comment Form -->
-            <p>Comment as {{ user.username }}</p>
+					{% csrf_token %}
+					{% for hidden in form.hidden_fields %}
+						{{ hidden }}
+					{% endfor %}
+					{% for field in form.visible_fields %}
+						{{ field.errors }}
+						{{ field.help_text }}
+						{{ field }}
+						<br/>
+					{% endfor %}
+					<input type="submit" name="submit" value="Comment"/>
+				</form>
+				<p></p>
 
-            <form id="comment_form" method="post"
-                  action="/category/{{ category.slug }}/{{ post.id }}/{{ post.slug }}/"
-                  enctype="multipart/form-data">
-
-                {% csrf_token %}
-                {% for hidden in form.hidden_fields %}
-                    {{ hidden }}
-                {% endfor %}
-                {% for field in form.visible_fields %}
-                    {{ field.errors }}
-                    {{ field.help_text }}
-                    {{ field }}
-                    <br/>
-                {% endfor %}
-                <input type="submit" name="submit" value="Comment"/>
-            </form>
-            <p></p>
-
-            <div class="separator"></div>
-        {% endif %}
+				<div class="separator"></div>
+			{% endif %}
 
 
-        <!-- Render Comments -->
-        {% if comments %}
-            {% for comment in comments %}
-                <!-- Comment Voting -->
-                <p>
-                <form action="{% url 'vote_comment' category.slug post.id post.slug %}" method="post">
-                    &lt;{{ comment.user }}&gt;
-                    {% csrf_token %}
-                    <button type="submit" name="upvote_comment" value="upvote_comment">+</button>
-                    <!-- Store comment id to later identify upvoted comment -->
-                    <input type="hidden" name="id" value="{{ comment.id }}">
-                </form>
-                {{ comment.likes }}
-                <form action="{% url 'vote_comment' category.slug post.id post.slug %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit" name="downvote_comment" value="downvote_comment">-</button>
-                    <input type="hidden" name="id" value="{{ comment.id }}">
-                </form>
-                </p>
-                <p>{{ comment.content }}</p>
-                {% if comment.picture %}
-                    <p><object width="355" height="200" data="{{ MEDIA_URL }}{{ comment.picture }}"></object></p>
-                {% endif %}
-            {% endfor %}
-        {% endif %}
-    {% else %}
-        Post does not exist
-    {% endif %}
-
+			<!-- Render Comments -->
+			{% if comments %}
+				{% for comment in comments %}
+					<!-- Comment Voting -->
+					<p>
+					<form action="{% url 'vote_comment' category.slug post.id post.slug %}" method="post">
+						&lt;{{ comment.user }}&gt;
+						{% csrf_token %}
+						<button type="submit" name="upvote_comment" value="upvote_comment">+</button>
+						<!-- Store comment id to later identify upvoted comment -->
+						<input type="hidden" name="id" value="{{ comment.id }}">
+					</form>
+					{{ comment.likes }}
+					<form action="{% url 'vote_comment' category.slug post.id post.slug %}" method="post">
+						{% csrf_token %}
+						<button type="submit" name="downvote_comment" value="downvote_comment">-</button>
+						<input type="hidden" name="id" value="{{ comment.id }}">
+					</form>
+					</p>
+					<p>{{ comment.content }}</p>
+					{% if comment.picture %}
+						<p><object width="355" height="200" data="{{ MEDIA_URL }}{{ comment.picture }}"></object></p>
+					{% endif %}
+				{% endfor %}
+			{% endif %}
+		{% else %}
+			Post does not exist
+		{% endif %}
+	</div>
 
 {% endblock %}

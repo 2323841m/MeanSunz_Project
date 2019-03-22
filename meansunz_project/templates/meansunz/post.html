@@ -13,7 +13,7 @@
     {% if post %}
         <h2>{{ post.title }}</h2>
         {% if post.picture %}
-            <div>
+            <div style="display:flex ;flex-direction: row; margin-bottom:10px;" >
                 <object width="355" height="200" data="{{ MEDIA_URL }}{{ post.picture }}"></object>
             </div>
 
@@ -29,18 +29,18 @@
             <input type="hidden" name="next" value="{{ request.path }}">
         </form>
 
+				<form id="comment_form" method="post"
+					  action="/category/{{ category.slug }}/{{ post.id }}/{{ post.slug }}/"
+					  enctype="multipart/form-data">
 
-        <div class="separator"></div>
 
         {# New comment form #}
         {% if user.is_authenticated %}
 
             <div>Comment as {{ user.username }}</div>
 
-            <form id="comment_form" method="post"
-                  action="/category/{{ category.slug }}/{{ post.id }}/{{ post.slug }}/"
-                  enctype="multipart/form-data">
-
+				<div class="separator"></div>
+			{% endif %}
                 {% csrf_token %}
                 {% for hidden in form.hidden_fields %}
                     {{ hidden }}
@@ -91,5 +91,34 @@
         Post does not exist
     {% endif %}
 
+			<!-- Render Comments -->
+			{% if comments %}
+				{% for comment in comments %}
+					<!-- Comment Voting -->
+					<p>
+					<form action="{% url 'vote_comment' category.slug post.id post.slug %}" method="post">
+						&lt;{{ comment.user }}&gt;
+						{% csrf_token %}
+						<button type="submit" name="upvote_comment" value="upvote_comment">+</button>
+						<!-- Store comment id to later identify upvoted comment -->
+						<input type="hidden" name="id" value="{{ comment.id }}">
+					</form>
+					{{ comment.likes }}
+					<form action="{% url 'vote_comment' category.slug post.id post.slug %}" method="post">
+						{% csrf_token %}
+						<button type="submit" name="downvote_comment" value="downvote_comment">-</button>
+						<input type="hidden" name="id" value="{{ comment.id }}">
+					</form>
+					</p>
+					<p>{{ comment.content }}</p>
+					{% if comment.picture %}
+						<p><object width="355" height="200" data="{{ MEDIA_URL }}{{ comment.picture }}"></object></p>
+					{% endif %}
+				{% endfor %}
+			{% endif %}
+		{% else %}
+			Post does not exist
+		{% endif %}
+	</div>
 
 {% endblock %}

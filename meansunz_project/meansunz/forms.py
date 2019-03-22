@@ -8,9 +8,9 @@ class UserForm(forms.ModelForm):
         model = User
         fields = ('username', 'email', 'password')
         widgets = {
-            'password': forms.PasswordInput(attrs={'class': 'passwordclass'}),
-            'username': forms.TextInput(attrs={'class': 'usernameclass'}),
-            'email': forms.EmailInput(attrs={'class': 'usernameclass'}),
+            'password': forms.PasswordInput(attrs={'class': 'textForm', 'placeholder': 'PASSWORD'}),
+            'username': forms.TextInput(attrs={'class': 'textForm', 'placeholder': 'USERNAME'}),
+            'email': forms.EmailInput(attrs={'class': 'textForm', 'placeholder': 'EMAIL'}),
         }
 
 
@@ -19,7 +19,7 @@ class UserProfileForm(forms.ModelForm):
         model = UserProfile
         fields = ('picture',)
         widgets = {
-            'picture': forms.FileInput(attrs={'class': 'fileclass'}),
+            'picture': forms.FileInput(attrs={}),
         }
 
 

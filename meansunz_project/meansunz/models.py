@@ -10,7 +10,7 @@ from django.db.models.signals import post_save
 
 class UserProfile(models.Model):
     # This line is required. Link UserProfile to a User model instance.
-    user = models.OneToOneField(User, related_name='profile')
+    user = models.OneToOneField(User, related_name='profile', on_delete=models.CASCADE,)
     picture = models.ImageField(upload_to='profile_image', blank=True)
     rating_comment = models.IntegerField(default=0)
     rating_post = models.IntegerField(default=0)
@@ -36,7 +36,7 @@ class Category(models.Model):
 
 
 class Post(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,)
     category = models.ForeignKey(Category)
     title = models.CharField(max_length=64)
     description = models.CharField(max_length=256, blank=True)
@@ -55,8 +55,8 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
-    post = models.ForeignKey(Post)
-    user = models.ForeignKey(User)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE,)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,)
     content = models.CharField(max_length=1026, blank=False)
     picture = models.ImageField(upload_to='comment_image', blank=True)
     upvotes = models.IntegerField(default=0)
@@ -67,8 +67,8 @@ class Comment(models.Model):
 
 
 class VotePost(models.Model):
-    user = models.ForeignKey(User)
-    post = models.ForeignKey(Post)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE,)
     value = models.IntegerField(default=0)
 
     class Meta:
@@ -76,8 +76,8 @@ class VotePost(models.Model):
 
 
 class VoteComment(models.Model):
-    user = models.ForeignKey(User)
-    comment = models.ForeignKey(Comment)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,)
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE,)
     value = models.IntegerField(default=0)
 
     class Meta:

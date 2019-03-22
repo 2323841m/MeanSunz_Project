@@ -1,5 +1,5 @@
 # MeanSunz
-Gamified Bulletin Board
+A gamified bulletin board web application developed in the django framework
 
 ## Getting Started
 
@@ -14,5 +14,9 @@ Pillow
 ## Built With
 
 * [Django](https://www.djangoproject.com/) - The web framework used
-* [JQuery](https://jquery.com/) - Script
-* [Waypoints](http://imakewebthings.com/waypoints/) - Used to trigger jsavascript
+* [JQuery](https://jquery.com/) - JavaScript library
+* [Waypoints](http://imakewebthings.com/waypoints/) - Used to trigger fuctions on scroll
+
+## Authors
+
+See the list of [contributors](https://github.com/2323841m/MeanSunz_Project/contributors) who participated in this project.

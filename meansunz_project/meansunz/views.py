@@ -44,7 +44,7 @@ class show_category(ListView):
 
     # Amount of posts to render at a time
 
-    paginate_by = 1
+    paginate_by = 10
 
     context_object_name = 'posts'
 

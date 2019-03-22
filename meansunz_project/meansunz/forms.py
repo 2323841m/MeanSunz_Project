@@ -14,6 +14,16 @@ class UserForm(forms.ModelForm):
         }
 
 
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('password', 'email')
+        widgets = {
+            'password': forms.PasswordInput(attrs={'class': 'textForm', 'placeholder': 'PASSWORD'}),
+            'email': forms.EmailInput(attrs={'class': 'textForm', 'placeholder': 'EMAIL'}),
+        }
+
+
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
@@ -60,4 +70,3 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ('content', 'picture')
-

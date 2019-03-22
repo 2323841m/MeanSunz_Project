@@ -1,5 +1,5 @@
 from django.contrib import admin
-from meansunz.models import Category, Post, UserProfile, Comment
+from meansunz.models import Category, Post, UserProfile, Comment, VotePost, VoteComment
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -7,7 +7,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('title', 'category', 'description', 'likes',)
+    list_display = ('title', 'category', 'description', 'upvotes', 'downvotes',)
     prepopulated_fields = {'slug': ('title',)}
 
 
@@ -15,7 +15,21 @@ class CommentAdmin(admin.ModelAdmin):
     list_display = ('content', 'post', 'user')
 
 
-admin.site.register(UserProfile)
+class UserProfileAdmin(admin.ModelAdmin):
+    list_display = ('user',)
+
+
+class VotePostAdmin(admin.ModelAdmin):
+    list_display = ('user', 'post', 'value')
+
+
+class VoteCommentAdmin(admin.ModelAdmin):
+    list_display = ('user', 'comment', 'value')
+
+
+admin.site.register(VoteComment, VoteCommentAdmin)
+admin.site.register(VotePost, VotePostAdmin)
+admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Post, PostAdmin)
 admin.site.register(Comment, CommentAdmin)

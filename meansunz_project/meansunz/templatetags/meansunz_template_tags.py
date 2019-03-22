@@ -1,10 +1,19 @@
 from django import template
-from meansunz.models import Category
 
 register = template.Library()
 
+@register.filter
+def sub(val1, val2):
+    return val1 - val2
 
-@register.inclusion_tag('rango/cats.html')
-def get_category_list(cat=None):
-    return {'cats': Category.objects.all(),
-            'act_cat': cat}
+@register.simple_tag
+def get_user_rating(profile=None):
+    return profile.rating_comment + profile.rating_post
+
+@register.simple_tag
+def get_post_votes(post=None):
+    return post.upvotes - post.downvotes
+
+@register.simple_tag
+def get_comment_votes(comment=None):
+    return comment.upvotes - comment.downvotes

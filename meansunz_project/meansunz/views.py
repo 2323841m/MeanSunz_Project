@@ -1,38 +1,48 @@
+import datetime
+
 from django.shortcuts import render
-from meansunz.models import Category, Post, UserProfile, User, Comment
+from meansunz.models import Category, Post, UserProfile, User, Comment, VotePost, VoteComment
 from meansunz.forms import CategoryForm, PostForm, UserForm, UserProfileForm, CommentForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic.list import ListView
 
 
 def index(request):
-    post_list = Post.objects.order_by('-likes')[:25]
-    context_dict = {'posts': post_list, }
+    if request.GET.get('sort'):
+        sort = request.GET.get('sort')
+        post_list = Post.objects.extra(select={'votes': 'upvotes - downvotes'}, order_by=('-'+sort,))[:25]
+    else:
+        post_list = Post.objects.extra(select={'votes': 'upvotes - downvotes'}, order_by=('-votes',))[:25]
+    context_dict = {'posts': post_list, 'sort': request.GET.get('sort')}
 
     response = render(request, 'meansunz/index.html', context_dict)
     return response
 
 
 class show_category(ListView):
-
     model = Post
     # Amount of posts to render at a time
-    paginate_by = 10
+    paginate_by = 15
     context_object_name = 'posts'
     template_name = 'meansunz/category.html'
 
     # Query database
     def get_queryset(self, **kwargs):
         category = Category.objects.filter(slug=self.kwargs['category_name_slug'])
-        return Post.objects.filter(category=category).order_by('-likes')
+        if self.request.GET.get('sort'):
+            sort = self.request.GET.get('sort')
+            posts = Post.objects.filter(category=category).extra(select={'votes': 'upvotes - downvotes'}, order_by=('-'+sort,))
+        else:
+            posts = Post.objects.filter(category=category).extra(select={'votes': 'upvotes - downvotes'}, order_by=('-votes',))
+        return posts
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['sort'] = self.request.GET.get('sort')
         context['category'] = self.kwargs['category_name_slug']
         return context
 
@@ -62,10 +72,10 @@ def create_post(request, category_name_slug):
         category = None
 
     try:
-        user = request.user.profile
-    except UserProfile.DoesNotExist:
+        user = request.user
+    except User.DoesNotExist:
         return HttpResponse(
-            "User has no profile")  # TODO: Force creation of UserProfile whenever a new user object is created
+            "No user")  # TODO: Force creation of UserProfile whenever a new user object is created
 
     form = PostForm()
     if request.method == 'POST':
@@ -79,8 +89,9 @@ def create_post(request, category_name_slug):
                 post.category = category
                 post.user = user
                 post.views = 0
+                post.date = datetime.datetime.now()
                 post.save()
-                return redirect(show_category, category_name_slug)
+                return redirect("show_category", category_name_slug)
         else:
             print(form.errors)
 
@@ -93,7 +104,7 @@ def show_post(request, category_name_slug, post_id, post_title_slug):
     try:
         post = Post.objects.get(id=post_id)
         category = Category.objects.get(slug=category_name_slug)
-        comments = Comment.objects.filter(post=post).order_by('-likes')
+        comments = Comment.objects.filter(post=post).order_by('-upvotes')
 
     except Post.DoesNotExist:
         post = None
@@ -132,32 +143,42 @@ def show_post(request, category_name_slug, post_id, post_title_slug):
 @login_required
 def vote_comment(request, category_name_slug, post_id, post_title_slug):
     if request.method == 'POST':
-        if 'upvote_comment' in request.POST:
-            comment = Comment.objects.get(id=request.POST.get('id', None))
-            comment.likes += 1
-            comment.save()
-
-        elif 'downvote_comment' in request.POST:
-            comment = Comment.objects.get(id=request.POST.get('id', None))
-            comment.likes -= 1
-            comment.save()
+        if 'vote_comment' in request.POST:
+            # if 'vote' in request.POST:
+            value = request.POST.get('vote_comment', '')
+            try:
+                comment = Comment.objects.get(id=request.POST.get('id'))
+                vote = VoteComment.objects.get(user=request.user, comment=comment)
+                # if user has already voted this way
+                if int(vote.value) == int(value):
+                    # cancel vote
+                    vote.value = 0
+                else:
+                    vote.value = value
+                vote.save()
+            except VoteComment.DoesNotExist:
+                vote = VoteComment.objects.create(user=request.user, comment=comment, value=value)
+                vote.save()
 
         return redirect(show_post, category_name_slug, post_id, post_title_slug)
 
 
-# TODO: implement voting system using script
 @login_required
 def vote(request, category_name_slug, post_id, post_title_slug):
     if request.method == 'POST':
-        if 'upvote_post' in request.POST:
+        # if 'vote' in request.POST:
+        value = request.POST.get('vote', '')
+        try:
             post = Post.objects.get(id=post_id)
-            post.likes += 1
-            post.save()
-
-        elif 'downvote_post' in request.POST:
-            post = Post.objects.get(id=post_id)
-            post.likes -= 1
-            post.save()
+            vote = VotePost.objects.get(user=request.user, post=post)
+            if int(vote.value) == int(value):
+                vote.value = 0
+            else:
+                vote.value = value
+            vote.save()
+        except VotePost.DoesNotExist:
+            vote = VotePost.objects.create(user=request.user, post=post, value=value)
+            vote.save()
 
         return redirect(request.POST.get('next', '/'), category_name_slug, post_id, post_title_slug)
 
@@ -169,9 +190,9 @@ def about(request):
 
 
 def leaderboards(request):
-
-
     context_dict = {}
+    user_ranking = UserProfile.objects.extra(select={'votes': 'rating_comment + rating_post'}, order_by=('-votes',))[:15]
+    context_dict['profiles'] = user_ranking
     response = render(request, 'meansunz/leaderboards.html', context_dict)
     return response
 
@@ -189,7 +210,7 @@ def user_login(request):
                 login(request, user)
                 return HttpResponseRedirect(reverse('index'))
             else:
-                return HttpResponse("Your Rango account is disabled.")
+                return HttpResponse("Your account is disabled.")
         else:
             # Bad login details
             print("Invalid login details {0}, {1}".format(username, password))

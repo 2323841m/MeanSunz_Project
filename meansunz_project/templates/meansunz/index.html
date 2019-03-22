@@ -1,20 +1,12 @@
 {% extends 'meansunz/base.html' %}
 {% load staticfiles %}
+{% load meansunz_template_tags %}
 
 {% block title_block %}
     Index
 {% endblock %}
 
 {% block head_block %}
-    <style>
-        p {
-            color: white;
-        }
-
-        form {
-            display: inline-block;
-        }
-    </style>
 {% endblock %}
 
 {% block body_block %}
@@ -23,35 +15,35 @@
         {% if posts %}
 
             {% for post in posts %}
-				<a href="{% url 'show_post' post.category.slug post.id post.slug %}">
-					<div class="post">
-						<div class="voteBar">
-							<div class="upVote">
-								<form action="{% url 'vote' post.category.slug post.id post.slug %}" method="post">
-									{% csrf_token %}
-									<button class="voteButton" type="submit" name="upvote_post" value="upvote_post">+</button>
-									<!-- next points to site to be redirected back to after vote -->
-									<input type="hidden" name="next" value="{{ request.path }}">
-								</form>
-							</div>
-							<div class="downVote">
-								<form action="{% url 'vote' post.category.slug post.id post.slug %}" method="post">
-									{% csrf_token %}
-									<button class="voteButton" type="submit" name="downvote_post" value="downvote_post">-</button>
-									<!-- next points to site to be redirected back to after vote -->
-									<input type="hidden" name="next" value="{{ request.path }}">
-								</form>
-							</div>
-							<div>
-								<h6>{{ post.likes }}</h6>
-							</div>
-						</div>
-						<div class="postContent">
-							<div>
-								<h3>
-									{{ post.title }}
-								</h3>
-							</div>
+
+                <div class="post">
+                    <div class="voteBar">
+                        <div class="upVote">
+                            <form action="{% url 'vote' post.category.slug post.id post.slug %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" name="vote" value="1">+</button>
+                                <!-- next points to site to be redirected back to after vote -->
+                                <input type="hidden" name="next" value="{{ request.path }}">
+                            </form>
+                        </div>
+                        <div class="downVote">
+                            <form action="{% url 'vote' post.category.slug post.id post.slug %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" name="vote" value="-1">-</button>
+                                <!-- next points to site to be redirected back to after vote -->
+                                <input type="hidden" name="next" value="{{ request.path }}">
+                            </form>
+                        </div>
+                        <div>
+                            <h6>{% get_post_votes post %}</h6>
+                        </div>
+                    </div>
+                    <div class="postContent">
+                        <div>
+                            <h4>
+                                <a href="{% url 'show_post' post.category.slug post.id post.slug %}">{{ post.title }}</a>
+                            </h4>
+                      </div>
 
 							<div>
 								<h4>{{ post.user }}</h4>

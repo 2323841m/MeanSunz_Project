@@ -4,15 +4,17 @@ from django.contrib.auth.models import User
 
 
 class UserForm(forms.ModelForm):
+    # username = forms.CharField(label='')
     class Meta:
         model = User
         fields = ('username', 'email', 'password')
         widgets = {
-            'password': forms.PasswordInput(attrs={'class': 'textForm', 'placeholder': 'PASSWORD'}),
+            'password': forms.PasswordInput(attrs={'class': 'textForm', 'placeholder': 'PASSWORD'}, ),
             'username': forms.TextInput(attrs={'class': 'textForm', 'placeholder': 'USERNAME'}),
             'email': forms.EmailInput(attrs={'class': 'textForm', 'placeholder': 'EMAIL'}),
         }
 
+    # Hide Form Labels
     def __init__(self, *args, **kwargs):
         super(UserForm, self).__init__(*args, **kwargs)
         self.fields['username'].label = ''
@@ -37,10 +39,10 @@ class UserProfileForm(forms.ModelForm):
             'picture': forms.FileInput(attrs={}),
         }
 
-        # Hide Form Labels
-        def __init__(self, *args, **kwargs):
-            super(UserProfileForm, self).__init__(*args, **kwargs)
-            self.fields['picture'].label = ''
+    # Hide Form Labels
+    def __init__(self, *args, **kwargs):
+        super(UserProfileForm, self).__init__(*args, **kwargs)
+        self.fields['picture'].label = ''
 
 class CategoryForm(forms.ModelForm):
     name = forms.CharField(max_length=Category.max_length, help_text="Please enter the category name.")

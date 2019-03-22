@@ -11,6 +11,7 @@
 		{% if registered %}
 			Thank you for registering!
 			<div style="font-size:18px; color: blue;"><a href="{% url 'login' %}">Please login.</a></div><br />
+
 		{% else %}
 
 			<form id="user_form" method="post" action="{% url 'register' %}" enctype="multipart/form-data">

@@ -3,13 +3,16 @@ A gamified bulletin board web application developed in the django framework
 
 ## Getting Started
 
-Clone the repository, migrate the database and run the server.
+* Clone the repository
+* Install requirements through pip 
+* Migrate the database  
+* Run the server
 
 ### Prerequisites
 
-Python
-Django
-Pillow
+* Python
+* Django
+* Pillow
 
 ## Built With
 

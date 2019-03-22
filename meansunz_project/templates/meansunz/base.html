@@ -28,7 +28,7 @@
         <div class="header_title"><a href=" {% url 'index' %}"><h1>meansunz</h1></a></div>
         <div class="maxFlex"></div>
 
-        <!-- If logged in show user profile else show login/register buttons -->
+        {# If logged in show user profile else show login/register buttons #}
         {% if user.is_authenticated %}
             <div class="userProfile">
                 <div id="userProfileName"><a href="{% url 'user_profile' %}">{{ user.username }}</a></div>
@@ -52,14 +52,15 @@
         <div class="navBar">
             <div class="navButton"><a href="{% url 'about' %}">About</a></div>
             <div class="navButton"><a href="{% url 'leaderboards' %}">Leaderboards</a></div>
-            <!-- If there are categories render them all -->
+
+            {# If there are categories render them all #}
             {% if categories %}
                 {% for category in categories %}
                     <div class="navButton"><a href="{% url 'show_category' category.slug %}">{{ category.name }}</a>
                     </div>
                 {% endfor %}
             {% endif %}
-            <!-- render create cat option if user is superuser -->
+            {# render create cat option if user is superuser #}
             {% if user.is_superuser %}
                 <div class="navButton"><a href="{% url 'add_category' %}">Add Category</a>
                 </div>
@@ -90,9 +91,8 @@
 </div>
 
 <div>
-    {% block body_block %} Body Goes Here {% endblock %}
+    {% block body_block %} {# Body Goes Here #} {% endblock %}
 </div>
 
-{% block js-foot %} Javascript Footer {% endblock %}
+{% block js-foot %} {# Javascript Footer #} {% endblock %}
 </body>
-</html>

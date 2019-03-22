@@ -11,31 +11,62 @@
 
 {% block body_block %}
     {% if post %}
-        <h2>{{ post.title }}</h2>
-        {% if post.picture %}
-            <div>
-                <object width="355" height="200" data="{{ MEDIA_URL }}{{ post.picture }}"></object>
-            </div>
+	<div class="contentBody">
+        <div class="post">
+							<div class="voteBar">
+								<div class="upVote">
+									<form action="{% url 'vote' post.category.slug post.id post.slug %}" method="post">
+										{% csrf_token %}
+										<button style="background-color: #4CAF50;" class="voteButton" type="submit" name="vote" value="1">+</button>
+										<!-- next points to site to be redirected back to after vote -->
+										<input type="hidden" name="next" value="{{ request.path }}">
+									</form>
+								</div>
+								<div class="downVote">
+									<form action="{% url 'vote' post.category.slug post.id post.slug %}" method="post">
+										{% csrf_token %}
+										<button style="background-color: red;" class="voteButton" type="submit" name="vote" value="-1">-</button>
+										<!-- next points to site to be redirected back to after vote -->
+										<input type="hidden" name="next" value="{{ request.path }}">
+									</form>
+								</div>
+							</div>
+							<div class="postContent">
+								<div>
+									<h4>
+										<a href="{% url 'show_post' post.category.slug post.id post.slug %}">{{ post.title }}</a>
+									</h4>
+								</div>
 
-        {% endif %}
-        <div>{{ post.description }}</div>
+								<div>
+									<h4>{{ post.user }}</h4>
+								</div>
 
-        {# Post voting #}
-        <form action="{% url 'vote' category.slug post.id post.slug %}" method="post">
-            {% csrf_token %}
-            <button type="submit" name="vote" value="1">+</button>
-            {% get_post_votes post %}
-            <button type="submit" name="vote" value="-1">-</button>
-            <input type="hidden" name="next" value="{{ request.path }}">
-        </form>
-
+								<div class="commentsBar">
+									<h6>{% get_post_votes post %}  RATING</h6>
+								</div>
+							</div>
+                    </div>
+		
+		<div class="postDesc">
+		{% if post.picture %}
+			<div class="postMedia" style="width:200px;height:200px;">
+								
+									<p style="margin-left: 0;"><img src="{{ MEDIA_URL }}{{ post.picture }}" alt="" style="width:100%;height:100%;"></p>
+								
+			</div>
+			{% endif %}
+			<div>
+			<p style="	color: #222125ff;">{{ post.description }}</p>
+			</div>
+		</div>
 
         <div class="separator"></div>
 
         {# New comment form #}
         {% if user.is_authenticated %}
 
-            <div>Comment as {{ user.username }}</div>
+            <div><p>Comment as {{ user.username }}</p></div>
 
             <form id="comment_form" method="post"
                   action="/category/{{ category.slug }}/{{ post.id }}/{{ post.slug }}/"
@@ -60,36 +91,54 @@
         {# Render Comments #}
         {% if comments %}
             {% for comment in comments %}
-                {# Comment Voting #}
-                <div>
-                    <form action="{% url 'vote_comment' category.slug post.id post.slug %}" method="post">
-                        &lt;{{ comment.user }}&gt;
 
-                        {% csrf_token %}
+                <div class="post">
+                    <div class="voteBar">
+								<div>
+									<form action="{% url 'vote_comment' category.slug post.id post.slug %}" method="post">
 
-                        <button type="submit" name="vote_comment" value="1">+</button>
-                        {% get_comment_votes comment %}
-                        <button type="submit" name="vote_comment" value="-1">-</button>
+										{% csrf_token %}
 
-                        {# comment id to later identify comment upvoted #}
-                        <input type="hidden" name="id" value="{{ comment.id }}">
-                    </form>
-                </div>
+										<button style="background-color: #4CAF50;" class="voteButton" type="submit" name="vote_comment" value="1">+</button>
 
-                <div>{{ comment.content }}</div>
+										<button style="background-color: red;" class="voteButton" type="submit" name="vote_comment" value="-1">-</button>
 
-                {% if comment.picture %}
-                    <div>
-                        <object width="355" height="200" data="{{ MEDIA_URL }}{{ comment.picture }}"></object>
+										{# comment id to later identify comment upvoted #}
+										<input type="hidden" name="id" value="{{ comment.id }}">
+									</form>
+								</div>
+							</div>
+                    <div class="postContent">
+                        <div>
+                            <h4>
+                                <b>{{ comment.content }}</b>
+                            </h4>
+                        </div>
+
+                        <div>
+                            <h4>{{ comment.user }}</h4>
+                        </div>
+
+                        <div class="commentsBar">
+                            <h6>{% get_comment_votes comment %}  RATING</h6>
+                        </div>
                     </div>
-                {% endif %}
+                    <div class="postMedia">
+                        {% if comment.picture %}
+                            <p style="margin-left: 0;"><img src="{{ MEDIA_URL }}{{ comment.picture }}" alt="" style="width:100%;height:100%;"></p>
+                        {% endif %}
+                    </div>
+                </div>
+                    
+                
 
             {% endfor %}
         {% endif %}
 
     {% else %}
-        Post does not exist
+			Post does not exist
     {% endif %}
+	</div>
 
 
 {% endblock %}

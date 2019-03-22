@@ -3,11 +3,6 @@
 {% load meansunz_template_tags %}
 
 {% block head_block %}
-    <style>
-        form {
-            display: inline-block;
-        }
-    </style>
 {% endblock %}
 
 {% block title_block %}
@@ -18,35 +13,29 @@
     {% if post %}
         <h2>{{ post.title }}</h2>
         {% if post.picture %}
-            <p>
+            <div>
                 <object width="355" height="200" data="{{ MEDIA_URL }}{{ post.picture }}"></object>
-            </p>
+            </div>
 
         {% endif %}
-        <p>{{ post.description }}</p>
+        <div>{{ post.description }}</div>
 
-        <!-- Post Voting -->
+        {# Post voting #}
         <form action="{% url 'vote' category.slug post.id post.slug %}" method="post">
             {% csrf_token %}
             <button type="submit" name="vote" value="1">+</button>
-            <!-- next points to site to be redirected back to after vote -->
-            <input type="hidden" name="next" value="{{ request.path }}">
-        </form>
-        {{ post.upvotes|sub:post.downvotes }}
-        <form action="{% url 'vote' category.slug post.id post.slug %}" method="post">
-            {% csrf_token %}
+            {% get_post_votes post %}
             <button type="submit" name="vote" value="-1">-</button>
-            <!-- next points to site to be redirected back to after vote -->
             <input type="hidden" name="next" value="{{ request.path }}">
         </form>
 
-        <p></p>
 
         <div class="separator"></div>
 
+        {# New comment form #}
         {% if user.is_authenticated %}
-            <!-- Comment Form -->
-            <p>Comment as {{ user.username }}</p>
+
+            <div>Comment as {{ user.username }}</div>
 
             <form id="comment_form" method="post"
                   action="/category/{{ category.slug }}/{{ post.id }}/{{ post.slug }}/"
@@ -60,43 +49,44 @@
                     {{ field.errors }}
                     {{ field.help_text }}
                     {{ field }}
-                    <br/>
                 {% endfor %}
                 <input type="submit" name="submit" value="Comment"/>
             </form>
-            <p></p>
 
             <div class="separator"></div>
         {% endif %}
 
 
-        <!-- Render Comments -->
+        {# Render Comments #}
         {% if comments %}
             {% for comment in comments %}
-                <!-- Comment Voting -->
-                <p>
-                <form action="{% url 'vote_comment' category.slug post.id post.slug %}" method="post">
-                    &lt;{{ comment.user }}&gt;
-                    {% csrf_token %}
-                    <button type="submit" name="vote_comment" value="1">+</button>
-                    <!-- Store comment id to later identify upvoted comment -->
-                    <input type="hidden" name="id" value="{{ comment.id }}">
-                </form>
-                {{ comment.upvotes|sub:comment.downvotes }}
-                <form action="{% url 'vote_comment' category.slug post.id post.slug %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit" name="vote_comment" value="-1">-</button>
-                    <input type="hidden" name="id" value="{{ comment.id }}">
-                </form>
-                </p>
-                <p>{{ comment.content }}</p>
+                {# Comment Voting #}
+                <div>
+                    <form action="{% url 'vote_comment' category.slug post.id post.slug %}" method="post">
+                        &lt;{{ comment.user }}&gt;
+
+                        {% csrf_token %}
+
+                        <button type="submit" name="vote_comment" value="1">+</button>
+                        {% get_comment_votes comment %}
+                        <button type="submit" name="vote_comment" value="-1">-</button>
+
+                        {# comment id to later identify comment upvoted #}
+                        <input type="hidden" name="id" value="{{ comment.id }}">
+                    </form>
+                </div>
+
+                <div>{{ comment.content }}</div>
+
                 {% if comment.picture %}
-                    <p>
+                    <div>
                         <object width="355" height="200" data="{{ MEDIA_URL }}{{ comment.picture }}"></object>
-                    </p>
+                    </div>
                 {% endif %}
+
             {% endfor %}
         {% endif %}
+
     {% else %}
         Post does not exist
     {% endif %}

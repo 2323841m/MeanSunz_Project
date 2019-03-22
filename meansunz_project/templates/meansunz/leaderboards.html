@@ -23,7 +23,7 @@
 				{% for profile in profiles %}
 				<tr>
 					<td> {{ profile.user.username }} </td>
-					<td> {{ profile.rating }} </td>
+					<td> {{ profile.rating_comment|add:profile.rating_post }} </td>
 				</tr>
 				{% endfor %}
 			</table>

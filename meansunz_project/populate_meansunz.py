@@ -1,6 +1,7 @@
 import datetime
 import os
 import random
+from django.utils import timezone
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'meansunz_project.settings')
 
@@ -20,13 +21,13 @@ def populate():
     # Create users
     user_dict = {
         "Iain": {"email": "Iain@meansunz.com",
-                 "password": "changeme"},
+                 "password": "p4ssword"},
         "Matthew": {"email": "Matthew@meansunz.com",
-                    "Password": "changeme"},
+                    "Password": "potato"},
         "Peter": {"email": "Peter@meansunz.com",
-                  "Password": "changeme"},
+                  "Password": "dogdog"},
         "Ewan": {"email": "Ewan@meansunz.com",
-                 "Password": "changeme"},
+                 "Password": "greenjacket"},
     }
     add_users(user_dict)
     add_superuser("admin", "admin@meansunz.com", "changeme")
@@ -41,14 +42,35 @@ def populate():
 
     gaming_posts = [
         {"title": "Games!",
-         "description": "",
+         "description": "Hearthstone hacks",
          "picture": "",
          "user": get_random_user()}
     ]
 
     film_posts = [
-        {"title": "Hello",
-         "description": "Testing",
+        {"title": "Godfather",
+         "description": "The best movie ever",
+         "picture": "",
+         "user": get_random_user()}
+    ]
+
+    music_posts = [
+        {"title": "Rex Orange County",
+         "description": "The best of the best",
+         "picture": "",
+         "user": get_random_user()}
+    ]
+
+    sport_posts = [
+        {"title": "Aberdeen FC",
+         "description": "Yes!",
+         "picture": "",
+         "user": get_random_user()}
+    ]
+
+    animation_posts = [
+        {"title": "walking the dog",
+         "description": "yoyo animation",
          "picture": "",
          "user": get_random_user()}
     ]
@@ -56,13 +78,13 @@ def populate():
     categories = {
         "Gaming": {"Posts": gaming_posts,
                    },
-        "Sport": {"Posts": "",
+        "Sport": {"Posts": sport_posts,
                   },
-        "Music": {"Posts": "",
+        "Music": {"Posts": music_posts,
                   },
         "Film": {"Posts": film_posts,
                  },
-        "Animation": {"Posts": "",
+        "Animation": {"Posts": animation_posts,
                       },
     }
 
@@ -104,7 +126,7 @@ def get_random_user():
 
 
 def add_post(cat, title, user, description="", picture=""):
-    date = datetime.datetime.now()
+    date = timezone.now()
     p = Post.objects.get_or_create(category=cat, title=title, date=date, user=user)[0]
     p.description = description
     p.picture = picture

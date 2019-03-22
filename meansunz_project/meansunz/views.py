@@ -191,7 +191,7 @@ def about(request):
 
 def leaderboards(request):
     context_dict = {}
-    user_ranking = UserProfile.objects.extra(select={'votes': 'rating_comment = rating_post'}, order_by=('votes',))[:15]
+    user_ranking = UserProfile.objects.extra(select={'votes': 'rating_comment + rating_post'}, order_by=('-votes',))[:15]
     context_dict['profiles'] = user_ranking
     response = render(request, 'meansunz/leaderboards.html', context_dict)
     return response

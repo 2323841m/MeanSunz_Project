@@ -15,6 +15,7 @@
         {% if posts %}
 
             {% for post in posts %}
+
                 <div class="post">
                     <div class="voteBar">
                         <div class="upVote">
@@ -42,27 +43,28 @@
                             <h4>
                                 <a href="{% url 'show_post' post.category.slug post.id post.slug %}">{{ post.title }}</a>
                             </h4>
-                        </div>
+                      </div>
 
-                        <div>
-                            <h4>{{ post.user }}</h4>
-                        </div>
+							<div>
+								<h4>{{ post.user }}</h4>
+							</div>
 
-                        <div class="commentsBar">
-                            <div>
-                                <h6>1233 Comments</h6>
-                            </div>
-                            <div>
-                                <h6>Report</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="postMedia">
-                        {% if post.picture %}
-                            <p><img src="{{ MEDIA_URL }}{{ post.picture }}" alt=""></p>
-                        {% endif %}
-                    </div>
-                </div>
+							<div class="commentsBar">
+								<div>
+									<h6>1233 Comments</h6>
+								</div>
+								<div>
+									<h6>Report</h6>
+								</div>
+							</div>
+						</div>
+						<div class="postMedia">
+							{% if post.picture %}
+								<p><img src="{{ MEDIA_URL }}{{ post.picture }}" alt="" style="width:100%;height:100%;"></p>
+							{% endif %}
+						</div>
+					</div>
+				</a>
             {% endfor %}
         {% else %}
             <h2 style="font-size: 30px"><strong>There are no posts present.</strong></h2>

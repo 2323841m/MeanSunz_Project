@@ -9,8 +9,8 @@
 	<div class="contentBody">
 		<h2>register</h2>
 		{% if registered %}
-			Thank you for registering!
-			<a href="{% url 'login' %}">Please login.</a><br />
+			<p>Thank you for registering!
+			<a href="{% url 'login' %}">Please login.</a></p><br />
 		{% else %}
 
 			<form id="user_form" method="post" action="{% url 'register' %}" enctype="multipart/form-data">

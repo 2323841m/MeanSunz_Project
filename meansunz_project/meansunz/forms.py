@@ -21,7 +21,6 @@ class UserForm(forms.ModelForm):
         self.fields['password'].label = ''
         self.fields['email'].label = ''
 
-
 class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
@@ -44,7 +43,6 @@ class UserProfileForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(UserProfileForm, self).__init__(*args, **kwargs)
         self.fields['picture'].label = ''
-
 
 class CategoryForm(forms.ModelForm):
     name = forms.CharField(max_length=Category.max_length, help_text="Please enter the category name.")

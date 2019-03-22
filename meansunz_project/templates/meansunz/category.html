@@ -7,58 +7,58 @@
 {% endblock %}
 
 {% block body_block %}
-	<div class="contentBody">
-		<div style="margin-bottom:25px;">
-			{% if user.is_authenticated %}
-				<a class="createPost" href="{% url 'create_post' category %}">Create Post</a>
-			{% endif %}
-    </div>
+    <div class="contentBody">
+        <div style="margin-bottom:25px;">
+            {% if user.is_authenticated %}
+                <a class="createPost" href="{% url 'create_post' category %}">Create Post</a>
+            {% endif %}
+        </div>
 
-    <div class="postBody">
-        {% if posts %}
+        <div class="postBody">
+            {% if posts %}
 
-            {% for post in posts %}
-                {# DO NOT RENAME THIS CLASS add another div inside if you need to #}
-                <div class="infinite-item">
+                {% for post in posts %}
+                    {# DO NOT RENAME THIS CLASS add another div inside if you need to #}
+                    <div class="infinite-item">
 
-                    <div>
-                        <a href="{% url 'show_post' post.category.slug post.id post.slug %}">{{ post.title|truncatechars:100 }}</a>
-                    </div>
-
-                    {% if post.picture %}
                         <div>
-                            {# used object tag to render video TODO: possibly use image and video tags #}
-                            <object width="355" height="200" data="{{ MEDIA_URL }}{{ post.picture }}"></object>
+                            <a href="{% url 'show_post' post.category.slug post.id post.slug %}">{{ post.title|truncatechars:100 }}</a>
                         </div>
-                    {% endif %}
 
-                    {# TODO: change voting to a script #}
-                    <form action="{% url 'vote' post.category.slug post.id post.slug %}" method="post">
-                        {% csrf_token %}
-                        <button type="submit" name="vote" value="1">+</button>
-                        {% get_post_votes post %}
-                        <button type="submit" name="vote" value="-1">-</button>
-                        {# next points to site to be redirected back to after vote #}
-                        <input type="hidden" name="next" value="{{ request.path }}">
-                    </form>
-                </div>
-            {% endfor %}
+                        {% if post.picture %}
+                            <div>
+                                {# used object tag to render video TODO: possibly use image and video tags #}
+                                <object width="355" height="200" data="{{ MEDIA_URL }}{{ post.picture }}"></object>
+                            </div>
+                        {% endif %}
 
-        {% else %}
-            <strong>There are no posts present.</strong>
+                        {# TODO: change voting to a script #}
+                        <form action="{% url 'vote' post.category.slug post.id post.slug %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" name="vote" value="1">+</button>
+                            {% get_post_votes post %}
+                            <button type="submit" name="vote" value="-1">-</button>
+                            {# next points to site to be redirected back to after vote #}
+                            <input type="hidden" name="next" value="{{ request.path }}">
+                        </form>
+                    </div>
+                {% endfor %}
+
+            {% else %}
+                <strong>There are no posts present.</strong>
+            {% endif %}
+        </div>
+
+
+        {# If there are more posts to render #}
+        {% if page_obj.has_next %}
+            <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}">More</a>
         {% endif %}
-    </div>
 
-
-
-    {# If there are more posts to render #}
-    {% if page_obj.has_next %}
-        <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}">More</a>
-    {% endif %}
-
-    {# What to show while loading more posts #}
-    <div class="load" style="display: none;">
-        Loading...
+        {# What to show while loading more posts #}
+        <div class="load" style="display: none;">
+            Loading...
+        </div>
     </div>
 
 {% endblock %}

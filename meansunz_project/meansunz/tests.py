@@ -2,7 +2,6 @@ from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.test import Client
 
-<<<<<<< HEAD
     # this test tests that the leaderboards page displays headings
 class meansunz(TestCase):
     def test_leaderboards_contains_headings(self):
@@ -86,7 +85,6 @@ class meansunz(TestCase):
         # the second account should not be created due to a conflict so
         # incorrect details returns status code 200 which this line checks
         self.assertIn(code, "200")
-=======
 
 class meansunz(TestCase):
     def test_leaderboards_contains_both_headings(self):
@@ -136,4 +134,3 @@ class meansunz(TestCase):
         response = c.post('/register/', {'username': 'susan', 'email': 'susan@susan.com', 'password': 'password'})
         response = c.post('/register/', {'username': 'susan', 'email': 'susan@susan.com', 'password': 'password'})
         self.assertIn('already exists'.lower(), response.content.decode('ascii').lower())
->>>>>>> 2a82318dc9725e5d50640a6306ebfb85d0e710e6

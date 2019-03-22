@@ -1,7 +1,5 @@
 import datetime
 
-
-
 from django.forms import forms
 
 from django.shortcuts import render
@@ -23,11 +21,7 @@ from django.shortcuts import redirect
 from django.views.generic.list import ListView
 
 
-
-
-
 def index(request):
-
     if request.GET.get('sort'):
 
         sort = request.GET.get('sort')
@@ -40,18 +34,12 @@ def index(request):
 
     context_dict = {'posts': post_list, 'sort': request.GET.get('sort')}
 
-
-
     response = render(request, 'meansunz/index.html', context_dict)
 
     return response
 
 
-
-
-
 class show_category(ListView):
-
     model = Post
 
     # Amount of posts to render at a time
@@ -61,8 +49,6 @@ class show_category(ListView):
     context_object_name = 'posts'
 
     template_name = 'meansunz/category.html'
-
-
 
     # Query database
 
@@ -86,8 +72,6 @@ class show_category(ListView):
 
         return posts
 
-
-
     def get_context_data(self, **kwargs):
 
         context = super().get_context_data(**kwargs)
@@ -99,28 +83,17 @@ class show_category(ListView):
         return context
 
 
-
-
-
 @login_required
-
 def add_category(request):
-
     form = CategoryForm()
-
-
 
     if request.method == 'POST':
 
         form = CategoryForm(request.POST)
 
-
-
         if form.is_valid():
 
             form.save(commit=True)
-
-
 
             return index(request)
 
@@ -128,18 +101,11 @@ def add_category(request):
 
             print(form.errors)
 
-
-
     return render(request, 'meansunz/add_category.html', {'form': form})
 
 
-
-
-
 @login_required
-
 def create_post(request, category_name_slug):
-
     try:
 
         category = Category.objects.get(slug=category_name_slug)
@@ -147,8 +113,6 @@ def create_post(request, category_name_slug):
     except Category.DoesNotExist:
 
         category = None
-
-
 
     try:
 
@@ -159,8 +123,6 @@ def create_post(request, category_name_slug):
         return HttpResponse(
 
             "No user")  # TODO: Force creation of UserProfile whenever a new user object is created
-
-
 
     form = PostForm()
 
@@ -175,7 +137,6 @@ def create_post(request, category_name_slug):
                 post = form.save(commit=False)
 
                 if 'picture' in request.FILES:
-
                     post.picture = form.cleaned_data['picture']
 
                 post.category = category
@@ -194,18 +155,12 @@ def create_post(request, category_name_slug):
 
             print(form.errors)
 
-
-
     context_dict = {'form': form, 'category': category}
 
     return render(request, 'meansunz/create_post.html', context_dict)
 
 
-
-
-
 def show_post(request, category_name_slug, post_id, post_title_slug):
-
     context_dict = {}
 
     try:
@@ -234,15 +189,11 @@ def show_post(request, category_name_slug, post_id, post_title_slug):
 
         category = None
 
-
-
     context_dict['comments'] = comments
 
     context_dict['category'] = category
 
     context_dict['post'] = post
-
-
 
     # read comment form input
 
@@ -252,8 +203,6 @@ def show_post(request, category_name_slug, post_id, post_title_slug):
 
         form = CommentForm(data=request.POST)
 
-
-
         if form.is_valid():
 
             if post:
@@ -261,7 +210,6 @@ def show_post(request, category_name_slug, post_id, post_title_slug):
                 comment = form.save(commit=False)
 
                 if 'picture' in request.FILES:
-
                     comment.picture = request.FILES['picture']
 
                 comment.user = request.user
@@ -278,18 +226,11 @@ def show_post(request, category_name_slug, post_id, post_title_slug):
 
     context_dict['form'] = form
 
-
-
     return render(request, 'meansunz/post.html', context_dict)
 
 
-
-
-
 @login_required
-
 def vote_comment(request, category_name_slug, post_id, post_title_slug):
-
     if request.method == 'POST':
 
         if 'vote_comment' in request.POST:
@@ -324,18 +265,11 @@ def vote_comment(request, category_name_slug, post_id, post_title_slug):
 
                 vote.save()
 
-
-
         return redirect(show_post, category_name_slug, post_id, post_title_slug)
 
 
-
-
-
 @login_required
-
 def vote(request, category_name_slug, post_id, post_title_slug):
-
     if request.method == 'POST':
 
         # if 'vote' in request.POST:
@@ -364,16 +298,10 @@ def vote(request, category_name_slug, post_id, post_title_slug):
 
             vote.save()
 
-
-
         return redirect(request.POST.get('next', '/'), category_name_slug, post_id, post_title_slug)
 
 
-
-
-
 def about(request):
-
     context_dict = {}
 
     response = render(request, 'meansunz/about.html', context_dict)
@@ -381,11 +309,7 @@ def about(request):
     return response
 
 
-
-
-
 def leaderboards(request):
-
     context_dict = {}
 
     user_ranking = UserProfile.objects.extra(select={'votes': 'rating_comment + rating_post'}, order_by=('-votes',))[
@@ -399,22 +323,14 @@ def leaderboards(request):
     return response
 
 
-
-
-
 def user_login(request):
-
     if request.method == 'POST':
 
         username = request.POST.get('username')
 
         password = request.POST.get('password')
 
-
-
         user = authenticate(username=username, password=password)
-
-
 
         if user:
 
@@ -445,16 +361,10 @@ def user_login(request):
         return render(request, 'meansunz/login.html', {})
 
 
-
-
-
 def register(request):
-
     # Boolean value for telling the template whether the registration was successful.
 
     registered = False
-
-
 
     if request.method == 'POST':
 
@@ -462,13 +372,9 @@ def register(request):
 
         profile_form = UserProfileForm(data=request.POST)
 
-
-
         if user_form.is_valid() and profile_form.is_valid():
 
             user = user_form.save()
-
-
 
             # Hash password with set_password method
 
@@ -476,25 +382,16 @@ def register(request):
 
             user.save()
 
-
-
             profile = profile_form.save(commit=False)
 
             profile.user = user
 
-
-
             # Did the user provide a profile picture?
 
             if 'picture' in request.FILES:
-
                 profile.picture = request.FILES['picture']
 
-
-
             profile.save()
-
-
 
             registered = True
 
@@ -514,32 +411,20 @@ def register(request):
 
         profile_form = UserProfileForm()
 
-
-
     context_dict = {'user_form': user_form, 'profile_form': profile_form, 'registered': registered, }
 
     return render(request, 'meansunz/register.html', context_dict)
 
 
-
-
-
 @login_required
-
 def user_logout(request):
-
     logout(request)
 
     return HttpResponseRedirect(reverse('index'))
 
 
-
-
-
 @login_required
-
 def user_posts(request):
-
     posts = Post.objects.filter(user=request.user)
 
     context_dict = {'posts': posts}
@@ -549,16 +434,9 @@ def user_posts(request):
     return response
 
 
-
-
-
 @login_required
-
 def user_profile(request):
-
     posts = Post.objects.filter(user=request.user).order_by('-date')[:3]
-
-
 
     if request.method == 'POST':
 
@@ -566,13 +444,9 @@ def user_profile(request):
 
         profile_form = UserProfileForm(data=request.POST)
 
-
-
         if user_form.is_valid() and profile_form.is_valid():
 
             user = User.objects.get(id=request.user.id)
-
-
 
             # Hash password with set_password method
 
@@ -582,19 +456,12 @@ def user_profile(request):
 
             user.save()
 
-
-
             profile = UserProfile.objects.get(user=user)
-
-
 
             # Did the user provide a profile picture?
 
             if 'picture' in request.FILES:
-
                 profile.picture = request.FILES['picture']
-
-
 
             profile.save()
 
@@ -615,8 +482,6 @@ def user_profile(request):
         user_form = UserUpdateForm()
 
         profile_form = UserProfileForm()
-
-
 
     context_dict = {'user': request.user, 'posts': posts, 'form': profile_form, 'user_form': user_form,
 

@@ -26,7 +26,7 @@ def index(request):
 class show_category(ListView):
     model = Post
     # Amount of posts to render at a time
-    paginate_by = 15
+    paginate_by = 1
     context_object_name = 'posts'
     template_name = 'meansunz/category.html'
 
@@ -270,3 +270,7 @@ def user_posts(request):
     context_dict = {'posts': posts}
     response = render(request, 'meansunz/user_posts.html', context_dict)
     return response
+
+@login_required
+def user_profile(request):
+    return render(request, 'meansunz/user_profile.html', {})

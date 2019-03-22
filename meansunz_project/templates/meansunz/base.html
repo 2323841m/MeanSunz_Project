@@ -10,14 +10,12 @@
     <script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
     <script src="{% static 'js/infinite.min.js' %}"></script>
 
-    {% block head_block %}
-    {% endblock %}
+    {% block head_block %}{% endblock %}
 
     <title>
         Meansunz
 
-        {% block title_block %}
-        {% endblock %}
+        {% block title_block %} Title Goes Here {% endblock %}
 
     </title>
 </head>
@@ -33,7 +31,7 @@
         <!-- If logged in show user profile else show login/register buttons -->
         {% if user.is_authenticated %}
             <div class="userProfile">
-                <div id="userProfileName">{{ user.username }}</div>
+                <div id="userProfileName"><a href="{% url 'user_profile' %}">{{ user.username }}</a></div>
                 {% if user.profile.picture %}
                     <img src="{{ MEDIA_URL }}{{ user.profile.picture }}" alt="profile picture">
                 {% else %}
@@ -92,8 +90,9 @@
 </div>
 
 <div>
-    {% block body_block %}
-    {% endblock %}
+    {% block body_block %} Body Goes Here {% endblock %}
 </div>
+
+{% block js-foot %} Javascript Footer {% endblock %}
 </body>
 </html>

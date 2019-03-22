@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.test import Client
 
+<<<<<<< HEAD
     # this test tests that the leaderboards page displays headings
 class meansunz(TestCase):
     def test_leaderboards_contains_headings(self):
@@ -85,3 +86,54 @@ class meansunz(TestCase):
         # the second account should not be created due to a conflict so
         # incorrect details returns status code 200 which this line checks
         self.assertIn(code, "200")
+=======
+
+class meansunz(TestCase):
+    def test_leaderboards_contains_both_headings(self):
+        response = self.client.get(reverse('leaderboards'))
+        self.assertIn('Popularity score'.lower(), response.content.decode('ascii').lower())
+
+    def test_URL(self):
+        url = reverse('about')
+        self.assertIn(url, '/about/')
+        url = reverse('leaderboards')
+        self.assertIn(url, '/leaderboards/')
+        url = reverse('login')
+        self.assertIn(url, '/login/')
+        url = reverse('register')
+        self.assertIn(url, '/register/')
+
+    def test_login(self):
+        c = Client()
+        response = c.post('/register/', {'username': 'susan', 'email': 'susan@susan.com', 'password': 'password'})
+        response = c.post('/login/', {'username': 'susan', 'password': 'password'})
+        code=str(response.status_code)
+        self.assertIn(code, "302")
+
+    def test_login_with_wrong_password(self):
+        c = Client()
+        response = c.post('/register/', {'username': 'susan', 'email': 'susan@susan.com', 'password': 'password'})
+        response = c.post('/login/', {'username': 'susan', 'password': 'wrongpassword'})
+        code = str(response.status_code)
+        self.assertIn(code, "200")
+
+    def test_login_with_wrong_password(self):
+        c = Client()
+        response = c.post('/register/', {'username': 'susan', 'email': 'susan@susan.com', 'password': 'password'})
+        response = c.post('/login/', {'username': 'susan', 'password': 'wrongpassword'})
+        code = str(response.status_code)
+        self.assertIn(code, "200")
+
+    def test_login_with_wrong_username(self):
+        c = Client()
+        response = c.post('/register/', {'username': 'susan', 'email': 'susan@susan.com', 'password': 'password'})
+        response = c.post('/login/', {'username': 'notsusan', 'password': 'password'})
+        code = str(response.status_code)
+        self.assertIn(code, "200")
+
+    def test_double_register(self):
+        c = Client()
+        response = c.post('/register/', {'username': 'susan', 'email': 'susan@susan.com', 'password': 'password'})
+        response = c.post('/register/', {'username': 'susan', 'email': 'susan@susan.com', 'password': 'password'})
+        self.assertIn('already exists'.lower(), response.content.decode('ascii').lower())
+>>>>>>> 2a82318dc9725e5d50640a6306ebfb85d0e710e6

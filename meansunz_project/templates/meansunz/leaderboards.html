@@ -1,5 +1,6 @@
 {% extends 'meansunz/base.html' %}
 {% load staticfiles %}
+{% load meansunz_template_tags %}
 
 {% block title_block %}
     About
@@ -23,7 +24,7 @@
 				{% for profile in profiles %}
 				<tr>
 					<td> {{ profile.user.username }} </td>
-					<td> {{ profile.rating }} </td>
+					<td> {% get_user_rating profile %} </td>
 				</tr>
 				{% endfor %}
 			</table>

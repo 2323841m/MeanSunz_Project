@@ -2,7 +2,7 @@ body
 {
 	padding: 0;
 	margin: 0;
-	background-color: rgb(40, 40, 40);
+	background-color: #efefef;
 }
 
 .header
@@ -50,7 +50,7 @@ img
 	display: flex;
 	width: 100%;
 	min-height: 50px;
-	background-image: linear-gradient(to bottom right, #a7a9acff, #8e9092ff, #7b7d7fff);
+    background-image: linear-gradient(to bottom right, #6eb3ea, #a7d0f2, #eafffc);
 }
 
 .separator
@@ -74,7 +74,7 @@ img
 	display: flex;
 	height: 100%;
 	width: 100%;
-	background-color: #222125ff;
+	background-color: #dddddd;
 }
 
 .sortForm
@@ -96,7 +96,7 @@ img
 	margin-bottom: auto;
 	font-size: 15px;
 	font-family: "Lato";
-	color: rgb(180, 180, 180);
+	color: rgb(10, 10, 10);
 	height: 100%;
 	text-transform: uppercase;
 }
@@ -104,13 +104,13 @@ img
 .navButton a
 {
 	margin: auto;
-	color: rgb(180, 180, 180);
+	color: rgb(10, 10, 10);
 	text-decoration: none;
 }
 
 .navButton:hover
 {
-    background-color: #56535eff;
+    background-color: #bcbcbc;
 }
 
 .maxFlex
@@ -138,11 +138,11 @@ img
 
 .buttonBig a
 {
-	background-color: #222125ff;
+	background-color: #a3a3a3;
 	border-radius: 5px;
 	padding: 12px 12px 12px 12px;
 	text-decoration: none;
-	color: rgb(170, 170, 170);
+	color: rgb(10, 10, 10);
 	width: 150px;
 	margin: auto;
 }
@@ -184,7 +184,7 @@ img
 {
 	display: flex;
 	height: 100%;
-	background-color: #222125ff;
+	background-color: #dddddd;
 }
 
 
@@ -192,7 +192,7 @@ img
 {
     font-size: 18px;
     font-family: "Arial";
-    color: rgb(170, 170, 170);
+    color: rgb(10, 10, 10);
     padding-left: 7px;
 }
 
@@ -212,10 +212,10 @@ img
 {
     background: transparent;
     border: none;
-	font-size: 15px; 
+	font-size: 17px;
 	font-family: "Lato";
 	text-transform: uppercase;
-	color: rgb(180, 180, 180);
+	color: rgb(10, 10, 10);
 }
 
 .contentBody
@@ -243,7 +243,7 @@ img
 .post
 {
 	display: flex;
-	background-color: rgb(200, 200, 200);
+	background-color: #bed3d6;
 	width: 100%;
 	height: 120px;
 	margin-bottom: 25px;
@@ -288,7 +288,8 @@ a
 {
 	display: flex;
 	flex-direction: column;
-	width: 60px;
+	width: 30px;
+	height: 60px;
 }
 
 .upVote
@@ -298,6 +299,11 @@ a
 	width: 100%;
 }
 
+.upVote button:hover
+{
+    background-color: #4CAF50;
+}
+
 .downVote
 {
 	display: flex;
@@ -305,18 +311,24 @@ a
 	width: 100%;
 }
 
+.downVote button:hover
+{
+    background-color: red;
+}
+
 .voteButton
 {
-	border: none;
+	border: 1px solid black;
+	background-color: #a3a3a3;
 	color: white;
 	text-align: center;
 	text-decoration: none;
 	display: inline-block;
 	font-size: 30px;
 	cursor: pointer;
-	width: 60px;
+	width: 30px;
 	height: 60px;
-    
+	margin: auto;
 }
 
 h1
@@ -335,7 +347,7 @@ h2
 	font-family: "Oswald";
 	text-transform: lowercase;
 	font-weight: 500;
-	color: rgb(180, 180, 180);
+	color: #0633a5;
 }
 
 h3
@@ -389,7 +401,7 @@ p
 	margin-left: 10px;
 	font-family: "Lato";
 	font-weight: 200;
-	color: rgb(180, 180, 180);
+	color: rgb(10, 10, 10);
 }
 
 .commentsBar {
@@ -403,7 +415,7 @@ p
 {
     font-size: 15px;
 	font-family: "Lato";
-	color: rgb(180, 180, 180);
+	color: rgb(10, 10, 10);
     border-collapse: collapse;
     padding-top: 5px;
     padding-bottom: 5px;
@@ -412,7 +424,7 @@ p
 #leaderBoardTable table
 {
     width: 100%;
-    border: 1px solid rgb(180, 180, 180);
+    border: 1px solid rgb(10, 10, 10);
     margin-left: auto;
     margin-right: auto;
 }
@@ -522,11 +534,20 @@ button[type=switchBoard]:hover {
 	font-family: "Lato";
 	text-transform: uppercase;
 	text-decoration-line: none;
+	align: left;
 }
 
 .createPost:hover {
 	background-image: linear-gradient(to bottom right, #2aa0c4ff, #4e7a85ff);
 }
+
+.createPost a
+{
+
+}
 /* End of User Profile styling */
 
-#category_form
+.
+{
+
+}

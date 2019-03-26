@@ -25,7 +25,7 @@
 
     <div class="topBar">
         <div class="logo"><img src="{% static "images\meansunz_logo_no_text.png" %}" alt="meansunz logo"></div>
-        <div class="header_title"><a href=" {% url 'index' %}"><h1>meansunz</h1></a></div>
+        <div class="header_title"><a href=" {% url 'index' %}"><h1>Meansunz</h1></a></div>
         <div class="maxFlex"></div>
 
         {# If logged in show user profile else show login/register buttons #}
@@ -68,7 +68,7 @@
         </div>
         {% if posts %}
             <div class="filterBar">
-                <div style="font-size: 18px; font-family: Arial; color: rgb(170, 170, 170); margin:auto;">SORT:</div>
+                <div style="font-size: 18px; font-family: Lato; color: rgb(10, 10, 10); margin:auto;">SORT:</div>
                 <div class="dropDownList">
                     <form action="{{ request.path }}" method="get">
                         <select name="sort" onChange="form.submit();">

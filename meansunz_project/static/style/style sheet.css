@@ -415,7 +415,7 @@ p
 {
     font-size: 15px;
 	font-family: "Lato";
-	color: rgb(180, 180, 180);
+	color: rgb(10, 10, 10);
     border-collapse: collapse;
     padding-top: 5px;
     padding-bottom: 5px;
@@ -424,7 +424,7 @@ p
 #leaderBoardTable table
 {
     width: 100%;
-    border: 1px solid rgb(180, 180, 180);
+    border: 1px solid rgb(10, 10, 10);
     margin-left: auto;
     margin-right: auto;
 }

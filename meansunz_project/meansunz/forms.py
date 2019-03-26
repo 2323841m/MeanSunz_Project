@@ -21,6 +21,7 @@ class UserForm(forms.ModelForm):
         self.fields['password'].label = ''
         self.fields['email'].label = ''
 
+
 class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
@@ -50,22 +51,23 @@ class UserProfileForm(forms.ModelForm):
         super(UserProfileForm, self).__init__(*args, **kwargs)
         self.fields['picture'].label = ''
 
+
 class CategoryForm(forms.ModelForm):
-    title = forms.CharField(Category.max_length, widget=forms.TextInput(attrs={'class': 'textForm',
-                                                                               'placeholder': 'CATEGORY NAME'}))
+    name = forms.CharField(Category.max_length, widget=forms.TextInput(attrs={'class': 'textForm',
+                                                                              'placeholder': 'CATEGORY NAME'}))
     slug = forms.CharField(widget=forms.HiddenInput(), required=False)
 
     # An inline class to provide additional information on the form.
     class Meta:
         # Provide an association between the ModelForm and a model
         model = Category
-        fields = ('title',)
+        fields = ('name',)
 
 
 class PostForm(forms.ModelForm):
-    title = forms.CharField(max_length=64, widget=forms.TextInput(attrs={'class': 'textForm','placeholder': 'TITLE'}))
-    description = forms.CharField(max_length=256, required=False, widget=forms.TextInput(attrs={'class': 'textForm'
-        ,'placeholder': 'DESCRIPTION'}))
+    title = forms.CharField(max_length=64, widget=forms.TextInput(attrs={'class': 'textForm', 'placeholder': 'TITLE'}))
+    description = forms.CharField(max_length=256, required=False,
+                                  widget=forms.TextInput(attrs={'class': 'textForm', 'placeholder': 'DESCRIPTION'}))
     picture = forms.ImageField(required=False, help_text="Choose image (optional)")
     views = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
     likes = forms.IntegerField(widget=forms.HiddenInput(), initial=0)

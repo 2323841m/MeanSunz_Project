@@ -8,13 +8,15 @@
 
 {% block body_block %}
     <div class="contentBody">
-		{% if user.is_authenticated %}
-			<div style="margin-left: auto; margin-right: auto;"><a style="font-size: 16px;" class="createPost" href="{% url 'create_post' category %}">Create Post</a></div>
-		{% endif %}
-        <div style="display:flex;flex-direction:row;margin-bottom:25px;">
-			<div><h2>{{ category }}</h2></div>
-		</div>
+        {% if user.is_authenticated %}
+            <div style="margin-left: auto; margin-right: auto;">
+                <a style="font-size: 16px;" class="createPost" href="{% url 'create_post' category %}">Create Post</a>
+            </div>
+        {% endif %}
 
+        <div style="display:flex;flex-direction:row;margin-bottom:25px;">
+            <div><h2>{{ category }}</h2></div>
+        </div>
 
 
         <div class="postBody">
@@ -23,52 +25,54 @@
                 {% for post in posts %}
                     {# DO NOT RENAME THIS CLASS add another div inside if you need to #}
                     <div class="infinite-item">
-						<div class="post">
-							<div class="voteBar">
-								<div class="upVote">
-									<form action="{% url 'vote' post.category.slug post.id post.slug %}" method="post">
-										{% csrf_token %}
-										<button class="voteButton" type="submit" name="vote" value="1">+</button>
-										<!-- next points to site to be redirected back to after vote -->
-										<input type="hidden" name="next" value="{{ request.path }}">
-									</form>
-								</div>
-								<div class="downVote">
-									<form action="{% url 'vote' post.category.slug post.id post.slug %}" method="post">
-										{% csrf_token %}
-										<button class="voteButton" type="submit" name="vote" value="-1">-</button>
-										<!-- next points to site to be redirected back to after vote -->
-										<input type="hidden" name="next" value="{{ request.path }}">
-									</form>
-								</div>
-							</div>
-							<div class="postContent">
-								<div>
-									<h4>
-										<a href="{% url 'show_post' post.category.slug post.id post.slug %}">{{ post.title }}</a>
-									</h4>
-								</div>
+                    <div class="post">
+                        <div class="voteBar">
+                            <div class="upVote">
+                                <form action="{% url 'vote' post.category.slug post.id post.slug %}" method="post">
+                                    {% csrf_token %}
+                                    <button class="voteButton" type="submit" name="vote" value="1">+</button>
+                                    <!-- next points to site to be redirected back to after vote -->
+                                    <input type="hidden" name="next" value="{{ request.path }}">
+                                </form>
+                            </div>
+                            <div class="downVote">
+                                <form action="{% url 'vote' post.category.slug post.id post.slug %}" method="post">
+                                    {% csrf_token %}
+                                    <button class="voteButton" type="submit" name="vote" value="-1">-</button>
+                                    <!-- next points to site to be redirected back to after vote -->
+                                    <input type="hidden" name="next" value="{{ request.path }}">
+                                </form>
+                            </div>
+                        </div>
+                        <div class="postContent">
+                            <div>
+                                <h4>
+                                    <a href="{% url 'show_post' post.category.slug post.id post.slug %}">{{ post.title }}</a>
+                                </h4>
+                            </div>
 
-								<div>
-									<h4>{{ post.user }}</h4>
-								</div>
+                            <div>
+                                <h4>{{ post.user }}</h4>
+                            </div>
 
-								<div class="commentsBar">
-									<h6>{% get_post_votes post %}  RATING</h6>
-								</div>
-							</div>
-							<div class="postMedia">
-								{% if post.picture %}
-									<p style="margin-left: 0;"><img src="{{ MEDIA_URL }}{{ post.picture }}" alt="" style="width:100%;height:100%;"></p>
-								{% endif %}
-							</div>
+                            <div class="commentsBar">
+                                <h6>{% get_post_votes post %} RATING</h6>
+                            </div>
+                        </div>
+                        <div class="postMedia">
+                            {% if post.picture %}
+                                <p style="margin-left: 0;"><img src="{{ MEDIA_URL }}{{ post.picture }}" alt=""
+                                                                style="width:100%;height:100%;"></p>
+                            {% endif %}
+                        </div>
+                    </div>
                     </div>
                 {% endfor %}
 
             {% else %}
                 <h2 style="font-size: 30px"><strong>There are no posts present.</strong></h2>
             {% endif %}
-        </div>
+            </div>
 
 
         {# If there are more posts to render #}

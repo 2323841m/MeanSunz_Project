@@ -1,166 +1,145 @@
-body
-{
-	padding: 0;
-	margin: 0;
-	background-color: #efefef;
+body {
+    padding: 0;
+    margin: 0;
+    background-color: #e6eef9;
 }
 
-.header
-{
-	display: flex;
-	flex-direction: column;
-	width: 100%;
-	background-color: black;
+.header {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: black;
 }
 
-img
-{
+img {
     height: 60px;
     width: 60px;
 }
 
-.logo
-{
+.logo {
     margin: 3px;
     padding: 3px;
     min-width: 60px;
     min-height: 60px;
 }
 
-.header_title
-{
+.header_title {
     margin: auto;
 }
 
-.header_title a{
-  font-size: 27.778px;
-  font-family: "Arial";
-  color: rgb(234, 234, 234);
-  text-align: left;
-  text-decoration: none;
+.header_title a {
+    font-size: 27.778px;
+    font-family: "Arial";
+    color: rgb(234, 234, 234);
+    text-align: left;
+    text-decoration: none;
 }
 
-.header_title a:hover
-{
+.header_title a:hover {
     color: rgb(65, 145, 255);
 }
 
-.topBar
-{
-	display: flex;
-	width: 100%;
-	min-height: 50px;
-    background-image: linear-gradient(to bottom right, #6eb3ea, #a7d0f2, #eafffc);
+.topBar {
+    display: flex;
+    width: 100%;
+    min-height: 50px;
+    background-image: linear-gradient(to bottom right, #33a8ff, #dbf0ff, #dbf0ff);
 }
 
-.separator
-{
+.separator {
     display: flex;
     width: 100%;
     height: 1px;
     background-color: rgb(180, 180, 180);
 }
 
-.bottomBar
-{
-	display: flex;
-	width: 100%;
-	height: 28px;
-	background-color: rgb(70, 70 70);
+.bottomBar {
+    display: flex;
+    width: 100%;
+    height: 28px;
+    background-color: rgb(70, 70 70);
 }
 
-.navBar
-{
-	display: flex;
-	height: 100%;
-	width: 100%;
-	background-color: #dddddd;
+.navBar {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    background-color: #dbf0ff;
 }
 
-.sortForm
-{
-	font-size: 15px; 
-	font-family: "Lato";
-	text-transform: uppercase;
-	color: rgb(180, 180, 180);
-	margin-top: auto;
-	margin-bottom: auto;
+.sortForm {
+    font-size: 15px;
+    font-family: "Lato";
+    text-transform: uppercase;
+    color: rgb(180, 180, 180);
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
-.navButton
-{
-	display: flex;
-	padding-left: 7px;
-	padding-right: 7px;
-	margin-top: auto;
-	margin-bottom: auto;
-	font-size: 15px;
-	font-family: "Lato";
-	color: rgb(10, 10, 10);
-	height: 100%;
-	text-transform: uppercase;
+.navButton {
+    display: flex;
+    padding-left: 7px;
+    padding-right: 7px;
+    margin-top: auto;
+    margin-bottom: auto;
+    font-size: 15px;
+    font-family: "Lato";
+    color: rgb(10, 10, 10);
+    height: 100%;
+    text-transform: uppercase;
 }
 
-.navButton a
-{
-	margin: auto;
-	color: rgb(10, 10, 10);
-	text-decoration: none;
+.navButton a {
+    margin: auto;
+    color: rgb(10, 10, 10);
+    text-decoration: none;
 }
 
-.navButton:hover
-{
+.navButton:hover {
     background-color: #bcbcbc;
 }
 
-.maxFlex
-{
-	display: flex;
-	width: 100%;
-	height: 100%;
-}	
-
-.logo
-{
-	width: 100px;
+.maxFlex {
+    display: flex;
+    width: 100%;
+    height: 100%;
 }
 
-.buttonBig
-{
+.logo {
+    width: 100px;
+}
+
+.buttonBig {
     display: flex;
     min-width: 70px;
     text-align: center;
     font-size: 14px;
     font-family: "Lato";
-	text-transform: uppercase;
+    text-transform: uppercase;
     padding: 12px 12px 12px 12px;
 }
 
-.buttonBig a
-{
-	background-color: #a3a3a3;
-	border-radius: 5px;
-	padding: 12px 12px 12px 12px;
-	text-decoration: none;
-	color: rgb(10, 10, 10);
-	width: 150px;
-	margin: auto;
+.buttonBig a {
+    background-color: #93d1ff;
+    border-radius: 5px;
+    padding: 12px 12px 12px 12px;
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    width: 150px;
+    margin: auto;
 }
 
-.buttonBig a:hover
-{
-	background-image: linear-gradient(to bottom right, #2aa0c4ff, #4e7a85ff);
+.buttonBig a:hover {
+    background-image: linear-gradient(to bottom right, #93d1ff, #5fbbff);
 }
 
 /* User Profile styling */
-.userProfile
-{
+.userProfile {
     display: flex;
     flex-direction: row;
 }
 
-.userProfile img
-{
+.userProfile img {
     display: flex;
     max-width: 100%;
     max-height: auto;
@@ -171,8 +150,7 @@ img
     border-radius: 50%;
 }
 
-#userProfileName
-{
+#userProfileName {
     font-family: Lato;
     margin: auto;
     padding-right: 15px;
@@ -180,279 +158,245 @@ img
 
 /* End of User Profile styling */
 
-.filterBar
-{
-	display: flex;
-	height: 100%;
-	background-color: #dddddd;
+.filterBar {
+    display: flex;
+    height: 100%;
+    background-color: #dbf0ff;
 }
 
 
-.filterButton
-{
+.filterButton {
     font-size: 18px;
     font-family: "Arial";
     color: rgb(10, 10, 10);
     padding-left: 7px;
 }
 
-.filterButton:hover
-{
+.filterButton:hover {
     background-color: rgb(100, 100, 100);
 }
 
-.dropDownList
-{
+.dropDownList {
     margin: auto;
     padding-left: 12px;
     padding-right: 12px;
 }
 
-.dropDownList select
-{
+.dropDownList select {
     background: transparent;
     border: none;
-	font-size: 17px;
-	font-family: "Lato";
-	text-transform: uppercase;
-	color: rgb(10, 10, 10);
+    font-size: 17px;
+    font-family: "Lato";
+    text-transform: uppercase;
+    color: rgb(0, 0, 0);
 }
 
-.contentBody
-{
-	display: flex;
-	flex-direction: column;
-	width: 1000px;
-	margin-left: auto;
-	margin-right: auto;
-	padding-top: 25px;
+.contentBody {
+    display: flex;
+    flex-direction: column;
+    width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 25px;
 }
 
-#user_form
-{
+#user_form {
     padding-right: -2px;
 }
 
-.postBody
-{
-	width: 1000px;
-	margin-left: auto;
-	margin-right: auto;
+.postBody {
+    width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.post
-{
-	display: flex;
-	background-color: #bed3d6;
-	width: 100%;
-	height: 120px;
-	margin-bottom: 25px;
-	border: 1px solid rgb(180, 180, 180);
-	box-shadow: 0px 0px 10px black;
+.post {
+    display: flex;
+    background-color: #f8f9fa;
+    width: 100%;
+    height: 120px;
+    margin-bottom: 25px;
+    border: 1px solid rgb(180, 180, 180);
+    box-shadow: 0px 0px 10px black;
 }
 
-.postDesc
-{
-	display: flex;
-	background-color: rgb(200, 200, 200);
-	width: 100%;
-	margin-bottom: 25px;
-	border: 1px solid rgb(180, 180, 180);
-	box-shadow: 0px 0px 10px black;
-	padding:10px;
+.postDesc {
+    display: flex;
+    background-color: rgb(200, 200, 200);
+    width: 100%;
+    margin-bottom: 25px;
+    border: 1px solid rgb(180, 180, 180);
+    box-shadow: 0px 0px 10px black;
+    padding: 10px;
 
 }
 
-a
-{
-	text-decoration: none;
-	color: rgb(180, 180, 180);
-	font-weight: 200;
+a {
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    font-weight: 200;
 }
 
-.postMedia
-{
-	display: flex;
-	width: 150px;
-	height: 100%;
-	margin-bottom: 25px;	
-	overflow: hidden;
+.postMedia {
+    display: flex;
+    width: 150px;
+    height: 100%;
+    margin-bottom: 25px;
+    overflow: hidden;
 }
 
-.postContent
-{
-	width:100%;
+.postContent {
+    width: 100%;
 }
 
-.voteBar
-{
-	display: flex;
-	flex-direction: column;
-	width: 30px;
-	height: 60px;
+.voteBar {
+    display: flex;
+    flex-direction: column;
+    width: 30px;
+    height: 60px;
 }
 
-.upVote
-{
-	display: flex;
-	height: 100%;
-	width: 100%;
+.upVote {
+    display: flex;
+    height: 100%;
+    width: 100%;
 }
 
-.upVote button:hover
-{
+.upVote button:hover {
     background-color: #4CAF50;
 }
 
-.downVote
-{
-	display: flex;
-	height: 100%;
-	width: 100%;
+.downVote {
+    display: flex;
+    height: 100%;
+    width: 100%;
 }
 
-.downVote button:hover
-{
+.downVote button:hover {
     background-color: red;
 }
 
-.voteButton
-{
-	border: 1px solid black;
-	background-color: #a3a3a3;
-	color: white;
-	text-align: center;
-	text-decoration: none;
-	display: inline-block;
-	font-size: 30px;
-	cursor: pointer;
-	width: 30px;
-	height: 60px;
-	margin: auto;
+.voteButton {
+    border: 1px solid black;
+    background-color: #a3a3a3;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 30px;
+    cursor: pointer;
+    width: 30px;
+    height: 60px;
+    margin: auto;
 }
 
-h1
-{
-	font-size: 50px;
-	margin: auto;
-	font-family: "Oswald";
-	font-weight: 500;
-	color: #222125ff;
+h1 {
+    font-size: 50px;
+    margin: auto;
+    font-family: "Oswald";
+    font-weight: 500;
+    color: #222125ff;
 }
 
-h2
-{
-	font-size: 40px;
-	margin: 0;
-	font-family: "Oswald";
-	text-transform: lowercase;
-	font-weight: 500;
-	color: #0633a5;
+h2 {
+    font-size: 40px;
+    margin: 0;
+    font-family: "Oswald";
+    font-weight: 500;
+    color: #222125;
 }
 
-h3
-{
-	font-size: 40px;
-	margin: 10px;
-	font-family: "Lato";
-	font-weight: 300;
-	color: #222125ff;
+h3 {
+    font-size: 40px;
+    margin: 10px;
+    font-family: "Lato";
+    font-weight: 300;
+    color: #222125ff;
 }
 
-h4
-{
-	font-size: 15px;
-	margin: 10px;
-	font-family: "Lato";
-	font-weight: 200;
-	color: #222125ff;
+h4 {
+    font-size: 15px;
+    margin: 10px;
+    font-family: "Lato";
+    font-weight: 200;
+    color: #222125ff;
 }
 
-h4 a
-{
-	font-size: 35px;
-	font-weight: 400;
-	color: #222125ff;
-	text-decoration: none;
+h4 a {
+    font-size: 35px;
+    font-weight: 400;
+    color: #222125ff;
+    text-decoration: none;
 }
 
-h5
-{
-	font-size: 15px;
-	margin: 10px;
-	font-family: "Lato";
+h5 {
+    font-size: 15px;
+    margin: 10px;
+    font-family: "Lato";
 }
 
-h6
-{
-	font-size: 15px;
-	margin: auto;
-	margin-left: 10px;
-	font-family: "Lato";
-	text-transform: uppercase;
-	font-weight: 200;
-	color: #222125ff;
+h6 {
+    font-size: 15px;
+    margin: auto;
+    margin-left: 10px;
+    font-family: "Lato";
+    text-transform: uppercase;
+    font-weight: 200;
+    color: #222125ff;
 }
 
-p
-{
-	font-size: 15px;
-	margin: auto;
-	margin-left: 10px;
-	font-family: "Lato";
-	font-weight: 200;
-	color: rgb(10, 10, 10);
+p {
+    font-size: 15px;
+    margin: auto;
+    margin-left: 10px;
+    font-family: "Lato";
+    font-weight: 200;
+    color: rgb(10, 10, 10);
 }
 
 .commentsBar {
-	display: flex;
-	flex-direction: row;
+    display: flex;
+    flex-direction: row;
 }
 
 /* Leaderboards styling */
 
-#leaderBoardTable table, th, tr
-{
+#leaderBoardTable table, th, tr {
     font-size: 15px;
-	font-family: "Lato";
-	color: rgb(10, 10, 10);
+    font-family: "Lato";
+    color: rgb(10, 10, 10);
     border-collapse: collapse;
     padding-top: 5px;
     padding-bottom: 5px;
 }
 
-#leaderBoardTable table
-{
+#leaderBoardTable table {
     width: 100%;
     border: 1px solid rgb(10, 10, 10);
     margin-left: auto;
     margin-right: auto;
 }
 
-#leaderBoardTable th
-{
+#leaderBoardTable th {
     height: 30px;
     text-align: center;
     text-transform: uppercase;
     text-decoration: underline;
 }
 
-#leaderBoardTable td
-{
+#leaderBoardTable td {
     text-align: center;
 }
 
 /* End of Leaderboards styling */
 
 /* User Profile styling */
-.userProfile
-{
+.userProfile {
     display: flex;
     flex-direction: row;
 }
 
-.userProfile img
-{
+.userProfile img {
     display: flex;
     max-width: 100%;
     max-height: auto;
@@ -463,91 +407,89 @@ p
     border-radius: 50%;
 }
 
-#userProfileName
-{
+#userProfileName {
     font-family: Lato;
     margin: auto;
     padding-left: 15px;
-	font-size: 15px;
-	font-family: "Lato";
-	font-weight: 600;
-	color:#222125ff;
+    font-size: 15px;
+    font-family: "Lato";
+    font-weight: 600;
+    color: #222125ff;
 }
 
 .textForm {
-  width: 350px;
-  padding: 12px 13px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
+    width: 350px;
+    padding: 12px 13px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
 }
 
 input[type=submit] {
-	width: 150px;
-	background-color: rgb(130, 130, 130);
-	color: white;
-	padding: 12px 13px;
-	margin: 8px 0;
-	border: none;
-	border-radius: 4px;
-	cursor: pointer;
-	font-size: 14px;
-	font-family: "Lato";
-	text-transform: uppercase;
+    width: 150px;
+    background-color: rgb(130, 130, 130);
+    color: white;
+    padding: 12px 13px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: "Lato";
+    text-transform: uppercase;
 }
 
 input[type=submit]:hover {
-	background-image: linear-gradient(to bottom right, #2aa0c4ff, #4e7a85ff);
+    background-image: linear-gradient(to bottom right, #93d1ff, #5fbbff);
 }
 
 button[type=switchBoard] {
-	width: 150px;
-	background-color: rgb(130, 130, 130);
-	color: white;
-	padding: 10px 5px;
-	margin-top: 25px;
-	margin-left: 25px;
-	border: none;
-	border-radius: 4px;
-	cursor: pointer;
-	font-size: 12px;
-	font-family: "Lato";
-	text-transform: uppercase;
+    width: 150px;
+    background-color: rgb(130, 130, 130);
+    color: white;
+    padding: 10px 5px;
+    margin-top: 25px;
+    margin-left: 25px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    font-family: "Lato";
+    text-transform: uppercase;
 }
 
 button[type=switchBoard]:hover {
-	background-image: linear-gradient(to bottom right, #2aa0c4ff, #4e7a85ff);
+    background-image: linear-gradient(to bottom right, #93d1ff, #5fbbff);
 }
 
 .createPost {
-	width: 150px;
-	background-color: rgb(130, 130, 130);
-	color: white;
-	padding: 10px 5px;
-	margin-left: 25px;
-	border: none;
-	border-radius: 4px;
-	cursor: pointer;
-	font-size: 12px;
-	font-family: "Lato";
-	text-transform: uppercase;
-	text-decoration-line: none;
-	align: left;
+    width: 150px;
+    background-color: #93d1ff;
+    color: rgb(10, 10, 10);
+    padding: 10px 5px;
+    margin-left: 25px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    font-family: "Lato";
+    text-transform: uppercase;
+    text-decoration-line: none;
+    align: left;
 }
 
 .createPost:hover {
-	background-image: linear-gradient(to bottom right, #2aa0c4ff, #4e7a85ff);
+    background-image: linear-gradient(to bottom right, #93d1ff, #5fbbff);
 }
 
-.createPost a
-{
+.createPost a {
 
 }
+
 /* End of User Profile styling */
 
-.
-{
+. {
 
 }

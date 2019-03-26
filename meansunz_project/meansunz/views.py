@@ -53,7 +53,7 @@ class show_category(ListView):
     # Query database
 
     def get_queryset(self, **kwargs):
-
+        #TODO explain query
         category = Category.objects.filter(slug=self.kwargs['category_name_slug'])
 
         if self.request.GET.get('sort'):
@@ -73,7 +73,7 @@ class show_category(ListView):
         return posts
 
     def get_context_data(self, **kwargs):
-
+        #TODO explain
         context = super().get_context_data(**kwargs)
 
         context['sort'] = self.request.GET.get('sort')

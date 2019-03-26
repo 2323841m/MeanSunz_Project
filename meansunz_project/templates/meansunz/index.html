@@ -20,7 +20,7 @@
                         <div class="upVote">
                             <form action="{% url 'vote' post.category.slug post.id post.slug %}" method="post">
                                 {% csrf_token %}
-                                <button style="background-color: #4CAF50;" class="voteButton" type="submit" name="vote" value="1">+</button>
+                                <button class="voteButton" type="submit" name="vote" value="1">+</button>
                                 <!-- next points to site to be redirected back to after vote -->
                                 <input type="hidden" name="next" value="{{ request.path }}">
                             </form>
@@ -28,7 +28,7 @@
                         <div class="downVote">
                             <form action="{% url 'vote' post.category.slug post.id post.slug %}" method="post">
                                 {% csrf_token %}
-                                <button style="background-color: red;" class="voteButton" type="submit" name="vote" value="-1">-</button>
+                                <button class="voteButton" type="submit" name="vote" value="-1">-</button>
                                 <!-- next points to site to be redirected back to after vote -->
                                 <input type="hidden" name="next" value="{{ request.path }}">
                             </form>

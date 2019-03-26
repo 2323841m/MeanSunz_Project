@@ -51,20 +51,22 @@ class UserProfileForm(forms.ModelForm):
         self.fields['picture'].label = ''
 
 class CategoryForm(forms.ModelForm):
-    name = forms.CharField(max_length=Category.max_length, help_text="Please enter the category name.")
+    title = forms.CharField(Category.max_length, widget=forms.TextInput(attrs={'class': 'textForm',
+                                                                               'placeholder': 'CATEGORY NAME'}))
     slug = forms.CharField(widget=forms.HiddenInput(), required=False)
 
     # An inline class to provide additional information on the form.
     class Meta:
         # Provide an association between the ModelForm and a model
         model = Category
-        fields = ('name',)
+        fields = ('title',)
 
 
 class PostForm(forms.ModelForm):
-    title = forms.CharField(max_length=64, help_text="Title")
-    description = forms.CharField(max_length=256, required=False, help_text="Text(Optional)")
-    picture = forms.ImageField(required=False, help_text="Image(Optional)")
+    title = forms.CharField(max_length=64, widget=forms.TextInput(attrs={'class': 'textForm','placeholder': 'TITLE'}))
+    description = forms.CharField(max_length=256, required=False, widget=forms.TextInput(attrs={'class': 'textForm'
+        ,'placeholder': 'DESCRIPTION'}))
+    picture = forms.ImageField(required=False, help_text="Choose image (optional)")
     views = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
     likes = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
     upvotes = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
@@ -77,6 +79,13 @@ class PostForm(forms.ModelForm):
         model = Post
 
         exclude = ('category', 'user')
+
+    # Hide Form Labels
+    def __init__(self, *args, **kwargs):
+        super(PostForm, self).__init__(*args, **kwargs)
+        self.fields['title'].label = ''
+        self.fields['description'].label = ''
+        self.fields['picture'].label = ''
 
     def clean_picture(self):
         image_file = self.cleaned_data.get('picture')

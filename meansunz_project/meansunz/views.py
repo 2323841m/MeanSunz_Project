@@ -30,8 +30,9 @@ class show_category(ListView):
 
     # Query database
     def get_queryset(self, **kwargs):
-        # TODO explain query
+        # Get category by slug
         category = Category.objects.filter(slug=self.kwargs['category_name_slug'])
+        # Get posts by cat and order by the rating score and the chosen in sorting mode
         if self.request.GET.get('sort'):
             sort = self.request.GET.get('sort')
             posts = Post.objects.filter(category=category).extra(select={'votes': 'upvotes - downvotes'},
@@ -42,7 +43,7 @@ class show_category(ListView):
         return posts
 
     def get_context_data(self, **kwargs):
-        # TODO explain
+        # Get context dict for show_post, get sort from the select box and category from the url parameter
         context = super().get_context_data(**kwargs)
         context['sort'] = self.request.GET.get('sort')
         context['category'] = self.kwargs['category_name_slug']
@@ -54,7 +55,8 @@ def add_category(request):
     form = CategoryForm()
     if request.method == 'POST':
         if Category.objects.all().count() >= 10:
-            return HttpResponse("Only 10 categories can be made if you want to add a new category please remove an existing one")
+            return HttpResponse(
+                "Only 10 categories can be made if you want to add a new category please remove an existing one")
         form = CategoryForm(request.POST)
         if form.is_valid():
             form.save(commit=True)
@@ -73,8 +75,7 @@ def create_post(request, category_name_slug):
     try:
         user = request.user
     except User.DoesNotExist:
-        return HttpResponse(
-            "No user")  # TODO: Force creation of UserProfile whenever a new user object is created
+        return HttpResponse("No user")
     form = PostForm()
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES)
@@ -110,9 +111,11 @@ def show_post(request, category_name_slug, post_id, post_title_slug):
         post = None
         comments = None
         category = None
+
     context_dict['comments'] = comments
     context_dict['category'] = category
     context_dict['post'] = post
+
     # read comment form input
     form = CommentForm()
     if request.method == 'POST':
@@ -120,8 +123,10 @@ def show_post(request, category_name_slug, post_id, post_title_slug):
         if form.is_valid():
             if post:
                 comment = form.save(commit=False)
+
                 if 'picture' in request.FILES:
                     comment.picture = request.FILES['picture']
+
                 comment.user = request.user
                 comment.post = post
                 comment.save()
@@ -266,6 +271,7 @@ def user_profile(request):
             user.email = (user_form.data.get('email'))
             user.save()
             profile = UserProfile.objects.get(user=user)
+
             # Did the user provide a profile picture?
             if 'picture' in request.FILES:
                 profile.picture = request.FILES['picture']
@@ -279,6 +285,7 @@ def user_profile(request):
         # These forms will be blank, ready for user input
         user_form = UserUpdateForm()
         profile_form = UserProfileForm()
+
     context_dict = {'user': request.user, 'posts': posts, 'form': profile_form, 'user_form': user_form,
                     'profile_form': profile_form, }
     return render(request, 'meansunz/user_profile.html', context_dict)

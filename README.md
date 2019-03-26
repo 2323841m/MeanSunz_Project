@@ -1,5 +1,5 @@
 # MeanSunz
-A gamified bulletin board web application developed in the django framework.
+A gamified bulletin board web application developed in the Django framework.
 
 Live version of web app hosted on PythonAnywhere : [Here](http://2323841m.pythonanywhere.com/)
 

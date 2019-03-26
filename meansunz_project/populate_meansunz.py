@@ -8,7 +8,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'meansunz_project.settings')
 import django
 
 django.setup()
-from meansunz.models import Category, Post, User
+from meansunz.models import Category, Post, User, UserProfile
 
 
 def populate():
@@ -21,13 +21,17 @@ def populate():
     # Create users
     user_dict = {
         "Iain": {"email": "Iain@meansunz.com",
-                 "password": "p4ssword"},
+                 "password": "p4ssword",
+                 "picture": ""},
         "Matthew": {"email": "Matthew@meansunz.com",
-                    "Password": "potato"},
+                    "password": "potato",
+                    "picture": ""},
         "Peter": {"email": "Peter@meansunz.com",
-                  "Password": "dogdog"},
+                  "password": "dogdog",
+                  "picture": ""},
         "Ewan": {"email": "Ewan@meansunz.com",
-                 "Password": "greenjacket"},
+                 "password": "greenjacket",
+                 "picture": ""},
     }
     add_users(user_dict)
     add_superuser("admin", "admin@meansunz.com", "changeme")
@@ -104,6 +108,7 @@ def populate():
             print("- {0} - {1}".format(str(c), str(p)))
 
     for u in User.objects.all():
+        print("Users: ")
         print(u.username)
 
 
@@ -111,9 +116,12 @@ def add_users(user_dict):
     for user, user_data in user_dict.items():
         email = user_data.get("email")
         password = user_data.get("password")
+        picture = user_data.get("picture")
         u = User.objects.filter(username=user)
         if not u:
-            User.objects.create_user(username=user, password=password, email=email)
+            u =User.objects.create_user(username=user, password=password, email=email)
+            UserProfile.objects.create(user=u, picture=picture)
+
 
 def add_superuser(username, email, password):
     if not User.objects.filter(username=username):

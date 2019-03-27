@@ -34,9 +34,9 @@
             <div class="userProfile">
                 <div id="userProfileName"><a href="{% url 'user_profile' %}">{{ user.username }}</a></div>
                 {% if user.profile.picture %}
-                    <img src="{{ MEDIA_URL }}{{ user.profile.picture }}" alt="profile picture">
+                <a href="{% url 'user_profile' %}"><img src="{{ MEDIA_URL }}{{ user.profile.picture }}" alt="profile picture"></a>
                 {% else %}
-                    <img src="{% static "images\blank_profile.png" %}" alt=" profile picture">
+                <a href="{% url 'user_profile' %}"><img src="{% static "images\blank_profile.png" %}" alt=" profile picture"></a>
                 {% endif %}
                 <div class="buttonBig"><a href=" {% url 'signout' %} ">Sign Out</a></div>
                 <div class="buttonBig"><a href=" {% url 'user_posts' %} ">My Posts</a></div>
@@ -65,10 +65,7 @@
                 <div class="navButton"><a href="{% url 'add_category' %}">Add Category</a>
                 </div>
             {% endif %}
-        </div>
-        {% if category %}
-            <div class="filterBar">
-                <div style="font-size: 18px; font-family: Lato; color: rgb(10, 10, 10); margin:auto;">SORT:</div>
+            {% if category %}
                 <div class="dropDownList">
                     <form action="{{ request.path }}" method="get">
                         <select name="sort" onChange="form.submit();">
@@ -82,8 +79,8 @@
                         </select>
                     </form>
                 </div>
-            </div>
-        {% endif %}
+            {% endif %}
+        </div>
     </div>
 
     <div class="separator"></div>

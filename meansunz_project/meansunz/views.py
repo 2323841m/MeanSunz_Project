@@ -1,4 +1,6 @@
 import datetime
+
+from django.contrib import messages
 from django.shortcuts import render
 from meansunz.models import Category, Post, UserProfile, User, Comment, VotePost, VoteComment
 from meansunz.forms import CategoryForm, PostForm, UserForm, UserProfileForm, CommentForm, UserUpdateForm
@@ -231,7 +233,8 @@ def user_login(request):
         else:
             # Bad login details
             print("Invalid login details {0}, {1}".format(username, password))
-            return HttpResponse("Invalid login details supplied.")
+            message = 'Your login details are invalid'
+            return render(request, 'meansunz/login.html', {'message': message})
 
     else:
         return render(request, 'meansunz/login.html', {})

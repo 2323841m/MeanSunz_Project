@@ -8,6 +8,9 @@
 {% block body_block %}
 	<div class="contentBody">
 		<div><h2>Login to Meansunz</h2></div>
+        {% if message %}
+            {{ message }}
+        {% endif %}
 		<div><form id="login_form" method="post" action="{% url 'login' %}">
 			{% csrf_token %}
 			<input class="textForm" type="text" name="username" placeholder="USERNAME" size="50"/>

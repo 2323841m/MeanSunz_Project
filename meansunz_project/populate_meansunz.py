@@ -1,6 +1,7 @@
-import datetime
 import os
 import random
+
+from django.core.files import File
 from django.utils import timezone
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'meansunz_project.settings')
@@ -142,8 +143,11 @@ def add_post(cat, title, user, description="", picture=""):
     p = Post.objects.filter(category=cat, title=title)
     if not p:
         p = Post.objects.create(category=cat, date=date, title=title, user=user)
+        if picture:
+            # Open the picture as a django file so that it is uploaded to media
+            f = open(picture, "rb")
+            p.picture = File(f)
         p.description = description
-        p.picture = picture
         p.upvotes = 0
         p.downvotes = 0
         p.save()

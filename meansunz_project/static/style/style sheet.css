@@ -396,6 +396,12 @@ p {
     flex-direction: row;
 }
 
+#comment_form{
+    font-family: Lato;
+    padding-top: 5px;
+    font-size: 18px;
+}
+
 /* Leaderboards styling */
 
 table {
@@ -444,7 +450,7 @@ tr:first-child th:last-child {
 /* End of Leaderboards styling */
 
 .textForm {
-    width: 350px;
+    width: 40%;
     padding: 12px 13px;
     margin: 8px 0;
     display: inline-block;
@@ -452,6 +458,16 @@ tr:first-child th:last-child {
     border-radius: 4px;
     box-sizing: border-box;
 }
+
+.textArea{
+    width: 50%;
+    padding: 12px 13px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 2px solid #ccc;
+    resize: none;
+}
+
 
 input[type=submit] {
     width: 150px;

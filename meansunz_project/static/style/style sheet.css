@@ -265,7 +265,7 @@ a {
 
 
 .voteButton:hover[value="1"] {
-    background-color: #4CAF50;
+    background-color: #ffffff;
 }
 
 .downVote {
@@ -275,7 +275,7 @@ a {
 }
 
 .voteButton:hover[value="-1"] {
-    background-color: red;
+    background-color: #ffffff;
 }
 
 .voteButton {
@@ -284,10 +284,10 @@ a {
     display: flex;
     height: 100%;
     width: 100%;
-.downVote button:hover {
-    background-color: white;
 }
 
+.downVote button:hover {
+    background-color: white;
 }
 
 h1 {
@@ -295,7 +295,7 @@ h1 {
     margin: auto;
     font-family: "Oswald";
     font-weight: 500;
-    color: #222125ff;
+    color: #ffffff;
 }
 
 h2 {

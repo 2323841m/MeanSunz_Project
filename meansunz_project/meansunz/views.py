@@ -1,9 +1,10 @@
 import datetime
+import json
 
-from django.contrib import messages
 from django.shortcuts import render
 from meansunz.models import Category, Post, UserProfile, User, Comment, VotePost, VoteComment
 from meansunz.forms import CategoryForm, PostForm, UserForm, UserProfileForm, CommentForm, UserUpdateForm
+from meansunz.decorators import ajax_login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse
@@ -127,17 +128,15 @@ def show_post(request, category_name_slug, post_id, post_title_slug):
         category = Category.objects.get(slug=category_name_slug)
         comments = Comment.objects.filter(post=post).order_by('-upvotes')
 
+    # If user tries to access a post that doesn't exist redirect them back to index
     except Post.DoesNotExist:
-        post = None
-        category = None
-        comments = None
+        return redirect(reverse('index'))
     except Category.DoesNotExist:
-        post = None
-        comments = None
-        category = None
+        return redirect(reverse('index'))
 
     context_dict['comments'] = comments
     context_dict['category'] = category
+    context_dict['posts'] = [post]  # render_posts requires an iterable
     context_dict['post'] = post
 
     # read comment form input
@@ -164,30 +163,30 @@ def show_post(request, category_name_slug, post_id, post_title_slug):
 @login_required
 def vote_comment(request, category_name_slug, post_id, post_title_slug):
     if request.method == 'POST':
-        if 'vote_comment' in request.POST:
-            # if 'vote' in request.POST:
-            value = request.POST.get('vote_comment', '')
-            try:
-                comment = Comment.objects.get(id=request.POST.get('id'))
-                vote = VoteComment.objects.get(user=comment.user, comment=comment)
-                # if user has already voted this way
-                if int(vote.value) == int(value):
-                    # cancel vote
-                    vote.value = 0
-                else:
-                    vote.value = value
-                vote.save()
-            except VoteComment.DoesNotExist:
-                # if user hasn't voted yet create a new vote
-                vote = VoteComment.objects.create(user=comment.user, comment=comment, value=value)
-                vote.save()
-        return redirect(show_post, category_name_slug, post_id, post_title_slug)
+        value = request.POST.get('vote', 0)
+        try:
+            comment = Comment.objects.get(id=request.POST.get('id'))
+            vote = VoteComment.objects.get(user=comment.user, comment=comment)
+            # if user has already voted this way
+            if int(vote.value) == int(value):
+                # cancel vote
+                vote.value = 0
+            else:
+                vote.value = value
+            vote.save()
+        except VoteComment.DoesNotExist:
+            # if user hasn't voted yet create a new vote
+            vote = VoteComment.objects.create(user=comment.user, comment=comment, value=value)
+            vote.save()
+
+    comment = Comment.objects.get(id=request.POST.get('id'))  # get updated comment
+    jsonr = json.dumps({'rating': (comment.upvotes - comment.downvotes)})
+    return HttpResponse(jsonr, content_type='application/json')  # respond with new rating score
 
 
-@login_required
+@ajax_login_required
 def vote(request, category_name_slug, post_id, post_title_slug):
     if request.method == 'POST':
-        # if 'vote' in request.POST:
         value = request.POST.get('vote', 0)
         try:
             post = Post.objects.get(id=post_id)
@@ -202,7 +201,9 @@ def vote(request, category_name_slug, post_id, post_title_slug):
             vote.save()
 
     post = Post.objects.get(id=post_id)  # Get updated post
-    return HttpResponse(post.upvotes - post.downvotes)  # respond with new rating score
+    jsonr = json.dumps({'rating': (post.upvotes - post.downvotes)})
+    return HttpResponse(jsonr, content_type='application/json')  # respond with new rating score
+
 
 def about(request):
     context_dict = {}

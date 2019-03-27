@@ -17,3 +17,4 @@ def get_post_votes(post=None):
 @register.simple_tag
 def get_comment_votes(comment=None):
     return comment.upvotes - comment.downvotes
+

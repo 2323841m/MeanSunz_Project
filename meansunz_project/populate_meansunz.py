@@ -9,7 +9,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'meansunz_project.settings')
 import django
 
 django.setup()
-from meansunz.models import Category, Post, User, UserProfile
+from meansunz.models import Category, Post, User, UserProfile,Comment
 
 
 def populate():
@@ -85,16 +85,58 @@ def populate():
          "user": get_random_user()}
     ]
 
+    gaming_comments = [
+        {"post": "Games!",
+         "content": "I played that",
+         "picture": "meansunz_project/population/media_files/pic5.jpg",
+         "user": get_random_user()},
+
+    ]
+
+    film_comments = [
+
+    ]
+
+    music_comments = [
+        {"post": "Rex Orange County",
+         "content": """I attached the lyrics to verse 1 of paradise:Don’t miss me when I’m dead
+Live life and don’t think twice
+Don’t miss me when I’m gone
+I’ll see you soon in paradise
+When I leave you
+Take my last few pennies
+And buy yourself something nice
+Because, before you know it
+We’ll be together again """,
+         "picture": "",
+         "user": get_random_user()}
+    ]
+
+    sport_comments = [
+
+    ]
+
+    pets_comments = [
+        {"post": "My dog is better than yours",
+         "content": "No it is not! why would you say something you know is a lie",
+         "picture": "meansunz_project/population/media_files/dog.jpg",
+         "user": get_random_user()},
+        {"post": "My dog is better than yours",
+         "content": "I agree with the poster",
+         "picture": "meansunz_project/population/media_files/dog2.jpg",
+         "user": get_random_user()}
+    ]
+
     categories = {
-        "Gaming": {"Posts": gaming_posts,
+        "Gaming": {"Posts": gaming_posts,"Comments":gaming_comments,
                    },
-        "Sport": {"Posts": sport_posts,
+        "Sport": {"Posts": sport_posts,"Comments":sport_comments,
                   },
-        "Music": {"Posts": music_posts,
+        "Music": {"Posts": music_posts,"Comments":music_comments,
                   },
-        "Film": {"Posts": film_posts,
+        "Film": {"Posts": film_posts,"Comments":film_comments,
                  },
-        "Pets": {"Posts": pets_posts,
+        "Pets": {"Posts": pets_posts,"Comments":pets_comments,
                       },
     }
 
@@ -105,8 +147,14 @@ def populate():
         # views = cat_data.get("views", 0)
         # likes = cat_data.get("likes", 0)
         c = add_cat(cat)
+        print(c)
         for p in cat_data["Posts"]:
-            add_post(c, p["title"], p["user"], p["description"], p["picture"])
+            n=add_post(c, p["title"], p["user"], p["description"], p["picture"])
+
+            print(n[0])
+            for comment in cat_data["Comments"]:
+                newpost=n[0]
+                add_comment(newpost,comment["user"],comment["content"],comment["picture"])
 
     # Print out the categories we have added.
     for c in Category.objects.all():
@@ -153,11 +201,25 @@ def add_post(cat, title, user, description="", picture=""):
             f = open(picture, "rb")
             p.picture = File(f)
         p.description = description
-        p.upvotes = random.randint(1, 10)
-        p.downvotes = random.randint(1, 10)
+        p.upvotes = 0
+        p.downvotes = 0
         p.save()
     return p
 
+
+def add_comment(post, user, content="", picture=""):
+    date = timezone.now()
+    c = Comment.objects.filter(post=post, content=content)
+    if not c:
+        c = Comment.objects.create(post=post, content=content, user=user)
+        if picture:
+            # Open the picture as a django file so that it is uploaded to media
+            f = open(picture, "rb")
+            c.picture = File(f)
+        c.upvotes = 0
+        c.downvotes = 0
+        c.save()
+    return c
 
 def add_cat(name):
     c = Category.objects.get_or_create(name=name)[0]

@@ -1,57 +1,14 @@
-{% extends 'meansunz/base.html' %}
+{% extends 'meansunz/render_posts.html' %}
 {% load staticfiles %}
 
 {% block title_block %}
     My Posts
 {% endblock %}
 
-{% block body_block %}
-    <div class="contentBody">
-		<h2>my posts</h2>
-        {% if posts %}
+{% block content_block %}
 
-            {% for post in posts %}
-				<div class="post">
-                    <div class="voteBar">
-                        <div class="upVote">
-                            <form action="{% url 'vote' post.category.slug post.id post.slug %}" method="post">
-                                {% csrf_token %}
-                                <button style="background-color: #4CAF50;" class="voteButton" type="submit" name="vote" value="1">+</button>
-                                <!-- next points to site to be redirected back to after vote -->
-                                <input type="hidden" name="next" value="{{ request.path }}">
-                            </form>
-                        </div>
-                        <div class="downVote">
-                            <form action="{% url 'vote' post.category.slug post.id post.slug %}" method="post">
-                                {% csrf_token %}
-                                <button style="background-color: red;" class="voteButton" type="submit" name="vote" value="-1">-</button>
-                                <!-- next points to site to be redirected back to after vote -->
-                                <input type="hidden" name="next" value="{{ request.path }}">
-                            </form>
-                        </div>
-                    </div>
-                    <div class="postContent">
-                        <div>
-                            <h4>
-                                <a href="{% url 'show_post' post.category.slug post.id post.slug %}">{{ post.title }}</a>
-                            </h4>
-                        </div>
-
-                        <div>
-                            <h4>{{ post.user }}</h4>
-                        </div>
-
-                        
-                    </div>
-                    <div class="postMedia">
-                        {% if post.picture %}
-                            <p style="margin-left: 0;"><img src="{{ MEDIA_URL }}{{ post.picture }}" alt="" style="width:100%;height:100%;"></p>
-                        {% endif %}
-                    </div>
-                </div>
-            {% endfor %}
-        {% else %}
-            <h2 style="font-size: 30px"><strong>There are no posts present.</strong></h2>
-        {% endif %}
+    <div style="display:flex;flex-direction:row;margin-bottom:25px;">
+        <div><h2>my posts</h2></div>
     </div>
+
 {% endblock %}

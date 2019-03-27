@@ -18,8 +18,18 @@ body {
 }
 
 img {
-    height: 60px;
-    width: 60px;
+    height: auto;
+    max-width: 100%;
+}
+
+.comment-img {
+	height: auto;
+    max-width: 150px;
+}
+
+.logo-img {
+    height: auto;
+    max-width: 60px;	
 }
 
 .logo {
@@ -188,7 +198,9 @@ img {
 }
 
 .dropDownList {
-    margin: auto;
+    margin-left: auto;
+    margin-top: auto;
+    margin-bottom: auto;
     padding-left: 1px;
     padding-right: 12px;
 }
@@ -234,13 +246,14 @@ img {
     display: flex;
     background-color: rgb(255, 255, 255);
     width: 100%;
-    margin-bottom: 25px;
+	margin-bottom:25px;
     border: 1px solid rgb(180, 180, 180);
     box-shadow: 0px 0px 10px black;
-    padding: 10px;
     font-family: Lato;
-    overflow-wrap: normal;
-
+    text-decoration: none;
+    overflow: hidden;
+    word-break: break-all;
+    word-wrap: break-word;
 }
 
 a {
@@ -251,8 +264,8 @@ a {
 
 .postMedia {
     display: flex;
-    width: 150px;
-    height: 100%;
+    width: 300px;
+    height: auto;
     margin-top: 5px;
     margin-bottom: 5px;
     margin-right: 5px;
@@ -260,13 +273,17 @@ a {
 
 .postContent {
     width: 100%;
+    text-decoration: none;
+    overflow: hidden;
+    word-break: break-all;
+    word-wrap: break-word;
+    display: block;
 }
 
 .voteBar {
     display: flex;
-    flex-direction: column;
     width: 20px;
-    height: 60px;
+    height: 40px;
 }
 
 .voteUpButton {
@@ -336,16 +353,13 @@ h4 {
     font-family: "Lato";
     font-weight: 200;
     color: #222125ff;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
 }
 
 h4 a {
     font-size: 35px;
     font-weight: 400;
     color: #222125ff;
-    text-decoration: none;
+
 }
 
 h5 {

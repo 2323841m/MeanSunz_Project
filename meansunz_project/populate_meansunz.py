@@ -104,12 +104,16 @@ def populate():
 
     # Print out the categories we have added.
     for c in Category.objects.all():
+        print("\nCategory - " + str(c))
+        print("Posts:")
         for p in Post.objects.filter(category=c):
-            print("- {0} - {1}".format(str(c), str(p)))
+            print("- {0}".format(str(p)))
 
+    print("\nUsers: ")
     for u in User.objects.all():
-        print("Users: ")
         print(u.username)
+
+    print("\nFinished populating database\n")
 
 
 def add_users(user_dict):
@@ -119,7 +123,7 @@ def add_users(user_dict):
         picture = user_data.get("picture")
         u = User.objects.filter(username=user)
         if not u:
-            u =User.objects.create_user(username=user, password=password, email=email)
+            u = User.objects.create_user(username=user, password=password, email=email)
             UserProfile.objects.create(user=u, picture=picture)
 
 
@@ -152,5 +156,5 @@ def add_cat(name):
 
 # Start execution here!
 if __name__ == '__main__':
-    print("Starting Rango population script")
+    print("\nStarting Meansunz population script")
     populate()

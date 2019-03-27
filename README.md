@@ -6,8 +6,12 @@ Live version of web app hosted on PythonAnywhere : [Here](http://2323841m.python
 ## Getting Started
 
 * Clone the repository
-* Install requirements through pip 
-* Migrate the database  
+* Use included inital setup and run.bat to start the server
+
+Alternatively:
+* Create and activate a virtual environment
+* Install requirements.txt through pip 
+* Makemigrations and Migrate the database
 * Run the server
 
 ### Prerequisites

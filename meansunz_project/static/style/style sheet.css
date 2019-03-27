@@ -337,6 +337,9 @@ h2 {
     font-family: "Oswald";
     font-weight: 500;
     color: #222125;
+    overflow: hidden;
+    word-break: break-all;
+    word-wrap: break-word;
 }
 
 h3 {
@@ -353,6 +356,7 @@ h4 {
     font-family: "Lato";
     font-weight: 200;
     color: #222125ff;
+
 }
 
 h4 a {

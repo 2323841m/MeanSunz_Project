@@ -102,7 +102,7 @@ def add_category(request):
         form = CategoryForm(request.POST)
         if form.is_valid():
             form.save(commit=True)
-            return index(request)
+            return redirect(reverse('index'))
         else:
             print(form.errors)
     return render(request, 'meansunz/add_category.html', {'form': form})

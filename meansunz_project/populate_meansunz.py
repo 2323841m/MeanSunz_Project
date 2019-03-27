@@ -31,7 +31,7 @@ def populate():
                   "password": "dogdog",
                   "picture": ""},
         "Ewan": {"email": "Ewan@meansunz.com",
-                 "Password": "greenjacket",
+                 "password": "greenjacket",
                  "Picture":"population/pic1.jpg"},
 
     }

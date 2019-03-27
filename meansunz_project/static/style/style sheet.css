@@ -337,6 +337,9 @@ h2 {
     font-family: "Oswald";
     font-weight: 500;
     color: #222125;
+    overflow: hidden;
+    word-break: break-all;
+    word-wrap: break-word;
 }
 
 h3 {
@@ -353,6 +356,7 @@ h4 {
     font-family: "Lato";
     font-weight: 200;
     color: #222125ff;
+
 }
 
 h4 a {
@@ -390,6 +394,12 @@ p {
 .commentsBar {
     display: flex;
     flex-direction: row;
+}
+
+#comment_form{
+    font-family: Lato;
+    padding-top: 5px;
+    font-size: 18px;
 }
 
 /* Leaderboards styling */
@@ -440,7 +450,7 @@ tr:first-child th:last-child {
 /* End of Leaderboards styling */
 
 .textForm {
-    width: 350px;
+    width: 40%;
     padding: 12px 13px;
     margin: 8px 0;
     display: inline-block;
@@ -448,6 +458,16 @@ tr:first-child th:last-child {
     border-radius: 4px;
     box-sizing: border-box;
 }
+
+.textArea{
+    width: 50%;
+    padding: 12px 13px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 2px solid #ccc;
+    resize: none;
+}
+
 
 input[type=submit] {
     width: 150px;

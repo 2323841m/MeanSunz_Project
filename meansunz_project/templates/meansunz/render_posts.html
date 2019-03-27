@@ -13,15 +13,24 @@
         <div class="postBody">
             {% if posts %}
 
-                {% for post in posts %}
+                {% for post, voted in posts %}
                     {# DO NOT RENAME THIS CLASS add another div inside if you need to #}
                     <div class="infinite-item">
                         <div class="post">
                             <div class="voteBar">
                                     <form action="{% url 'vote' post.category.slug post.id post.slug %}" method="post" id ="vote-form">
                                         {% csrf_token %}
-                                        <input class="voteButton" type="image" src="{% static 'images/up_vote_arrow.png' %}" value="1" />
-                                        <input class="voteButton" type="image" src="{% static 'images/down_vote_arrow.png' %}" value="-1" />
+                                        {# Highligh if user has already voted #}
+                                        {% if voted.0.value == 1 %}
+                                            <input class="voteUpButton" name="voted" type="image" src="{% static 'images/up_vote_arrow.png' %}" value="1" />
+                                        {% else %}
+                                            <input class="voteUpButton" name="notVoted" type="image" src="{% static 'images/up_vote_arrow.png' %}" value="1" />
+                                        {% endif %}
+                                        {% if voted.0.value == -1%}
+                                            <input class="voteDownButton" name="voted" type="image" src="{% static 'images/down_vote_arrow.png' %}" value="-1" />
+                                        {% else %}
+                                            <input class="voteDownButton" name="notVoted"type="image" src="{% static 'images/down_vote_arrow.png' %}" value="-1" />
+                                        {% endif %}
                                     </form>
                             </div>
                             <div class="postContent">

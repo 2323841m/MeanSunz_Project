@@ -11,6 +11,7 @@
 
     {% block content_footer_block %}
         <div class="separator"></div>
+        <br />
 
         {# New comment form #}
         {% if user.is_authenticated %}
@@ -34,12 +35,13 @@
             </form>
 
             <div class="separator"></div>
+            <br />
         {% endif %}
 
 
         {# Render Comments #}
         {% if comments %}
-            {% for comment in comments %}
+            {% for comment, voted in comments %}
 
                 <div class="post">
                     <div class="voteBar">
@@ -47,12 +49,20 @@
                             <form action="{% url 'vote_comment' category.slug post.id post.slug %}" method="post" id ="vote-form">
 
                                 {% csrf_token %}
-
-                                <input class="voteButton" type="image" src="{% static 'images/up_vote_arrow.png' %}" value="1" />
-                                <input class="voteButton" type="image" src="{% static 'images/down_vote_arrow.png' %}" value="-1" />
-
+                                    {# Highligh if user has already voted #}
+                                    {% if voted.0.value == 1 %}
+                                        <input class="voteUpButton" name="voted" type="image" src="{% static 'images/up_vote_arrow.png' %}" value="1" />
+                                    {% else %}
+                                        <input class="voteUpButton" name="notVoted" type="image" src="{% static 'images/up_vote_arrow.png' %}" value="1" />
+                                    {% endif %}
+                                    {% if voted.0.value == -1%}
+                                        <input class="voteDownButton" name="voted" type="image" src="{% static 'images/down_vote_arrow.png' %}" value="-1" />
+                                    {% else %}
+                                        <input class="voteDownButton" name="notVoted"type="image" src="{% static 'images/down_vote_arrow.png' %}" value="-1" />
+                                    {% endif %}
                                 {# comment id to later identify comment upvoted #}
                                 <input type="hidden" class="id" value="{{ comment.id }}">
+
                             </form>
                         </div>
                     </div>

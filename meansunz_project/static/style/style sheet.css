@@ -263,28 +263,38 @@ a {
     height: 60px;
 }
 
-
-.voteButton:hover[value="1"] {
-    background-color: #ffffff;
-}
-
-.downVote {
-    display: flex;
-    height: 100%;
-    width: 100%;
-}
-
-.voteButton:hover[value="-1"] {
-    background-color: #ffffff;
-}
-
-.voteButton {
+.voteUpButton {
     border: 1px solid black;
     background-color: #93d1ff;
     display: flex;
     height: 100%;
     width: 100%;
 }
+
+.voteUpButton[name="voted"] {
+    background-color: #ffffff;
+}
+
+.voteDownButton {
+    border: 1px solid black;
+    background-color: #93d1ff;
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+.voteDownButton[name="voted"] {
+    background-color: #ffffff;
+}
+
+.voteUpButton:hover {
+    background-color: #ffffff;
+}
+
+.voteDownButton:hover {
+    background-color: #ffffff;
+}
+
 
 .downVote button:hover {
     background-color: white;

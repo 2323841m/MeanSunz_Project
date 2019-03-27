@@ -3,7 +3,13 @@ body {
     margin: 0;
     background-color: #e6eef9;
 }
-
+.dialog {
+    background-color: #4eb4ff;
+    font-family: Oswald;
+    font-size: 40px;
+    font-weight: 500;
+    color: #222125;
+}
 .header {
     display: flex;
     flex-direction: column;

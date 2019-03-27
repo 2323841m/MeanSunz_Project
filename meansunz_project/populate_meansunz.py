@@ -31,8 +31,9 @@ def populate():
                   "password": "dogdog",
                   "picture": ""},
         "Ewan": {"email": "Ewan@meansunz.com",
-                 "password": "greenjacket",
-                 "picture": ""},
+                 "Password": "greenjacket",
+                 "Picture":"population/pic1.jpg"},
+
     }
     add_users(user_dict)
     add_superuser("admin", "admin@meansunz.com", "changeme")
@@ -48,35 +49,39 @@ def populate():
     gaming_posts = [
         {"title": "Games!",
          "description": "Hearthstone hacks",
-         "picture": "",
+         "picture": "meansunz_project/population/media/hstonehack.jpg",
          "user": get_random_user()}
     ]
 
     film_posts = [
         {"title": "Godfather",
          "description": "The best movie ever",
-         "picture": "",
+         "picture": "meansunz_project/population/media/The_Godfather_Don_Corleone.png",
          "user": get_random_user()}
     ]
 
     music_posts = [
         {"title": "Rex Orange County",
          "description": "The best of the best",
-         "picture": "",
+         "picture": "meansunz_project/population/media/rc.jpg",
          "user": get_random_user()}
     ]
 
     sport_posts = [
         {"title": "Aberdeen FC",
          "description": "Yes!",
-         "picture": "",
+         "picture": "meansunz_project/population/media/ad.jpg",
          "user": get_random_user()}
     ]
 
-    animation_posts = [
+    pets_posts = [
         {"title": "walking the dog",
-         "description": "yoyo animation",
-         "picture": "",
+         "description": "my dog",
+         "picture": "meansunz_project/population/media/cute-dog (13).jpg",
+         "user": get_random_user()},
+        {"title": "My dog is better than yours",
+         "description": "meet coco",
+         "picture": "meansunz_project/population/media/cute-puppies-puppies-and-more-31104113-1024-768.jpg",
          "user": get_random_user()}
     ]
 
@@ -89,7 +94,7 @@ def populate():
                   },
         "Film": {"Posts": film_posts,
                  },
-        "Animation": {"Posts": animation_posts,
+        "Pets": {"Posts": pets_posts,
                       },
     }
 

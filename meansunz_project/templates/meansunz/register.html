@@ -7,13 +7,12 @@
 
 {% block body_block %}
 	<div class="contentBody">
-		<h2>register</h2>
 		{% if registered %}
-			Thank you for registering!
-			<div style="font-size:18px; color: blue;"><a href="{% url 'login' %}">Please login.</a></div><br />
+            <h2>Thank you for registering!</h2>
+			<div style="font-size:18px; color: blue;"><a href="{% url 'login' %}">Please click here to login.</a></div><br />
 
 		{% else %}
-
+            <h2>Register</h2>
 			<form id="user_form" method="post" action="{% url 'register' %}" enctype="multipart/form-data">
 
 				{% csrf_token %}

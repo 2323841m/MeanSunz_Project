@@ -1,4 +1,6 @@
 import datetime
+
+from django.contrib import messages
 from django.shortcuts import render
 from meansunz.models import Category, Post, UserProfile, User, Comment, VotePost, VoteComment
 from meansunz.forms import CategoryForm, PostForm, UserForm, UserProfileForm, CommentForm, UserUpdateForm
@@ -10,28 +12,45 @@ from django.shortcuts import redirect
 from django.views.generic.list import ListView
 
 
-def index(request):
-    if request.GET.get('sort'):
-        sort = request.GET.get('sort')
-        post_list = Post.objects.extra(select={'votes': 'upvotes - downvotes'}, order_by=('-' + sort,))[:25]
-    else:
-        post_list = Post.objects.extra(select={'votes': 'upvotes - downvotes'}, order_by=('-votes',))[:25]
-    context_dict = {'posts': post_list, 'sort': request.GET.get('sort')}
-    response = render(request, 'meansunz/index.html', context_dict)
-    return response
+class index(ListView):
+    model = Post
+    # Amount of posts to render at a time
+    paginate_by = 10
+    context_object_name = 'posts'
+    template_name = 'meansunz/index.html'
+
+    # Query database
+    def get_queryset(self, **kwargs):
+        # Get posts by cat and order by the rating score and the chosen in sorting mode
+        if self.request.GET.get('sort'):
+            sort = self.request.GET.get('sort')
+            posts = Post.objects.extra(select={'votes': 'upvotes - downvotes'}, order_by=('-' + sort,))
+        else:
+            posts = Post.objects.extra(select={'votes': 'upvotes - downvotes'}, order_by=('-votes',))
+        return posts
+
+    def get_context_data(self, **kwargs):
+        # Get context dict for show_post, get sort from the select box and category from the url parameter
+        context = super().get_context_data(**kwargs)
+        context['sort'] = self.request.GET.get('sort')
+        return context
 
 
 class show_category(ListView):
     model = Post
     # Amount of posts to render at a time
-    paginate_by = 10
+    paginate_by = 1
     context_object_name = 'posts'
     template_name = 'meansunz/category.html'
 
     # Query database
     def get_queryset(self, **kwargs):
-        # Get category by slug
-        category = Category.objects.filter(slug=self.kwargs['category_name_slug'])
+        try:
+            # Get category by slug
+            category = Category.objects.get(slug=self.kwargs['category_name_slug'])
+        except Category.DoesNotExist:
+            category = None
+
         # Get posts by cat and order by the rating score and the chosen in sorting mode
         if self.request.GET.get('sort'):
             sort = self.request.GET.get('sort')
@@ -46,7 +65,11 @@ class show_category(ListView):
         # Get context dict for show_post, get sort from the select box and category from the url parameter
         context = super().get_context_data(**kwargs)
         context['sort'] = self.request.GET.get('sort')
-        context['category'] = self.kwargs['category_name_slug']
+        try:
+            cat = Category.objects.get(slug=self.kwargs['category_name_slug'])
+            context['category'] = cat
+        except Category.DoesNotExist:
+            context['category'] = None
         return context
 
 
@@ -99,7 +122,8 @@ def create_post(request, category_name_slug):
 def show_post(request, category_name_slug, post_id, post_title_slug):
     context_dict = {}
     try:
-        post = Post.objects.get(id=post_id)
+        cat = Category.objects.get(slug=category_name_slug)
+        post = Post.objects.get(id=post_id, slug=post_title_slug, category=cat)
         category = Category.objects.get(slug=category_name_slug)
         comments = Comment.objects.filter(post=post).order_by('-upvotes')
 
@@ -154,6 +178,7 @@ def vote_comment(request, category_name_slug, post_id, post_title_slug):
                     vote.value = value
                 vote.save()
             except VoteComment.DoesNotExist:
+                # if user hasn't voted yet create a new vote
                 vote = VoteComment.objects.create(user=comment.user, comment=comment, value=value)
                 vote.save()
         return redirect(show_post, category_name_slug, post_id, post_title_slug)
@@ -208,7 +233,8 @@ def user_login(request):
         else:
             # Bad login details
             print("Invalid login details {0}, {1}".format(username, password))
-            return HttpResponse("Invalid login details supplied.")
+            message = 'Your login details are invalid'
+            return render(request, 'meansunz/login.html', {'message': message})
 
     else:
         return render(request, 'meansunz/login.html', {})

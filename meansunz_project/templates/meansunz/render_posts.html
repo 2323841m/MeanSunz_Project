@@ -18,22 +18,11 @@
                     <div class="infinite-item">
                         <div class="post">
                             <div class="voteBar">
-                                <div class="upVote">
-                                    <form action="{% url 'vote' post.category.slug post.id post.slug %}" method="post">
+                                    <form action="{% url 'vote' post.category.slug post.id post.slug %}" method="post" id ="vote-form">
                                         {% csrf_token %}
-                                        <button class="voteButton" type="submit" name="vote" value="1">+</button>
-                                        <!-- next points to site to be redirected back to after vote -->
-                                        <input type="hidden" name="next" value="{{ request.path }}">
+                                        <input class="voteButton" type="image" src="{% static 'images/up_vote_arrow.png' %}" value="1" />
+                                        <input class="voteButton" type="image" src="{% static 'images/down_vote_arrow.png' %}" value="-1" />
                                     </form>
-                                </div>
-                                <div class="downVote">
-                                    <form action="{% url 'vote' post.category.slug post.id post.slug %}" method="post">
-                                        {% csrf_token %}
-                                        <button class="voteButton" type="submit" name="vote" value="-1">-</button>
-                                        <!-- next points to site to be redirected back to after vote -->
-                                        <input type="hidden" name="next" value="{{ request.path }}">
-                                    </form>
-                                </div>
                             </div>
                             <div class="postContent">
                                 <div>
@@ -46,7 +35,7 @@
                                     <h4>{{ post.user }}</h4>
                                 </div>
 
-                                <div class="commentsBar">
+                                <div class="rating">
                                     <h6>{% get_post_votes post %} RATING</h6>
                                 </div>
                             </div>
@@ -82,5 +71,6 @@
 {% endblock %}
 
 {% block js-foot %}
+    <script src="{% static 'js/vote.js' %}"></script>
     <script src="{% static 'js/infinite-scroll.js' %}"></script>
 {% endblock %}

@@ -258,17 +258,12 @@ a {
 .voteBar {
     display: flex;
     flex-direction: column;
-    width: 30px;
+    width: 20px;
     height: 60px;
 }
 
-.upVote {
-    display: flex;
-    height: 100%;
-    width: 100%;
-}
 
-.upVote button:hover {
+.voteButton:hover[value="1"] {
     background-color: #4CAF50;
 }
 
@@ -278,22 +273,16 @@ a {
     width: 100%;
 }
 
-.downVote button:hover {
+.voteButton:hover[value="-1"] {
     background-color: red;
 }
 
 .voteButton {
     border: 1px solid black;
     background-color: #a3a3a3;
-    color: white;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 30px;
-    cursor: pointer;
-    width: 30px;
-    height: 60px;
-    margin: auto;
+    display: flex;
+    height: 100%;
+    width: 100%;
 }
 
 h1 {

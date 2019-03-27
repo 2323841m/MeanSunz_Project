@@ -188,7 +188,7 @@ def vote_comment(request, category_name_slug, post_id, post_title_slug):
 def vote(request, category_name_slug, post_id, post_title_slug):
     if request.method == 'POST':
         # if 'vote' in request.POST:
-        value = request.POST.get('vote', '')
+        value = request.POST.get('vote', 0)
         try:
             post = Post.objects.get(id=post_id)
             vote = VotePost.objects.get(user=post.user, post=post)
@@ -200,8 +200,9 @@ def vote(request, category_name_slug, post_id, post_title_slug):
         except VotePost.DoesNotExist:
             vote = VotePost.objects.create(user=post.user, post=post, value=value)
             vote.save()
-        return redirect(request.POST.get('next', '/'), category_name_slug, post_id, post_title_slug)
 
+    post = Post.objects.get(id=post_id)  # Get updated post
+    return HttpResponse(post.upvotes - post.downvotes)  # respond with new rating score
 
 def about(request):
     context_dict = {}

@@ -1,4 +1,4 @@
-{% extends 'meansunz/base.html' %}
+{% extends 'meansunz/render_posts.html' %}
 {% load staticfiles %}
 {% load meansunz_template_tags %}
 
@@ -6,87 +6,44 @@
     My Profile
 {% endblock %}
 
-{% block body_block %}
+{% block content_block %}
     <div class="contentBody">
-		<div style="display:flex; flex-direction: row;">
-			<div style="width:100px;height:100px;overflow:hidden;">
-				{% if user.profile.picture %}
-					<img style="width:100%;height:100%;" src="{{ MEDIA_URL }}{{ user.profile.picture }}" alt="profile picture">
-				{% else %}
-					<img style="width:100%;height:100%;" src="{% static "images\blank_profile.png" %}" alt=" profile picture">
-				{% endif %}
-			</div>
-			<div>
-				<h2 style="padding-left:25px;">
-					{{ user }}s Profile
-				</h2>
-			</div>
-		</div>
-        <div><p style="margin:10px">Recent Posts:</p></div>
-
-        <div class="postBody">
-            {% if posts %}
-
-                {% for post in posts %}
-                    <div class="post">
-							<div class="voteBar">
-								<div class="upVote">
-									<form action="{% url 'vote' post.category.slug post.id post.slug %}" method="post">
-										{% csrf_token %}
-										<button style="background-color: #4CAF50;" class="voteButton" type="submit" name="vote" value="1">+</button>
-										<!-- next points to site to be redirected back to after vote -->
-										<input type="hidden" name="next" value="{{ request.path }}">
-									</form>
-								</div>
-								<div class="downVote">
-									<form action="{% url 'vote' post.category.slug post.id post.slug %}" method="post">
-										{% csrf_token %}
-										<button style="background-color: red;" class="voteButton" type="submit" name="vote" value="-1">-</button>
-										<!-- next points to site to be redirected back to after vote -->
-										<input type="hidden" name="next" value="{{ request.path }}">
-									</form>
-								</div>
-							</div>
-							<div class="postContent">
-								<div>
-									<h4>
-										<a href="{% url 'show_post' post.category.slug post.id post.slug %}">{{ post.title }}</a>
-									</h4>
-								</div>
-
-								<div>
-									<h4>{{ post.user }}</h4>
-								</div>
-
-								<div class="commentsBar">
-									<h6>{% get_post_votes post %}  RATING</h6>
-								</div>
-							</div>
-							<div class="postMedia">
-								{% if post.picture %}
-									<p style="margin-left: 0;"><img src="{{ MEDIA_URL }}{{ post.picture }}" alt="" style="width:100%;height:100%;"></p>
-								{% endif %}
-							</div>
-						</div>
-                {% endfor %}
+    <div style="display:flex; flex-direction: row;">
+        <div style="width:100px;height:100px;overflow:hidden;">
+            {% if user.profile.picture %}
+                <img style="width:100%;height:100%;" src="{{ MEDIA_URL }}{{ user.profile.picture }}"
+                     alt="profile picture">
             {% else %}
-                <h2 style="font-size: 30px"><strong>You haven't made a post yet! Go on make one!</strong></h2>
+                <img style="width:100%;height:100%;" src="{% static "images\blank_profile.png" %}"
+                     alt=" profile picture">
             {% endif %}
-		</div>
+        </div>
+        <div>
+            <h2 style="padding-left:25px;">
+                {{ user }}s Profile
+            </h2>
+        </div>
+    </div>
+    <div><p style="margin:10px">Recent Posts:</p></div>
+{% endblock %}
 
-		<p><a href="{% url 'user_posts' %}">More Posts</a></p>
+{% block content_footer_block %}
+    <p><a href="{% url 'user_posts' %}">More Posts</a></p>
 
-		<div class="separator"></div>
+    <div class="separator"></div>
+    <br/>
 
-		<form id="user_form" method="post" action="{% url 'user_profile' %}" enctype="multipart/form-data">
+    <div><p>Edit user info</p></div>
 
-			{% csrf_token %}
+    <form id="user_form" method="post" action="{% url 'user_profile' %}" enctype="multipart/form-data">
 
-			<!-- Display each form -->
-			{{ user_form.as_p }}
-			{{ profile_form.as_p }}
+        {% csrf_token %}
 
-			<input type="submit" name="submit" value="Submit"/>
-		</form>
-	</div>
+        <!-- Display each form -->
+        {{ user_form.as_p }}
+        {{ profile_form.as_p }}
+
+        <input type="submit" name="submit" value="Submit"/>
+    </form>
+    </div>
 {% endblock %}

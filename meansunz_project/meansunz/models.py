@@ -1,11 +1,12 @@
 import datetime
 
 from django.db import models
-from django.db.models import F, Func, Sum
+from django.db.models import Sum
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 from django.db import transaction
 from django.db.models.signals import post_save
+from django.utils import timezone
 
 
 class UserProfile(models.Model):
@@ -44,7 +45,7 @@ class Post(models.Model):
     upvotes = models.IntegerField(default=0)
     downvotes = models.IntegerField(default=0)
     slug = models.SlugField()
-    date = models.DateTimeField()
+    date = models.DateTimeField(default=timezone.now, blank=True)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)

@@ -367,33 +367,49 @@ p {
 
 /* Leaderboards styling */
 
-#leaderBoardTable table, th, tr {
-    font-size: 15px;
-    font-family: "Lato";
-    color: rgb(10, 10, 10);
-    border-collapse: collapse;
-    padding-top: 5px;
-    padding-bottom: 5px;
+table {
+    color: #333333;
+    font-family: Helvetica, Arial, sans-serif;
+    width: 640px;
+    /* Table reset stuff */
+    border-collapse: collapse; border-spacing: 0;
 }
 
-#leaderBoardTable table {
-    width: 100%;
-    border: 1px solid rgb(10, 10, 10);
-    margin-left: auto;
-    margin-right: auto;
+td, th {  border: 0 none; height: 30px; }
+
+th {
+    /* Gradient Background */
+    background: linear-gradient(#93d1ff 0%, #afd3ff 100%);
+    color: #000000; font-weight: bold;
+    height: 40px;
 }
 
-#leaderBoardTable th {
-    height: 30px;
-    text-align: center;
-    text-transform: uppercase;
-    text-decoration: underline;
+td { background: #000000; text-align: center; }
+
+/* Zebra Stripe Rows */
+
+tr:nth-child(even) td { background: #e6eef9; }
+tr:nth-child(odd) td { background: #FDFDFD; }
+
+/* First-child blank cells! */
+tr td:first-child, tr th:first-child {
+    background: none;
+    font-style: italic;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: right;
+    padding-right: 10px;
+    width: 80px;
 }
 
-#leaderBoardTable td {
-    text-align: center;
+/* Add border-radius to specific cells! */
+tr:first-child th:nth-child(2) {
+    border-radius: 5px 0 0 0;
 }
 
+tr:first-child th:last-child {
+    border-radius: 0 5px 0 0;
+}
 /* End of Leaderboards styling */
 
 /* User Profile styling */
@@ -435,7 +451,7 @@ p {
 
 input[type=submit] {
     width: 150px;
-    background-color: rgb(130, 130, 130);
+    background-color: rgb(147, 209, 255);
     color: white;
     padding: 12px 13px;
     margin: 8px 0;
@@ -453,7 +469,7 @@ input[type=submit]:hover {
 
 button[type=switchBoard] {
     width: 150px;
-    background-color: rgb(130, 130, 130);
+    background-color: rgb(147, 209, 255);
     color: white;
     padding: 10px 5px;
     margin-top: 25px;

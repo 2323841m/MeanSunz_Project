@@ -37,6 +37,7 @@ img {
     font-size: 27.778px;
     font-family: "Arial";
     color: rgb(234, 234, 234);
+    text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
     text-align: left;
     text-decoration: none;
 }
@@ -228,7 +229,7 @@ img {
 
 .postDesc {
     display: flex;
-    background-color: rgb(200, 200, 200);
+    background-color: rgb(255, 255, 255);
     width: 100%;
     margin-bottom: 25px;
     border: 1px solid rgb(180, 180, 180);
@@ -269,7 +270,7 @@ a {
 }
 
 .upVote button:hover {
-    background-color: #4CAF50;
+    background-color: white;
 }
 
 .downVote {
@@ -279,13 +280,12 @@ a {
 }
 
 .downVote button:hover {
-    background-color: red;
+    background-color: white;
 }
 
 .voteButton {
-    border: 1px solid black;
-    background-color: #a3a3a3;
-    color: white;
+    background-color: #93d1ff;
+    color: #000000;
     text-align: center;
     text-decoration: none;
     display: inline-block;

@@ -1,6 +1,7 @@
-import datetime
 import os
 import random
+
+from django.core.files import File
 from django.utils import timezone
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'meansunz_project.settings')
@@ -8,7 +9,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'meansunz_project.settings')
 import django
 
 django.setup()
-from meansunz.models import Category, Post, User
+from meansunz.models import Category, Post, User, UserProfile
 
 
 def populate():
@@ -21,13 +22,18 @@ def populate():
     # Create users
     user_dict = {
         "Iain": {"email": "Iain@meansunz.com",
-                 "password": "p4ssword"},
+                 "password": "p4ssword",
+                 "picture": ""},
         "Matthew": {"email": "Matthew@meansunz.com",
-                    "Password": "potato"},
+                    "password": "potato",
+                    "picture": ""},
         "Peter": {"email": "Peter@meansunz.com",
-                  "Password": "dogdog"},
+                  "password": "dogdog",
+                  "picture": ""},
         "Ewan": {"email": "Ewan@meansunz.com",
-                 "Password": "greenjacket","Picture":"population/pic1.jpg"},
+                 "Password": "greenjacket",
+                 "Picture":"population/pic1.jpg"},
+
     }
     add_users(user_dict)
     add_superuser("admin", "admin@meansunz.com", "changeme")
@@ -104,11 +110,16 @@ def populate():
 
     # Print out the categories we have added.
     for c in Category.objects.all():
+        print("\nCategory - " + str(c))
+        print("Posts:")
         for p in Post.objects.filter(category=c):
-            print("- {0} - {1}".format(str(c), str(p)))
+            print("- {0}".format(str(p)))
 
+    print("\nUsers: ")
     for u in User.objects.all():
         print(u.username)
+
+    print("\nFinished populating database\n")
 
 
 def add_users(user_dict):
@@ -118,7 +129,9 @@ def add_users(user_dict):
         picture = user_data.get("picture")
         u = User.objects.filter(username=user)
         if not u:
-            User.objects.create_user(username=user, password=password, email=email)
+            u = User.objects.create_user(username=user, password=password, email=email)
+            UserProfile.objects.create(user=u, picture=picture)
+
 
 def add_superuser(username, email, password):
     if not User.objects.filter(username=username):
@@ -132,12 +145,17 @@ def get_random_user():
 
 def add_post(cat, title, user, description="", picture=""):
     date = timezone.now()
-    p = Post.objects.get_or_create(category=cat, title=title, date=date, user=user)[0]
-    p.description = description
-    p.picture = picture
-    p.upvotes = 0
-    p.downvotes = 0
-    p.save()
+    p = Post.objects.filter(category=cat, title=title)
+    if not p:
+        p = Post.objects.create(category=cat, date=date, title=title, user=user)
+        if picture:
+            # Open the picture as a django file so that it is uploaded to media
+            f = open(picture, "rb")
+            p.picture = File(f)
+        p.description = description
+        p.upvotes = 0
+        p.downvotes = 0
+        p.save()
     return p
 
 
@@ -149,5 +167,5 @@ def add_cat(name):
 
 # Start execution here!
 if __name__ == '__main__':
-    print("Starting Rango population script")
+    print("\nStarting Meansunz population script")
     populate()

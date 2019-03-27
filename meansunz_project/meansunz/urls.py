@@ -3,7 +3,6 @@ from meansunz import views
 
 urlpatterns = [
     url(r'^$', views.index.as_view(), name='index', ),
-    url(r'^about/$', views.about, name='about'),
     url(r'^leaderboards/$', views.leaderboards, name='leaderboards'),
     url(r'^myposts/$', views.user_posts, name='user_posts'),
     url(r'^category/(?P<category_name_slug>[\w\-]+)/$', views.show_category.as_view(), name='show_category'),

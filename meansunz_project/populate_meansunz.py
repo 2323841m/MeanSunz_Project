@@ -139,12 +139,14 @@ def get_random_user():
 
 def add_post(cat, title, user, description="", picture=""):
     date = timezone.now()
-    p = Post.objects.get_or_create(category=cat, title=title, date=date, user=user)[0]
-    p.description = description
-    p.picture = picture
-    p.upvotes = 0
-    p.downvotes = 0
-    p.save()
+    p = Post.objects.filter(category=cat, title=title)
+    if not p:
+        p = Post.objects.create(category=cat, date=date, title=title, user=user)
+        p.description = description
+        p.picture = picture
+        p.upvotes = 0
+        p.downvotes = 0
+        p.save()
     return p
 
 

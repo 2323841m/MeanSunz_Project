@@ -153,8 +153,8 @@ def add_post(cat, title, user, description="", picture=""):
             f = open(picture, "rb")
             p.picture = File(f)
         p.description = description
-        p.upvotes = 0
-        p.downvotes = 0
+        p.upvotes = random.randint(1, 10)
+        p.downvotes = random.randint(1, 10)
         p.save()
     return p
 

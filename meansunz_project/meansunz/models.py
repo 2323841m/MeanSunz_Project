@@ -86,7 +86,7 @@ class VoteComment(models.Model):
 
 
 def update_votes(sender, instance, created, **kwargs):
-    # update vote count when a vote is made
+    # update rating when a vote is updated
     with transaction.atomic():
         post = Post.objects.get(pk=instance.post_id)
         post.upvotes = post.votepost_set.filter(value=1).count()
@@ -105,6 +105,7 @@ post_save.connect(update_votes, sender=VotePost)
 
 
 def update_votes_comments(sender, instance, created, **kwargs):
+    # Update rating whenever a vote is updated
     with transaction.atomic():
         comment = Comment.objects.get(pk=instance.comment_id)
         comment.upvotes = comment.votecomment_set.filter(value=1).count()

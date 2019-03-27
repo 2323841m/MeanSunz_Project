@@ -263,31 +263,41 @@ a {
     height: 60px;
 }
 
-
-.voteButton:hover[value="1"] {
-    background-color: #4CAF50;
-}
-
-.downVote {
-    display: flex;
-    height: 100%;
-    width: 100%;
-}
-
-.voteButton:hover[value="-1"] {
-    background-color: red;
-}
-
-.voteButton {
+.voteUpButton {
     border: 1px solid black;
     background-color: #93d1ff;
     display: flex;
     height: 100%;
     width: 100%;
-.downVote button:hover {
-    background-color: white;
 }
 
+.voteUpButton[name="voted"] {
+    background-color: #ffffff;
+}
+
+.voteDownButton {
+    border: 1px solid black;
+    background-color: #93d1ff;
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+.voteDownButton[name="voted"] {
+    background-color: #ffffff;
+}
+
+.voteUpButton:hover {
+    background-color: #ffffff;
+}
+
+.voteDownButton:hover {
+    background-color: #ffffff;
+}
+
+
+.downVote button:hover {
+    background-color: white;
 }
 
 h1 {
@@ -295,7 +305,7 @@ h1 {
     margin: auto;
     font-family: "Oswald";
     font-weight: 500;
-    color: #222125ff;
+    color: #ffffff;
 }
 
 h2 {

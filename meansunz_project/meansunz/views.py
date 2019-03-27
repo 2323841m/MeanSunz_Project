@@ -1,9 +1,10 @@
 import datetime
+import json
 
-from django.contrib import messages
 from django.shortcuts import render
 from meansunz.models import Category, Post, UserProfile, User, Comment, VotePost, VoteComment
 from meansunz.forms import CategoryForm, PostForm, UserForm, UserProfileForm, CommentForm, UserUpdateForm
+from meansunz.decorators import ajax_login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse
@@ -27,12 +28,22 @@ class index(ListView):
             posts = Post.objects.extra(select={'votes': 'upvotes - downvotes'}, order_by=('-' + sort,))
         else:
             posts = Post.objects.extra(select={'votes': 'upvotes - downvotes'}, order_by=('-votes',))
-        return posts
+
+        if self.request.user.is_authenticated:
+            user = self.request.user
+        else:
+            user = None
+
+        # Append user's vote to each post, if logged in
+        post_list = append_votes(posts, user)
+
+        return post_list
 
     def get_context_data(self, **kwargs):
         # Get context dict for show_post, get sort from the select box and category from the url parameter
         context = super().get_context_data(**kwargs)
         context['sort'] = self.request.GET.get('sort')
+        context['category'] = 'index'  # used to enable sort
         return context
 
 
@@ -59,7 +70,15 @@ class show_category(ListView):
         else:
             posts = Post.objects.filter(category=category).extra(select={'votes': 'upvotes - downvotes'},
                                                                  order_by=('-votes',))
-        return posts
+
+        if self.request.user.is_authenticated:
+            user = self.request.user
+        else:
+            user = None
+
+        # Append user's vote to each post, if logged in
+        post_list = append_votes(posts, user)
+        return post_list
 
     def get_context_data(self, **kwargs):
         # Get context dict for show_post, get sort from the select box and category from the url parameter
@@ -127,29 +146,39 @@ def show_post(request, category_name_slug, post_id, post_title_slug):
         category = Category.objects.get(slug=category_name_slug)
         comments = Comment.objects.filter(post=post).order_by('-upvotes')
 
-    except Post.DoesNotExist:
-        post = None
-        category = None
-        comments = None
-    except Category.DoesNotExist:
-        post = None
-        comments = None
-        category = None
+        # Get user if authenticated, used to check if user has liked post
+        if request.user.is_authenticated:
+            user = request.user
+        else:
+            user = None
 
-    context_dict['comments'] = comments
+    # If user tries to access a post that doesn't exist redirect them back to index
+    except Post.DoesNotExist:
+        return redirect(reverse('index'))
+    except Category.DoesNotExist:
+        return redirect(reverse('index'))
+
+    # Append user's vote to each comment, if logged in
+    comment_list = []
+    for comment in comments:
+        comment_list.append((comment, VoteComment.objects.filter(user=user, comment=comment)))
+
+    context_dict['comments'] = comment_list
     context_dict['category'] = category
+    # tells render_post if user has voted on this post
+    context_dict['posts'] = [(post, VotePost.objects.filter(user=user, post=post))]
     context_dict['post'] = post
 
     # read comment form input
     form = CommentForm()
     if request.method == 'POST':
-        form = CommentForm(data=request.POST)
+        form = CommentForm(request.POST, request.FILES)
         if form.is_valid():
             if post:
                 comment = form.save(commit=False)
 
                 if 'picture' in request.FILES:
-                    comment.picture = request.FILES['picture']
+                    comment.picture = form.cleaned_data['picture']
 
                 comment.user = request.user
                 comment.post = post
@@ -161,48 +190,52 @@ def show_post(request, category_name_slug, post_id, post_title_slug):
     return render(request, 'meansunz/post.html', context_dict)
 
 
-@login_required
+@ajax_login_required
 def vote_comment(request, category_name_slug, post_id, post_title_slug):
     if request.method == 'POST':
-        if 'vote_comment' in request.POST:
-            # if 'vote' in request.POST:
-            value = request.POST.get('vote_comment', '')
-            try:
-                comment = Comment.objects.get(id=request.POST.get('id'))
-                vote = VoteComment.objects.get(user=comment.user, comment=comment)
-                # if user has already voted this way
-                if int(vote.value) == int(value):
-                    # cancel vote
-                    vote.value = 0
-                else:
-                    vote.value = value
-                vote.save()
-            except VoteComment.DoesNotExist:
-                # if user hasn't voted yet create a new vote
-                vote = VoteComment.objects.create(user=comment.user, comment=comment, value=value)
-                vote.save()
-        return redirect(show_post, category_name_slug, post_id, post_title_slug)
+        value = request.POST.get('vote', 0)
+        try:
+            comment = Comment.objects.get(id=request.POST.get('id'))
+            vote = VoteComment.objects.get(user=request.user, comment=comment)
+            # if user has already voted this way
+            if int(vote.value) == int(value):
+                # cancel vote
+                vote.value = 0
+                value = 0
+            else:
+                vote.value = value
+            vote.save()
+        except VoteComment.DoesNotExist:
+            # if user hasn't voted yet create a new vote
+            vote = VoteComment.objects.create(user=request.user, comment=comment, value=value)
+            vote.save()
+
+    comment = Comment.objects.get(id=request.POST.get('id'))  # get updated comment
+    jsonr = json.dumps({'rating': (comment.upvotes - comment.downvotes), 'voted': value})
+    return HttpResponse(jsonr, content_type='application/json')  # respond with new rating score and users vote
 
 
-@login_required
+@ajax_login_required
 def vote(request, category_name_slug, post_id, post_title_slug):
     if request.method == 'POST':
-        # if 'vote' in request.POST:
         value = request.POST.get('vote', 0)
         try:
             post = Post.objects.get(id=post_id)
-            vote = VotePost.objects.get(user=post.user, post=post)
+            vote = VotePost.objects.get(user=request.user, post=post)
             if int(vote.value) == int(value):
                 vote.value = 0
+                value = 0
             else:
                 vote.value = value
             vote.save()
         except VotePost.DoesNotExist:
-            vote = VotePost.objects.create(user=post.user, post=post, value=value)
+            vote = VotePost.objects.create(user=request.user, post=post, value=value)
             vote.save()
 
     post = Post.objects.get(id=post_id)  # Get updated post
-    return HttpResponse(post.upvotes - post.downvotes)  # respond with new rating score
+    jsonr = json.dumps({'rating': (post.upvotes - post.downvotes), 'voted': value})
+    return HttpResponse(jsonr, content_type='application/json')  # respond with new rating score and users vote
+
 
 def about(request):
     context_dict = {}
@@ -279,8 +312,11 @@ def user_logout(request):
 
 @login_required
 def user_posts(request):
-    posts = Post.objects.filter(user=request.user)
-    context_dict = {'posts': posts}
+    posts = Post.objects.filter(user=request.user).order_by('-date',)
+
+    post_list = append_votes(posts, request.user)
+
+    context_dict = {'posts': post_list}
     response = render(request, 'meansunz/user_posts.html', context_dict)
     return response
 
@@ -288,6 +324,8 @@ def user_posts(request):
 @login_required
 def user_profile(request):
     posts = Post.objects.filter(user=request.user).order_by('-date')[:3]
+    post_list = append_votes(posts, request.user)
+
     if request.method == 'POST':
         user_form = UserUpdateForm(data=request.POST)
         profile_form = UserProfileForm(data=request.POST)
@@ -313,6 +351,15 @@ def user_profile(request):
         user_form = UserUpdateForm()
         profile_form = UserProfileForm()
 
-    context_dict = {'user': request.user, 'posts': posts, 'form': profile_form, 'user_form': user_form,
+    context_dict = {'user': request.user, 'posts': post_list, 'form': profile_form, 'user_form': user_form,
                     'profile_form': profile_form, }
     return render(request, 'meansunz/user_profile.html', context_dict)
+
+
+# Helper function
+def append_votes(posts, user):
+    # Append user's votes to posts
+    post_list = []
+    for post in posts:
+        post_list.append((post, VotePost.objects.filter(user=user, post=post)))
+    return post_list

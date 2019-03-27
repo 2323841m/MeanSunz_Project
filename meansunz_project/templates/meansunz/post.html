@@ -10,6 +10,7 @@
 {% endblock %}
 
     {% block content_footer_block %}
+        <div class="postDesc">{{ post.description }}</div>
         <div class="separator"></div>
         <br />
 
@@ -33,7 +34,6 @@
                 {% endfor %}
                 <input type="submit" name="submit" value="Comment"/>
             </form>
-
             <div class="separator"></div>
             <br />
         {% endif %}
@@ -55,7 +55,6 @@
                                     {% else %}
                                         <input class="voteUpButton" name="notVoted" type="image" src="{% static 'images/up_vote_arrow.png' %}" value="1" />
                                     {% endif %}
-
                                     {% if voted.0.value == -1%}
                                         <input class="voteDownButton" name="voted" type="image" src="{% static 'images/down_vote_arrow.png' %}" value="-1" />
                                     {% else %}

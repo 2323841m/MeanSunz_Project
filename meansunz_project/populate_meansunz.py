@@ -150,10 +150,9 @@ We’ll be together again """,
         print(c)
         for p in cat_data["Posts"]:
             n=add_post(c, p["title"], p["user"], p["description"], p["picture"])
-
-            print(n[0])
             for comment in cat_data["Comments"]:
                 newpost=n[0]
+                print(newpost)
                 add_comment(newpost,comment["user"],comment["content"],comment["picture"])
 
     # Print out the categories we have added.
@@ -208,17 +207,14 @@ def add_post(cat, title, user, description="", picture=""):
 
 
 def add_comment(post, user, content="", picture=""):
-    date = timezone.now()
-    c = Comment.objects.filter(post=post, content=content)
-    if not c:
-        c = Comment.objects.create(post=post, content=content, user=user)
-        if picture:
-            # Open the picture as a django file so that it is uploaded to media
-            f = open(picture, "rb")
-            c.picture = File(f)
-        c.upvotes = 0
-        c.downvotes = 0
-        c.save()
+    c = Comment.objects.create(post=post, content=content, user=user)
+    if picture:
+        # Open the picture as a django file so that it is uploaded to media
+        f = open(picture, "rb")
+        c.picture = File(f)
+    c.upvotes = 0
+    c.downvotes = 0
+    c.save()
     return c
 
 def add_cat(name):

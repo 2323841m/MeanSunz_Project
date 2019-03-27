@@ -15,7 +15,7 @@
 
         {# New comment form #}
         {% if user.is_authenticated %}
-
+            <!--TODO comment on how post are generated-->
             <div><p>Comment as {{ user.username }}</p></div>
 
             <form id="comment_form" method="post"
@@ -49,12 +49,13 @@
                             <form action="{% url 'vote_comment' category.slug post.id post.slug %}" method="post" id ="vote-form">
 
                                 {% csrf_token %}
-                                    {# Highligh if user has already voted #}
+                                    {# Highlight if user has already voted #}
                                     {% if voted.0.value == 1 %}
                                         <input class="voteUpButton" name="voted" type="image" src="{% static 'images/up_vote_arrow.png' %}" value="1" />
                                     {% else %}
                                         <input class="voteUpButton" name="notVoted" type="image" src="{% static 'images/up_vote_arrow.png' %}" value="1" />
                                     {% endif %}
+
                                     {% if voted.0.value == -1%}
                                         <input class="voteDownButton" name="voted" type="image" src="{% static 'images/down_vote_arrow.png' %}" value="-1" />
                                     {% else %}

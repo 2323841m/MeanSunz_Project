@@ -10,12 +10,13 @@
 {% endblock %}
 
     {% block content_footer_block %}
+        <div class="postDesc">{{ post.description }}</div>
         <div class="separator"></div>
         <br />
 
         {# New comment form #}
         {% if user.is_authenticated %}
-
+            <!--TODO comment on how post are generated-->
             <div><p>Comment as {{ user.username }}</p></div>
 
             <form id="comment_form" method="post"
@@ -33,7 +34,6 @@
                 {% endfor %}
                 <input type="submit" name="submit" value="Comment"/>
             </form>
-
             <div class="separator"></div>
             <br />
         {% endif %}
@@ -49,7 +49,7 @@
                             <form action="{% url 'vote_comment' category.slug post.id post.slug %}" method="post" id ="vote-form">
 
                                 {% csrf_token %}
-                                    {# Highligh if user has already voted #}
+                                    {# Highlight if user has already voted #}
                                     {% if voted.0.value == 1 %}
                                         <input class="voteUpButton" name="voted" type="image" src="{% static 'images/up_vote_arrow.png' %}" value="1" />
                                     {% else %}

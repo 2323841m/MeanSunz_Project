@@ -65,10 +65,8 @@
                 <div class="navButton"><a href="{% url 'add_category' %}">Add Category</a>
                 </div>
             {% endif %}
-        </div>
-        {% if category %}
-            <div class="filterBar">
-                <div style="font-size: 18px; font-family: Lato; color: rgb(10, 10, 10); margin:auto;">SORT:</div>
+            {% if category %}
+            <div style="font-size: 13px; font-family: Lato; color: rgb(10, 10, 10); margin:auto;">SORT:</div>
                 <div class="dropDownList">
                     <form action="{{ request.path }}" method="get">
                         <select name="sort" onChange="form.submit();">
@@ -82,8 +80,8 @@
                         </select>
                     </form>
                 </div>
-            </div>
-        {% endif %}
+            {% endif %}
+        </div>
     </div>
 
     <div class="separator"></div>

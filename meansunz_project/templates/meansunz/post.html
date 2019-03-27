@@ -17,7 +17,7 @@
                 <div class="upVote">
                     <form action="{% url 'vote' post.category.slug post.id post.slug %}" method="post">
                         {% csrf_token %}
-                        <button style="background-color: #4CAF50;" class="voteButton" type="submit" name="vote"
+                        <button style="background-color: #93d1ff;" class="voteButton" type="submit" name="vote"
                                 value="1">+
                         </button>
                         <!-- next points to site to be redirected back to after vote -->
@@ -27,7 +27,7 @@
                 <div class="downVote">
                     <form action="{% url 'vote' post.category.slug post.id post.slug %}" method="post">
                         {% csrf_token %}
-                        <button style="background-color: red;" class="voteButton" type="submit" name="vote" value="-1">
+                        <button style="background-color: #93d1ff;" class="voteButton" type="submit" name="vote" value="-1">
                             -
                         </button>
                         <!-- next points to site to be redirected back to after vote -->
@@ -104,11 +104,11 @@
 
                                 {% csrf_token %}
 
-                                <button style="background-color: #4CAF50;" class="voteButton" type="submit"
+                                <button style="background-color: #93d1ff;" class="voteButton" type="submit"
                                         name="vote_comment" value="1">+
                                 </button>
 
-                                <button style="background-color: red;" class="voteButton" type="submit"
+                                <button style="background-color: #93d1ff;" class="voteButton" type="submit"
                                         name="vote_comment" value="-1">-
                                 </button>
 

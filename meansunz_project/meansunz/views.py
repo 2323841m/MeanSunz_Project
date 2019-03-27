@@ -145,7 +145,7 @@ def vote_comment(request, category_name_slug, post_id, post_title_slug):
             value = request.POST.get('vote_comment', '')
             try:
                 comment = Comment.objects.get(id=request.POST.get('id'))
-                vote = VoteComment.objects.get(user=request.user, comment=comment)
+                vote = VoteComment.objects.get(user=comment.user, comment=comment)
                 # if user has already voted this way
                 if int(vote.value) == int(value):
                     # cancel vote
@@ -154,7 +154,7 @@ def vote_comment(request, category_name_slug, post_id, post_title_slug):
                     vote.value = value
                 vote.save()
             except VoteComment.DoesNotExist:
-                vote = VoteComment.objects.create(user=request.user, comment=comment, value=value)
+                vote = VoteComment.objects.create(user=comment.user, comment=comment, value=value)
                 vote.save()
         return redirect(show_post, category_name_slug, post_id, post_title_slug)
 
@@ -166,14 +166,14 @@ def vote(request, category_name_slug, post_id, post_title_slug):
         value = request.POST.get('vote', '')
         try:
             post = Post.objects.get(id=post_id)
-            vote = VotePost.objects.get(user=request.user, post=post)
+            vote = VotePost.objects.get(user=post.user, post=post)
             if int(vote.value) == int(value):
                 vote.value = 0
             else:
                 vote.value = value
             vote.save()
         except VotePost.DoesNotExist:
-            vote = VotePost.objects.create(user=request.user, post=post, value=value)
+            vote = VotePost.objects.create(user=post.user, post=post, value=value)
             vote.save()
         return redirect(request.POST.get('next', '/'), category_name_slug, post_id, post_title_slug)
 

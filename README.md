@@ -1,13 +1,17 @@
 # MeanSunz
-A gamified bulletin board web application developed in the django framework.
+A gamified bulletin board web application developed in the Django framework.
 
 Live version of web app hosted on PythonAnywhere : [Here](http://2323841m.pythonanywhere.com/)
 
 ## Getting Started
 
 * Clone the repository
-* Install requirements through pip 
-* Migrate the database  
+* Use included inital setup and run.bat to start the server
+
+Alternatively:
+* Create and activate a virtual environment
+* Install requirements.txt through pip 
+* Makemigrations and Migrate the database
 * Run the server
 
 ### Prerequisites

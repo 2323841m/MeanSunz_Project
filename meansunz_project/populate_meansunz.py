@@ -32,7 +32,7 @@ def populate():
                   "picture": ""},
         "Ewan": {"email": "Ewan@meansunz.com",
                  "password": "greenjacket",
-                 "Picture":"population/pic1.jpg"},
+                 "Picture":"meansunz_project/population/media_files/pic1.jpg"},
 
     }
     add_users(user_dict)
@@ -50,6 +50,10 @@ def populate():
         {"title": "Games!",
          "description": "Hearthstone hacks",
          "picture": "meansunz_project/population/media_files/hstonehack.jpg",
+         "user": get_random_user()},
+        {"title": "Call Of Duty!",
+         "description": "My thought is that call of duty is getting repetitive do you agree?",
+         "picture": "meansunz_project/population/media_files/game.jpg",
          "user": get_random_user()}
     ]
 
@@ -68,6 +72,14 @@ def populate():
     ]
 
     sport_posts = [
+        {"title": "Scotland FC",
+         "description": "Yes!",
+         "picture": "meansunz_project/population/media_files/scot.jpg",
+         "user": get_random_user()},
+        {"title": "England FC",
+         "description": "Yes!",
+         "picture": "meansunz_project/population/media_files/eng.jpg",
+         "user": get_random_user()},
         {"title": "Aberdeen FC",
          "description": "Yes!",
          "picture": "meansunz_project/population/media_files/ad.jpg",
@@ -90,6 +102,10 @@ def populate():
          "content": "I played that",
          "picture": "meansunz_project/population/media_files/pic5.jpg",
          "user": get_random_user()},
+        {"post": "Call Of Duty!",
+         "content": "No I Do Not",
+         "picture": "meansunz_project/population/media_files/angry.jpg",
+         "user": get_random_user()}
 
     ]
 
@@ -151,7 +167,10 @@ We’ll be together again """,
         for p in cat_data["Posts"]:
             n=add_post(c, p["title"], p["user"], p["description"], p["picture"])
             for comment in cat_data["Comments"]:
-                newpost=n[0]
+                try:
+                    newpost = n[0]
+                except TypeError:
+                    newpost = n
                 print(newpost)
                 add_comment(newpost,comment["user"],comment["content"],comment["picture"])
 
@@ -207,7 +226,9 @@ def add_post(cat, title, user, description="", picture=""):
 
 
 def add_comment(post, user, content="", picture=""):
-    c = Comment.objects.create(post=post, content=content, user=user)
+    c = Comment.objects.filter(post=post, content=content, user=user)
+    if not c:
+        c = Comment.objects.create(post=post, content=content, user=user)
     if picture:
         # Open the picture as a django file so that it is uploaded to media
         f = open(picture, "rb")
@@ -216,6 +237,7 @@ def add_comment(post, user, content="", picture=""):
     c.downvotes = 0
     c.save()
     return c
+
 
 def add_cat(name):
     c = Category.objects.get_or_create(name=name)[0]

@@ -66,7 +66,7 @@ class CategoryForm(forms.ModelForm):
 
 class PostForm(forms.ModelForm):
     title = forms.CharField(max_length=64, widget=forms.TextInput(attrs={'class': 'textForm', 'placeholder': 'TITLE'}))
-    description = forms.CharField(max_length=256, required=False,
+    description = forms.CharField(max_length=1024, required=False,
                                   widget=forms.TextInput(attrs={'class': 'textForm', 'placeholder': 'DESCRIPTION'}))
     picture = forms.ImageField(required=False, help_text="Choose image (optional)")
     views = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
@@ -101,7 +101,7 @@ class PostForm(forms.ModelForm):
 
 
 class CommentForm(forms.ModelForm):
-    content = forms.CharField(max_length=1026, help_text="Text")
+    content = forms.CharField(max_length=512, help_text="Text")
     picture = forms.ImageField(required=False, help_text="Image(Optional)")
     likes = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
 

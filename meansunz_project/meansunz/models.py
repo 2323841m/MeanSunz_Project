@@ -21,7 +21,7 @@ class UserProfile(models.Model):
 
 
 class Category(models.Model):
-    max_length = 128
+    max_length = 32
     name = models.CharField(max_length=max_length, unique=True)
     slug = models.SlugField()
 
@@ -40,7 +40,7 @@ class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,)
     category = models.ForeignKey(Category, on_delete=models.CASCADE,)
     title = models.CharField(max_length=64)
-    description = models.CharField(max_length=256, blank=True)
+    description = models.CharField(max_length=1024, blank=True)
     picture = models.ImageField(upload_to='post_image', blank=True)
     upvotes = models.IntegerField(default=0)
     downvotes = models.IntegerField(default=0)
@@ -58,7 +58,7 @@ class Post(models.Model):
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE,)
     user = models.ForeignKey(User, on_delete=models.CASCADE,)
-    content = models.CharField(max_length=1026, blank=False)
+    content = models.CharField(max_length=512, blank=False)
     picture = models.ImageField(upload_to='comment_image', blank=True)
     upvotes = models.IntegerField(default=0)
     downvotes = models.IntegerField(default=0)

@@ -10,36 +10,8 @@
     <script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
     <script src="{% static 'js/infinite.min.js' %}"></script>
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="{% static 'js/vibrate.js' %}"></script>
 
-    <script>
-        $(function() {
-            var interval = 1;
-            var duration= 1;
-            var shake= 1;
-            var vibrateIndex = 0;
-            var selector = $('.logo'); /* Your own container ID*/
-            $(selector).hover( /* The button ID */
-                function(){
-                    vibrateIndex = setInterval(vibrate, interval);
-                },
-                function(){
-                    clearInterval(vibrateIndex);
-                    $(selector).stop(true,false)
-                        .css({position: 'static', left: '0px', top: '0px'});
-                }
-            );
-
-            var vibrate = function(){
-                $(selector).stop(true,false)
-                    .css({position: 'relative',
-                        left: Math.round(Math.random() * shake) - ((shake + 1) / 2) +'px',
-                        top: Math.round(Math.random() * shake) - ((shake + 1) / 2) +'px'
-                    });
-            }
-        });
-    </script>
 
     <script>
         $( function() {

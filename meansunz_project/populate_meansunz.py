@@ -49,39 +49,39 @@ def populate():
     gaming_posts = [
         {"title": "Games!",
          "description": "Hearthstone hacks",
-         "picture": "meansunz_project/population/media/hstonehack.jpg",
+         "picture": "meansunz_project/population/media_files/hstonehack.jpg",
          "user": get_random_user()}
     ]
 
     film_posts = [
         {"title": "Godfather",
          "description": "The best movie ever",
-         "picture": "meansunz_project/population/media/The_Godfather_Don_Corleone.png",
+         "picture": "meansunz_project/population/media_files/The_Godfather_Don_Corleone.png",
          "user": get_random_user()}
     ]
 
     music_posts = [
         {"title": "Rex Orange County",
          "description": "The best of the best",
-         "picture": "meansunz_project/population/media/rc.jpg",
+         "picture": "meansunz_project/population/media_files/rc.jpg",
          "user": get_random_user()}
     ]
 
     sport_posts = [
         {"title": "Aberdeen FC",
          "description": "Yes!",
-         "picture": "meansunz_project/population/media/ad.jpg",
+         "picture": "meansunz_project/population/media_files/ad.jpg",
          "user": get_random_user()}
     ]
 
     pets_posts = [
         {"title": "walking the dog",
          "description": "my dog",
-         "picture": "meansunz_project/population/media/cute-dog (13).jpg",
+         "picture": "meansunz_project/population/media_files/cute-dog (13).jpg",
          "user": get_random_user()},
         {"title": "My dog is better than yours",
          "description": "meet coco",
-         "picture": "meansunz_project/population/media/cute-puppies-puppies-and-more-31104113-1024-768.jpg",
+         "picture": "meansunz_project/population/media_files/cute-puppies-puppies-and-more-31104113-1024-768.jpg",
          "user": get_random_user()}
     ]
 

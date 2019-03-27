@@ -7,6 +7,7 @@ Live version of web app hosted on PythonAnywhere : [Here](http://2323841m.python
 
 * Clone the repository
 * Use included inital setup and run.bat to start the server
+* Refresh the page
 
 Alternatively:
 * Create and activate a virtual environment
